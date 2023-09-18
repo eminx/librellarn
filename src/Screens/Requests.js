@@ -45,7 +45,7 @@ export default function Requests({ navigation }) {
     requests: [],
     requestType: 'all',
     sortOptionsVisible: false,
-    sortValue: 'Date',
+    sortValue: sortOptions[0],
   });
   const { currentUser } = useContext(StateContext);
   const { filterInputValue, isLoading, requests, requestType, sortOptionsVisible, sortValue } =
@@ -111,7 +111,7 @@ export default function Requests({ navigation }) {
   };
 
   const getRequestsSorted = (items) => {
-    switch (sortValue) {
+    switch (sortValue?.value) {
       case 'book':
         return items.sort((a, b) => a.bookTitle?.localeCompare(b.bookTitle));
       case 'username':
@@ -154,7 +154,7 @@ export default function Requests({ navigation }) {
               variant="link"
               onPress={() => setState({ ...state, sortOptionsVisible: true })}
             >
-              <ButtonText>{sortValue}</ButtonText>
+              <ButtonText>{sortValue.label}</ButtonText>
             </Button>
             <ActionSheet
               isOpen={sortOptionsVisible}
@@ -164,7 +164,7 @@ export default function Requests({ navigation }) {
                 setState({
                   ...state,
                   sortOptionsVisible: false,
-                  sortValue: option.value,
+                  sortValue: option,
                 })
               }
             />

@@ -46,7 +46,7 @@ export default function MyBooks({ navigation }) {
   const [state, setState] = useState({
     filterInputValue: '',
     sortOptionVisible: false,
-    sortValue: 'last added',
+    sortValue: sortValueOptions[0],
   });
 
   const { filterInputValue, sortOptionVisible, sortValue } = state;
@@ -55,7 +55,7 @@ export default function MyBooks({ navigation }) {
     if (!books || books.length === 0) {
       return;
     }
-    switch (sortValue) {
+    switch (sortValue.value) {
       case 'book title':
         return books.sort((a, b) => a.title && a.title.localeCompare(b.title));
       case 'book author':
@@ -119,7 +119,7 @@ export default function MyBooks({ navigation }) {
             variant="link"
             onPress={() => setState({ ...state, sortOptionVisible: true })}
           >
-            <ButtonText>{sortValue}</ButtonText>
+            <ButtonText>{sortValue?.label}</ButtonText>
           </Button>
           <ActionSheet
             isOpen={sortOptionVisible}
@@ -129,7 +129,7 @@ export default function MyBooks({ navigation }) {
               setState({
                 ...state,
                 sortOptionVisible: false,
-                sortValue: option.value,
+                sortValue: option,
               })
             }
           />
