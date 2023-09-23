@@ -1,58 +1,55 @@
-import Meteor, { Mongo, withTracker } from "@meteorrn/core";
-import React, {
-  useCallback,
-  useContext,
-  useEffect,
-  useMemo,
-  useState,
-} from "react";
-import { StyleSheet, View } from "react-native";
-import { Box, Spinner, Text } from "@gluestack-ui/themed";
-import { GiftedChat } from "react-native-gifted-chat";
+import Meteor, { Mongo, withTracker } from '@meteorrn/core';
+import React, { useEffect } from 'react';
+import { StyleSheet } from 'react-native';
+import {
+  Box,
+  Spinner,
+  Tabs,
+  TabsList,
+  TabsTrigger,
+  TabsText,
+  TabsContents,
+  TabsContent,
+  Text,
+} from '@gluestack-ui/themed';
+import { GiftedChat } from 'react-native-gifted-chat';
 
-import { call } from "../utils/functions";
+import { call } from '../utils/functions';
 
-const MessagesCollection = new Mongo.Collection("messages");
+const MessagesCollection = new Mongo.Collection('messages');
 
 const steps = [
   {
-    title: "Requested",
-    description: "Request sent",
+    title: 'Requested',
+    description: 'Request sent',
   },
   {
-    title: "Accepted",
-    description: "Request is accepted",
+    title: 'Accepted',
+    description: 'Request is accepted',
   },
   {
-    title: "Handed",
-    description: "The borrower received the book to read",
+    title: 'Handed',
+    description: 'The borrower received the book to read',
   },
   {
-    title: "Returned",
-    description: "The borrower has returned the book to the owner",
+    title: 'Returned',
+    description: 'The borrower has returned the book to the owner',
   },
 ];
 
 const myImg = (src) => <img src={src} alt="book image" height={64} />;
 
-function Request({
-  currentUser,
-  discussion,
-  isChatLoading,
-  isOwner,
-  navigation,
-  request,
-}) {
+function Request({ currentUser, discussion, isChatLoading, isOwner, navigation, request }) {
   useEffect(() => {
     navigation.getParent()?.setOptions({
       tabBarStyle: {
-        display: "none",
+        display: 'none',
       },
     });
     return () =>
       navigation.getParent()?.setOptions({
         tabBarStyle: {
-          display: "block",
+          display: 'block',
         },
       });
   }, [navigation]);
@@ -76,7 +73,7 @@ function Request({
 
   const sendMessage = async (message) => {
     try {
-      await call("addMessage", request._id, message.text);
+      await call('addMessage', request._id, message.text);
     } catch (error) {
       console.log(error);
     }
@@ -87,7 +84,7 @@ function Request({
       return;
     }
     try {
-      await call("acceptRequest", id);
+      await call('acceptRequest', id);
       await getRequest();
     } catch (error) {
       console.log(error);
@@ -99,7 +96,7 @@ function Request({
       return;
     }
     try {
-      await call("denyRequest", id);
+      await call('denyRequest', id);
       await getRequest();
       // successDialog(
       //   "Request denied. We are sorry to have you deny this request"
@@ -115,7 +112,7 @@ function Request({
       return;
     }
     try {
-      await call("setIsHanded", id);
+      await call('setIsHanded', id);
       await getRequest();
       // successDialog("Great that you have handed over the book!");
     } catch (error) {
@@ -129,7 +126,7 @@ function Request({
       return;
     }
     try {
-      await call("setIsReturned", id);
+      await call('setIsReturned', id);
       await getRequest();
       // successDialog("Your book is back and available at your shelf <3");
     } catch (error) {
@@ -166,18 +163,16 @@ function Request({
       if (!notification.unSeenIndexes) {
         return false;
       }
-      return notification?.unSeenIndexes?.some(
-        (unSeenIndex) => unSeenIndex === messageIndex
-      );
+      return notification?.unSeenIndexes?.some((unSeenIndex) => unSeenIndex === messageIndex);
     });
     if (!shouldRun) {
       return;
     }
     try {
-      await call("removeNotification", request._id, messageIndex);
+      await call('removeNotification', request._id, messageIndex);
     } catch (error) {
       // errorDialog(error.reason || error.error);
-      console.log("error", error);
+      console.log('error', error);
     }
   };
 
@@ -213,7 +208,7 @@ function Request({
 
 const styles = StyleSheet.create({
   container: {
-    backgroundColor: "#fff",
+    backgroundColor: '#fff',
     flex: 1,
   },
   chatbox: {
@@ -224,7 +219,7 @@ const styles = StyleSheet.create({
 
 const RequestContainer = withTracker(({ navigation, route }) => {
   const { currentUser, isOwner, request } = route.params;
-  const subscription = Meteor.subscribe("chat", request._id);
+  const subscription = Meteor.subscribe('chat', request._id);
   const chat = MessagesCollection.findOne({ requestId: request._id });
   const discussion = chat?.messages?.map((message) => ({
     ...message,

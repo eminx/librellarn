@@ -8,12 +8,15 @@
     "ios": "expo start --ios",
     "web": "expo start --web",
     "build:ios": "eas build --platform ios",
-    "build:android": "eas build --platform android"
+    "build:android": "eas build --platform android",
+    "submit:ios": "eas submit -p ios",
+    "submit:android": "eas submit -p android"
   },
   "dependencies": {
     "@babel/plugin-proposal-export-namespace-from": "^7.18.9",
     "@expo/webpack-config": "^19.0.0",
     "@gluestack-style/react": "^0.2.51",
+    "@gluestack-ui/tabs": "^0.1.11",
     "@gluestack-ui/themed": "^0.1.51",
     "@meteorrn/core": "^2.6.0",
     "@react-native-async-storage/async-storage": "1.18.2",

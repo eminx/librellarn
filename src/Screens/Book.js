@@ -1,27 +1,38 @@
 import React, { useState } from 'react';
 import { ScrollView } from 'react-native';
-import { Box, Button, ButtonText, Text } from '@gluestack-ui/themed';
+import { Box, Button, ButtonText, Text, useToast } from '@gluestack-ui/themed';
 
 import BookCard from '../Components/BookCard';
 import ConfirmDialog from '../Components/ConfirmDialog';
+import Toast from '../Components/Toast';
+import { call } from '../utils/functions';
 
 export default function Book({ route, navigation }) {
   const [state, setState] = useState({
     isRequestModalOpen: false,
   });
+  const toast = useToast();
+
   const { book } = route.params;
 
   const makeRequest = async () => {
-    if (!currentUser) {
-      errorDialog('Please create an account');
-    }
-
     try {
       await call('makeRequest', book._id);
-      successDialog('Your request is successfully sent!');
-      setRequestId(respond);
+      toast.show({
+        placement: 'top',
+        render: ({ id }) => <Toast nativeId={id} message="Book is requested from the owner" />,
+      });
+      setState({
+        ...state,
+        isRequestModalOpen: false,
+      });
     } catch (error) {
-      errorDialog(error.reason || error.error);
+      toast.show({
+        placement: 'top',
+        render: ({ id }) => (
+          <Toast action="error" nativeId={id} message={error.message} title="Error" />
+        ),
+      });
     }
   };
 

@@ -16,7 +16,7 @@ export default function AuthContainer() {
 
   return (
     <View>
-      <Box bg="$grey200" h="100%">
+      <Box bg="$gray200" h="100%">
         <Center mt="$8">
           <ButtonGroup>
             <Button

@@ -40,10 +40,10 @@ export default function BookCard({ book, children }) {
             width="100%"
             overflow="hidden"
             _dark={{
-              backgroundColor: '$grey700',
+              backgroundColor: '$gray700',
             }}
             _light={{
-              backgroundColor: '$grey50',
+              backgroundColor: '$gray50',
             }}
           >
             <Box>
@@ -161,10 +161,10 @@ function Table({ book }) {
 function Cell({ label, value }) {
   return (
     <HStack mb="$2">
-      <Text color="$grey500" mr="$2" w={120}>
+      <Text color="$gray500" mr="$2" w={120}>
         {label}
       </Text>
-      <Text color="$grey800" flex={1} noOfLines={2}>
+      <Text color="$gray800" flex={1} noOfLines={2}>
         {value}
       </Text>
     </HStack>
@@ -181,7 +181,7 @@ const darkTextStyle = {
 
 const parseAuthors = (authors) => {
   if (!authors) {
-    return <Text color="$grey800">unknown authors</Text>;
+    return <Text color="$gray800">unknown authors</Text>;
   }
   return authors.map((author, index) => (
     <Text key={author}>{author + (authors.length !== index + 1 ? ', ' : '')}</Text>

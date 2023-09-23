@@ -344,7 +344,7 @@ export default function BookForm({ book, navigation }) {
             action="secondary"
             bg="$white"
             borderRadius="$full"
-            color="$grey"
+            color="$gray"
             variant="outline"
             onPress={() => setState({ ...state, pickerVisible: true })}
           >

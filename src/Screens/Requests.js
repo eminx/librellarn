@@ -198,7 +198,7 @@ export default function Requests({ navigation }) {
                 <Pressable
                   key={request._id}
                   bg="$white"
-                  sx={{ ':active': { bg: '$grey200' } }}
+                  sx={{ ':active': { bg: '$gray200' } }}
                   onPress={() =>
                     navigation.navigate('Request', {
                       request,

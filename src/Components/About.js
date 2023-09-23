@@ -56,7 +56,7 @@ export default function About({ user }) {
             {user.languages &&
               user.languages.length > 0 &&
               user.languages.map((language) => (
-                <Center>
+                <Center key={language?.value}>
                   <Badge
                     key={language?.value}
                     action="info"

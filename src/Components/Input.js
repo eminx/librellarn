@@ -7,7 +7,6 @@ import {
   InputIcon,
   InputField,
   InputSlot,
-  Pressable,
 } from '@gluestack-ui/themed';
 
 export default function Input({
@@ -30,12 +29,10 @@ export default function Input({
       )}
       <InputField placeholder={placeholder} value={value} onChangeText={onChangeText} />
       {showCLoseIcon && value?.length > 0 && (
-        <InputSlot pr="$3">
-          <Pressable onPress={() => onPressCloseIcon()}>
-            <InputIcon>
-              <Icon as={CloseIcon} />
-            </InputIcon>
-          </Pressable>
+        <InputSlot pr="$3" onPress={() => onPressCloseIcon()}>
+          <InputIcon>
+            <Icon as={CloseIcon} />
+          </InputIcon>
         </InputSlot>
       )}
     </GInput>
