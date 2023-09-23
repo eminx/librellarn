@@ -6,12 +6,15 @@
     "start": "expo start",
     "android": "expo start --android",
     "ios": "expo start --ios",
-    "web": "expo start --web"
+    "web": "expo start --web",
+    "build:ios": "eas build --platform ios",
+    "build:android": "eas build --platform android"
   },
   "dependencies": {
     "@babel/plugin-proposal-export-namespace-from": "^7.18.9",
     "@expo/webpack-config": "^19.0.0",
-    "@gluestack-ui/themed": "^0.1.44",
+    "@gluestack-style/react": "^0.2.51",
+    "@gluestack-ui/themed": "^0.1.51",
     "@meteorrn/core": "^2.6.0",
     "@react-native-async-storage/async-storage": "1.18.2",
     "@react-native-community/netinfo": "9.3.10",
@@ -32,6 +35,7 @@
     "react-native": "0.72.4",
     "react-native-gifted-chat": "^2.4.0",
     "react-native-reanimated": "~3.3.0",
+    "react-native-svg": "^13.4.0",
     "react-native-web": "~0.19.6"
   },
   "devDependencies": {

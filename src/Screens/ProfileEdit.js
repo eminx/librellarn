@@ -1,5 +1,5 @@
-import React, { useState } from "react";
-import { ScrollView } from "react-native";
+import React, { useState } from 'react';
+import { ScrollView } from 'react-native';
 import {
   Badge,
   BadgeIcon,
@@ -22,18 +22,18 @@ import {
   TextareaInput,
   VStack,
   useToast,
-} from "@gluestack-ui/themed";
-import { useForm, Controller } from "react-hook-form";
-import * as ImagePicker from "expo-image-picker";
-import { S3 } from "aws-sdk";
-import { manipulateAsync, SaveFormat } from "expo-image-manipulator";
-import * as Location from "expo-location";
+} from '@gluestack-ui/themed';
+import { useForm, Controller } from 'react-hook-form';
+import * as ImagePicker from 'expo-image-picker';
+import { S3 } from 'aws-sdk';
+import { manipulateAsync, SaveFormat } from 'expo-image-manipulator';
+import * as Location from 'expo-location';
 
-import allLanguages from "../utils/langs/allLanguages";
-import ActionSheet from "../Components/ActionSheet";
-import Toast from "../Components/Toast";
-import { call } from "../utils/functions";
-import { awsParams } from "../../private";
+import allLanguages from '../utils/langs/allLanguages';
+import ActionSheet from '../Components/ActionSheet';
+import Toast from '../Components/Toast';
+import { call } from '../utils/functions';
+import { awsParams } from '../../private';
 
 const s3 = new S3(awsParams);
 
@@ -61,7 +61,7 @@ export default function ProfileEdit({ navigation, route }) {
     pickerVisible: false,
     selectedLanguages: currentUser?.languages,
     selectedImage: null,
-    selectedTab: "image",
+    selectedTab: 'image',
     selectImageButtonLoading: false,
   });
 
@@ -84,9 +84,8 @@ export default function ProfileEdit({ navigation, route }) {
     });
 
     const { status } = await ImagePicker.getMediaLibraryPermissionsAsync();
-    if (status !== "granted") {
-      const permissionResult =
-        await ImagePicker.requestMediaLibraryPermissionsAsync();
+    if (status !== 'granted') {
+      const permissionResult = await ImagePicker.requestMediaLibraryPermissionsAsync();
       if (permissionResult.granted === false) {
         alert("You've refused to allow this app to access your photos!");
         return;
@@ -110,7 +109,7 @@ export default function ProfileEdit({ navigation, route }) {
         ...state,
         selectImageButtonLoading: false,
       });
-      alert("You did not select any image.");
+      alert('You did not select any image.');
     }
   };
 
@@ -135,7 +134,7 @@ export default function ProfileEdit({ navigation, route }) {
     const response = await fetch(uri);
     const blob = await response.blob();
     const params = {
-      Bucket: "librella",
+      Bucket: 'librella',
       Key: selectedImage?.assets[0]?.fileName,
       Body: blob,
     };
@@ -159,11 +158,8 @@ export default function ProfileEdit({ navigation, route }) {
       confirmImageButtonLoading: true,
     });
 
-    const resizedImage =
-      selectedImage && (await resizeImage(selectedImage?.assets[0]));
-    const imageUrl = selectedImage
-      ? await uploadImage(resizedImage.uri)
-      : values.imageUrl;
+    const resizedImage = selectedImage && (await resizeImage(selectedImage?.assets[0]));
+    const imageUrl = selectedImage ? await uploadImage(resizedImage.uri) : values.imageUrl;
 
     const images = [imageUrl];
 
@@ -180,12 +176,10 @@ export default function ProfileEdit({ navigation, route }) {
 
   const updateProfile = async (values) => {
     try {
-      await call("updateProfile", values);
+      await call('updateProfile', values);
       toast.show({
-        placement: "top",
-        render: ({ id }) => (
-          <Toast nativeId={id} message="Profile is successfully updated" />
-        ),
+        placement: 'top',
+        render: ({ id }) => <Toast nativeId={id} message="Profile is successfully updated" />,
       });
     } catch (error) {
       console.log(error);
@@ -198,9 +192,7 @@ export default function ProfileEdit({ navigation, route }) {
   };
 
   const handleRemoveLanguage = (lang) => {
-    const newLanguages = selectedLanguages.filter(
-      (language) => lang.value !== language.value
-    );
+    const newLanguages = selectedLanguages.filter((language) => lang.value !== language.value);
     setState({
       ...state,
       selectedLanguages: newLanguages,
@@ -217,12 +209,10 @@ export default function ProfileEdit({ navigation, route }) {
     };
 
     try {
-      await call("updateProfile", values);
+      await call('updateProfile', values);
       toast.show({
-        placement: "top",
-        render: ({ id }) => (
-          <Toast nativeId={id} message="Profile is successfully updated" />
-        ),
+        placement: 'top',
+        render: ({ id }) => <Toast nativeId={id} message="Profile is successfully updated" />,
       });
     } catch (error) {
       console.log(error);
@@ -241,17 +231,15 @@ export default function ProfileEdit({ navigation, route }) {
     });
     try {
       let { status } = await Location.requestForegroundPermissionsAsync();
-      if (status !== "granted") {
-        setErrorMsg("Permission to access location was denied");
+      if (status !== 'granted') {
+        setErrorMsg('Permission to access location was denied');
         return;
       }
       let location = await Location.getCurrentPositionAsync({});
-      await call("updateProfile", { location });
+      await call('updateProfile', { location });
       toast.show({
-        placement: "top",
-        render: ({ id }) => (
-          <Toast nativeId={id} message="Profile is successfully updated" />
-        ),
+        placement: 'top',
+        render: ({ id }) => <Toast nativeId={id} message="Profile is successfully updated" />,
       });
     } catch (error) {
       console.log(error);
@@ -274,43 +262,44 @@ export default function ProfileEdit({ navigation, route }) {
           <Button
             borderRadius={0}
             size="sm"
-            variant={selectedTab === "image" ? "solid" : "outline"}
-            onPress={() => setState({ ...state, selectedTab: "image" })}
+            variant={selectedTab === 'image' ? 'solid' : 'outline'}
+            onPress={() => setState({ ...state, selectedTab: 'image' })}
           >
             <ButtonText>Image</ButtonText>
           </Button>
           <Button
             borderRadius={0}
             size="sm"
-            variant={selectedTab === "info" ? "solid" : "outline"}
-            onPress={() => setState({ ...state, selectedTab: "info" })}
+            variant={selectedTab === 'info' ? 'solid' : 'outline'}
+            onPress={() => setState({ ...state, selectedTab: 'info' })}
           >
             <ButtonText>Info</ButtonText>
           </Button>
           <Button
             borderRadius={0}
             size="sm"
-            variant={selectedTab === "languages" ? "solid" : "outline"}
-            onPress={() => setState({ ...state, selectedTab: "languages" })}
+            variant={selectedTab === 'languages' ? 'solid' : 'outline'}
+            onPress={() => setState({ ...state, selectedTab: 'languages' })}
           >
             <ButtonText>Languages</ButtonText>
           </Button>
           <Button
             borderRadius={0}
             size="sm"
-            variant={selectedTab === "location" ? "solid" : "outline"}
-            onPress={() => setState({ ...state, selectedTab: "location" })}
+            variant={selectedTab === 'location' ? 'solid' : 'outline'}
+            onPress={() => setState({ ...state, selectedTab: 'location' })}
           >
             <ButtonText>Location</ButtonText>
           </Button>
         </ButtonGroup>
       </Center>
 
-      {selectedTab === "image" && (
+      {selectedTab === 'image' && (
         <Box>
           <Center>
             {(selectedImage || currentUser?.images[0]) && (
               <Image
+                alt={currentUser.username}
                 source={{
                   uri: selectedImage?.assets[0]?.uri || currentUser?.images[0],
                 }}
@@ -327,12 +316,8 @@ export default function ProfileEdit({ navigation, route }) {
               variant="outline"
               onPress={pickImageAsync}
             >
-              <ButtonText>
-                {selectedImage ? "Replace Image" : "Pick or Take Image"}
-              </ButtonText>
-              {selectImageButtonLoading && (
-                <ButtonIcon as={LoaderIcon} ml="$4" />
-              )}
+              <ButtonText>{selectedImage ? 'Replace Image' : 'Pick or Take Image'}</ButtonText>
+              {selectImageButtonLoading && <ButtonIcon as={LoaderIcon} ml="$4" />}
             </Button>
 
             {selectedImage && (
@@ -342,16 +327,14 @@ export default function ProfileEdit({ navigation, route }) {
                 onPress={handleConfirmImage}
               >
                 <ButtonText>Confirm</ButtonText>
-                {confirmImageButtonLoading && (
-                  <ButtonIcon as={LoaderIcon} ml="$4" />
-                )}
+                {confirmImageButtonLoading && <ButtonIcon as={LoaderIcon} ml="$4" />}
               </Button>
             )}
           </Box>
         </Box>
       )}
 
-      {selectedTab === "info" && (
+      {selectedTab === 'info' && (
         <VStack p="$4" space="lg" w="100%">
           <Box>
             <Controller
@@ -361,11 +344,7 @@ export default function ProfileEdit({ navigation, route }) {
                 <Box>
                   <Text mb="$1">First name</Text>
                   <Input bg="$white" variant="rounded">
-                    <InputField
-                      value={value}
-                      onBlur={onBlur}
-                      onChangeText={onChange}
-                    />
+                    <InputField value={value} onBlur={onBlur} onChangeText={onChange} />
                   </Input>
                 </Box>
               )}
@@ -385,11 +364,7 @@ export default function ProfileEdit({ navigation, route }) {
                 <Box>
                   <Text mb="$1">Last name</Text>
                   <Input bg="$white" variant="rounded">
-                    <InputField
-                      value={value}
-                      onBlur={onBlur}
-                      onChangeText={onChange}
-                    />
+                    <InputField value={value} onBlur={onBlur} onChangeText={onChange} />
                   </Input>
                 </Box>
               )}
@@ -432,18 +407,12 @@ export default function ProfileEdit({ navigation, route }) {
         </VStack>
       )}
 
-      {selectedTab === "languages" && (
+      {selectedTab === 'languages' && (
         <>
           <Center bg="$white" px="$4" pt="$4">
             <HStack flexWrap="wrap" justifyContent="center">
               {selectedLanguages?.map((lang) => (
-                <Badge
-                  key={lang.value}
-                  mb="$4"
-                  mr="$4"
-                  size="lg"
-                  variant="outline"
-                >
+                <Badge key={lang.value} mb="$4" mr="$4" size="lg" variant="outline">
                   <BadgeText>{lang.label}</BadgeText>
                   <Pressable onPress={() => handleRemoveLanguage(lang)}>
                     <BadgeIcon as={CloseIcon} ml="$2" />
@@ -473,9 +442,7 @@ export default function ProfileEdit({ navigation, route }) {
                 onPress={() => handleUpdateLanguages()}
               >
                 <ButtonText>Confirm</ButtonText>
-                {confirmLanguagesButtonLoading && (
-                  <ButtonIcon as={LoaderIcon} ml="$4" />
-                )}
+                {confirmLanguagesButtonLoading && <ButtonIcon as={LoaderIcon} ml="$4" />}
               </Button>
             </Center>
           )}
@@ -495,16 +462,11 @@ export default function ProfileEdit({ navigation, route }) {
         </>
       )}
 
-      {selectedTab === "location" && (
+      {selectedTab === 'location' && (
         <Center bg="$white" p="$4">
-          <Button
-            isDisabled={confirmLocationButtonLoading}
-            onPress={() => setGeoLocation()}
-          >
+          <Button isDisabled={confirmLocationButtonLoading} onPress={() => setGeoLocation()}>
             <ButtonText>Save Geolocation</ButtonText>
-            {confirmLocationButtonLoading && (
-              <ButtonIcon as={LoaderIcon} ml="$4" />
-            )}
+            {confirmLocationButtonLoading && <ButtonIcon as={LoaderIcon} ml="$4" />}
           </Button>
         </Center>
       )}

@@ -1,4 +1,4 @@
-import React from "react";
+import React from 'react';
 import {
   Avatar,
   Badge,
@@ -9,7 +9,7 @@ import {
   HStack,
   Image,
   Text,
-} from "@gluestack-ui/themed";
+} from '@gluestack-ui/themed';
 
 export default function About({ user }) {
   if (!user) {
@@ -25,7 +25,7 @@ export default function About({ user }) {
       </Center>
       <Center>
         {user.images && user.images.length > 0 ? (
-          <Image size="2xl" source={{ uri: user.images[0] }} />
+          <Image alt={user.username} size="2xl" source={{ uri: user.images[0] }} />
         ) : (
           <Avatar size="2xl" name={user.username} />
         )}
@@ -34,9 +34,7 @@ export default function About({ user }) {
       <Center>
         {user.firstName && user.lastName && (
           <Box pt="$2">
-            <Text fontWeight="$bold">
-              {user.firstName + " " + user.lastName}
-            </Text>
+            <Text fontWeight="$bold">{user.firstName + ' ' + user.lastName}</Text>
           </Box>
         )}
         {user.bio && (

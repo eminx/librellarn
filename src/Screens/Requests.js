@@ -176,6 +176,7 @@ export default function Requests({ navigation }) {
             {filterOptions.map((option) => (
               <Button
                 key={option}
+                bg={requestType === option ? '$blue500' : '$white'}
                 borderRadius={0}
                 size="xs"
                 variant={requestType === option ? 'solid' : 'outline'}
