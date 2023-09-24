@@ -1,4 +1,6 @@
-import Meteor from "@meteorrn/core";
+import Meteor from '@meteorrn/core';
+import React from 'react';
+import { Text } from '@gluestack-style/react';
 
 const call = (method, ...parameters) =>
   new Promise((resolve, reject) => {
@@ -8,4 +10,13 @@ const call = (method, ...parameters) =>
     });
   });
 
-export { call };
+function parseAuthors(authors) {
+  if (!authors) {
+    return <Text color="$gray800">unknown authors</Text>;
+  }
+  return authors.map((author, index) => (
+    <Text key={author}>{author + (authors.length !== index + 1 ? ', ' : '')}</Text>
+  ));
+}
+
+export { call, parseAuthors };

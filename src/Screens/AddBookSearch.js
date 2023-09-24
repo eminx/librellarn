@@ -3,12 +3,11 @@ import { ScrollView } from 'react-native';
 import {
   Box,
   Button,
+  ButtonSpinner,
   ButtonText,
   Center,
   SearchIcon,
   Text,
-  ButtonIcon,
-  LoaderIcon,
 } from '@gluestack-ui/themed';
 
 import BookList from '../Components/BookList';
@@ -64,8 +63,8 @@ export default function AddBookSearch({ navigation }) {
       <Center mb="$4">
         {searchBarInput && searchBarInput.length > 2 && (
           <Button isDisabled={isLoading} size="lg" type="submit" onPress={() => searchBarSearch()}>
+            {isLoading && <ButtonSpinner mr="$1" />}
             <ButtonText>{isLoading ? 'Searching' : 'Search'}</ButtonText>
-            {isLoading && <ButtonIcon as={LoaderIcon} ml="$4" />}
           </Button>
         )}
       </Center>

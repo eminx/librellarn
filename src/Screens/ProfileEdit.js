@@ -7,7 +7,7 @@ import {
   Box,
   Button,
   ButtonGroup,
-  ButtonIcon,
+  ButtonSpinner,
   ButtonText,
   Center,
   CloseIcon,
@@ -15,7 +15,6 @@ import {
   Image,
   Input,
   InputField,
-  LoaderIcon,
   Pressable,
   Text,
   Textarea,
@@ -316,8 +315,8 @@ export default function ProfileEdit({ navigation, route }) {
               variant="outline"
               onPress={pickImageAsync}
             >
+              {selectImageButtonLoading && <ButtonSpinner mr="$1" />}
               <ButtonText>{selectedImage ? 'Replace Image' : 'Pick or Take Image'}</ButtonText>
-              {selectImageButtonLoading && <ButtonIcon as={LoaderIcon} ml="$4" />}
             </Button>
 
             {selectedImage && (
@@ -326,8 +325,8 @@ export default function ProfileEdit({ navigation, route }) {
                 type="submit"
                 onPress={handleConfirmImage}
               >
+                {confirmImageButtonLoading && <ButtonSpinner mr="$1" />}
                 <ButtonText>Confirm</ButtonText>
-                {confirmImageButtonLoading && <ButtonIcon as={LoaderIcon} ml="$4" />}
               </Button>
             )}
           </Box>
@@ -401,8 +400,8 @@ export default function ProfileEdit({ navigation, route }) {
             onPress={handleSubmit(handleFormSubmit)}
             type="submit"
           >
+            {confirmInfoButtonLoading && <ButtonSpinner mr="$1" />}
             <ButtonText>Submit</ButtonText>
-            {confirmInfoButtonLoading && <ButtonIcon as={LoaderIcon} ml="$4" />}
           </Button>
         </VStack>
       )}
@@ -442,7 +441,7 @@ export default function ProfileEdit({ navigation, route }) {
                 onPress={() => handleUpdateLanguages()}
               >
                 <ButtonText>Confirm</ButtonText>
-                {confirmLanguagesButtonLoading && <ButtonIcon as={LoaderIcon} ml="$4" />}
+                {confirmLanguagesButtonLoading && <ButtonSpinner mr="$1" />}
               </Button>
             </Center>
           )}
@@ -465,8 +464,8 @@ export default function ProfileEdit({ navigation, route }) {
       {selectedTab === 'location' && (
         <Center bg="$white" p="$4">
           <Button isDisabled={confirmLocationButtonLoading} onPress={() => setGeoLocation()}>
+            {confirmLocationButtonLoading && <ButtonSpinner mr="$1" />}
             <ButtonText>Save Geolocation</ButtonText>
-            {confirmLocationButtonLoading && <ButtonIcon as={LoaderIcon} ml="$4" />}
           </Button>
         </Center>
       )}

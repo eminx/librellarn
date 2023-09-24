@@ -4,7 +4,7 @@ import {
   AddIcon,
   Box,
   Button,
-  ButtonIcon,
+  ButtonSpinner,
   ButtonText,
   Center,
   CloseIcon,
@@ -12,7 +12,6 @@ import {
   Image,
   Input,
   InputField,
-  LoaderIcon,
   Text,
   Textarea,
   TextareaInput,
@@ -433,14 +432,14 @@ export default function BookForm({ book, navigation }) {
             variant="outline"
             onPress={pickImageAsync}
           >
+            {selectImageButtonLoading && <ButtonSpinner mr="$1" />}
             <ButtonText>{selectedImage ? 'Replace Image' : 'Pick or Take Image'}</ButtonText>
-            {selectImageButtonLoading && <ButtonIcon as={LoaderIcon} ml="$4" />}
           </Button>
         </Box>
 
         <Button isDisabled={isLoading} onPress={handleSubmit(onFormSubmit)} type="submit">
+          {isLoading && <ButtonSpinner mr="$1" />}
           <ButtonText>Submit</ButtonText>
-          {isLoading && <ButtonIcon as={LoaderIcon} ml="$4" />}
         </Button>
       </VStack>
 

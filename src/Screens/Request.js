@@ -2,19 +2,28 @@ import Meteor, { Mongo, withTracker } from '@meteorrn/core';
 import React, { useEffect } from 'react';
 import { StyleSheet } from 'react-native';
 import {
+  Avatar,
+  AvatarFallbackText,
+  AvatarImage,
   Box,
+  Button,
+  ButtonGroup,
+  ButtonText,
+  Center,
+  HStack,
+  Heading,
+  Image,
+  Link,
+  LinkText,
+  ScrollView,
   Spinner,
-  Tabs,
-  TabsList,
-  TabsTrigger,
-  TabsText,
-  TabsContents,
-  TabsContent,
   Text,
+  VStack,
 } from '@gluestack-ui/themed';
+import { CheckSquare, MinusSquare } from 'lucide-react-native';
 import { GiftedChat } from 'react-native-gifted-chat';
 
-import { call } from '../utils/functions';
+import { call, parseAuthors } from '../utils/functions';
 
 const MessagesCollection = new Mongo.Collection('messages');
 
@@ -84,8 +93,8 @@ function Request({ currentUser, discussion, isChatLoading, isOwner, navigation, 
       return;
     }
     try {
-      await call('acceptRequest', id);
-      await getRequest();
+      await call('acceptRequest', request._id);
+      // await getRequest();
     } catch (error) {
       console.log(error);
     }
@@ -96,8 +105,8 @@ function Request({ currentUser, discussion, isChatLoading, isOwner, navigation, 
       return;
     }
     try {
-      await call('denyRequest', id);
-      await getRequest();
+      await call('denyRequest', request._id);
+      // await getRequest();
       // successDialog(
       //   "Request denied. We are sorry to have you deny this request"
       // );
@@ -112,12 +121,12 @@ function Request({ currentUser, discussion, isChatLoading, isOwner, navigation, 
       return;
     }
     try {
-      await call('setIsHanded', id);
-      await getRequest();
+      await call('setIsHanded', request._id);
+      // await getRequest();
       // successDialog("Great that you have handed over the book!");
     } catch (error) {
       console.log(error);
-      errorDialog(error.reason);
+      // errorDialog(error.reason);
     }
   };
 
@@ -126,12 +135,12 @@ function Request({ currentUser, discussion, isChatLoading, isOwner, navigation, 
       return;
     }
     try {
-      await call('setIsReturned', id);
-      await getRequest();
+      await call('setIsReturned', request._id);
+      // await getRequest();
       // successDialog("Your book is back and available at your shelf <3");
     } catch (error) {
       console.log(error);
-      errorDialog(error.reason);
+      // errorDialog(error.reason);
     }
   };
 
@@ -184,25 +193,132 @@ function Request({ currentUser, discussion, isChatLoading, isOwner, navigation, 
     }
   };
 
-  // const requestedNotResponded = !request.isConfirmed && !request.isDenied;
-  // const isOwner = currentUser._id === request.ownerId;
-  // const currentStatus = getCurrentStatus();
+  const requestedNotResponded = !request.isConfirmed && !request.isDenied;
+  const currentStatus = getCurrentStatus();
+
+  const {
+    bookAuthors,
+    bookImage,
+    bookTitle,
+    isConfirmed,
+    isHanded,
+    isReturned,
+    ownerImage,
+    ownerUsername,
+    requesterUsername,
+    requesterImage,
+  } = request;
 
   return (
-    <Box style={styles.container}>
-      <GiftedChat
-        inverted={false}
-        messages={messages}
-        renderUsernameOnMessage
-        scrollToBottom
-        style={styles.chatbox}
-        user={{
-          _id: currentUser._id,
-          name: currentUser.username,
-        }}
-        onSend={(msgs) => sendMessage(msgs[0])}
-      />
-    </Box>
+    <ScrollView>
+      <Box bg="$white" pb="$4">
+        <HStack>
+          <Box flex={1}>
+            <Center>
+              <Avatar bgColor="$amber400" borderRadius="$full">
+                <AvatarFallbackText>{requesterUsername}</AvatarFallbackText>
+                <AvatarImage source={{ uri: requesterImage }} />
+              </Avatar>
+            </Center>
+            <Center>
+              <Link>
+                <LinkText>{requesterUsername}</LinkText>
+              </Link>
+            </Center>
+          </Box>
+
+          <Center>
+            <Box flex={2} pl="$4">
+              <Image
+                alt={bookTitle}
+                h={80}
+                w={50}
+                size="lg"
+                // fit="contain"
+                source={{
+                  uri: bookImage,
+                }}
+              />
+            </Box>
+          </Center>
+
+          <Box flex={1}>
+            <Center>
+              <Avatar bgColor="$amber400" borderRadius="$full">
+                <AvatarFallbackText>{ownerUsername}</AvatarFallbackText>
+                <AvatarImage source={{ uri: ownerImage }} />
+              </Avatar>
+            </Center>
+            <Center>
+              <Link>
+                <LinkText>{ownerUsername}</LinkText>
+              </Link>
+            </Center>
+          </Box>
+        </HStack>
+
+        <Center>
+          <Text>
+            {requesterUsername} requests {bookTitle} from {ownerUsername}
+          </Text>
+        </Center>
+      </Box>
+
+      {requestedNotResponded && isOwner ? (
+        <Center>
+          <ButtonGroup space="$4">
+            <Button onPress={() => acceptRequest()}>
+              <ButtonText>Accept</ButtonText>
+            </Button>
+            <Button variant="outline" onPress={() => denyRequest()}>
+              <ButtonText>Deny</ButtonText>
+            </Button>
+          </ButtonGroup>
+        </Center>
+      ) : (
+        <Center>
+          <VStack p="$4" space="lg">
+            {steps.map((step, index) => (
+              <Box key={step.title} bg="$white" p="$2">
+                <HStack>
+                  <Box pl="$1" pt="$1">
+                    {currentStatus >= index ? (
+                      <CheckSquare color="green" size="36" />
+                    ) : (
+                      <MinusSquare color="gray" size="36" />
+                    )}
+                  </Box>
+                  <Box ml="$4">
+                    <Heading fontColor={currentStatus >= index ? '$gray800' : '$gray300'} size="sm">
+                      {step.title}
+                    </Heading>
+                    <Text w={240} size="sm">
+                      {step.description}
+                    </Text>
+                  </Box>
+                </HStack>
+              </Box>
+            ))}
+          </VStack>
+        </Center>
+      )}
+
+      {isConfirmed && !isHanded && isOwner && (
+        <Center p="$4">
+          <Button size="sm" variant="solid" onPress={() => setIsHanded()}>
+            <ButtonText>I've handed over the book</ButtonText>
+          </Button>
+        </Center>
+      )}
+
+      {isHanded && !isReturned && isOwner && (
+        <Center p="$4">
+          <Button size="sm" variant="solid" onPress={() => setIsReturned()}>
+            <ButtonText>I've received my book back</ButtonText>
+          </Button>
+        </Center>
+      )}
+    </ScrollView>
   );
 }
 

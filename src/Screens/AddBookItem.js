@@ -6,10 +6,9 @@ import {
   AlertText,
   Box,
   Button,
-  ButtonIcon,
+  ButtonSpinner,
   ButtonText,
   InfoIcon,
-  LoaderIcon,
   Text,
   useToast,
 } from '@gluestack-ui/themed';
@@ -72,9 +71,13 @@ export default function AddBookItem({ route }) {
               <AlertText>Book is added to your virtual shelf</AlertText>
             </Alert>
           ) : (
-            <Button type="submit" onPress={() => setState({ ...state, isAddModalOpen: true })}>
-              <ButtonText isLoading={isLoading}>Add to your shelf</ButtonText>
-              {isLoading && <ButtonIcon as={LoaderIcon} />}
+            <Button
+              isDisabled={isLoading}
+              type="submit"
+              onPress={() => setState({ ...state, isAddModalOpen: true })}
+            >
+              {isLoading && <ButtonSpinner mr="$1" />}
+              <ButtonText>Add to your shelf</ButtonText>
             </Button>
           )}
         </Box>
