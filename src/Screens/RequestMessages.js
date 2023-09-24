@@ -1,3 +1,4 @@
+import Meteor, { Mongo, withTracker } from '@meteorrn/core';
 import React, { useEffect } from 'react';
 import { StyleSheet } from 'react-native';
 import { Box, Spinner } from '@gluestack-ui/themed';
@@ -5,35 +6,9 @@ import { GiftedChat } from 'react-native-gifted-chat';
 
 import { call } from '../utils/functions';
 
-const steps = [
-  {
-    title: 'Requested',
-    description: 'Request sent',
-  },
-  {
-    title: 'Accepted',
-    description: 'Request is accepted',
-  },
-  {
-    title: 'Handed',
-    description: 'The borrower received the book to read',
-  },
-  {
-    title: 'Returned',
-    description: 'The borrower has returned the book to the owner',
-  },
-];
+const MessagesCollection = new Mongo.Collection('messages');
 
-const myImg = (src) => <img src={src} alt="book image" height={64} />;
-
-export default function RequestMessages({
-  currentUser,
-  discussion,
-  isChatLoading,
-  isOwner,
-  navigation,
-  request,
-}) {
+function RequestMessages({ currentUser, discussion, isLoading, isOwner, navigation, request }) {
   useEffect(() => {
     navigation.getParent()?.setOptions({
       tabBarStyle: {
@@ -48,7 +23,7 @@ export default function RequestMessages({
       });
   }, [navigation]);
 
-  if (isChatLoading) {
+  if (isLoading) {
     return <Spinner />;
   }
 
@@ -70,74 +45,6 @@ export default function RequestMessages({
       await call('addMessage', request._id, message.text);
     } catch (error) {
       console.log(error);
-    }
-  };
-
-  const acceptRequest = async () => {
-    if (currentUser._id !== request.ownerId) {
-      return;
-    }
-    try {
-      await call('acceptRequest', id);
-      await getRequest();
-    } catch (error) {
-      console.log(error);
-    }
-  };
-
-  const denyRequest = async () => {
-    if (currentUser._id !== request.ownerId) {
-      return;
-    }
-    try {
-      await call('denyRequest', id);
-      await getRequest();
-      // successDialog(
-      //   "Request denied. We are sorry to have you deny this request"
-      // );
-    } catch (error) {
-      console.log(error);
-      // errorDialog(error.reason);
-    }
-  };
-
-  const setIsHanded = async () => {
-    if (currentUser._id !== request.ownerId) {
-      return;
-    }
-    try {
-      await call('setIsHanded', id);
-      await getRequest();
-      // successDialog("Great that you have handed over the book!");
-    } catch (error) {
-      console.log(error);
-      errorDialog(error.reason);
-    }
-  };
-
-  const setIsReturned = async () => {
-    if (currentUser._id !== request.ownerId) {
-      return;
-    }
-    try {
-      await call('setIsReturned', id);
-      await getRequest();
-      // successDialog("Your book is back and available at your shelf <3");
-    } catch (error) {
-      console.log(error);
-      errorDialog(error.reason);
-    }
-  };
-
-  const getCurrentStatus = () => {
-    if (request?.isReturned) {
-      return 3;
-    } else if (request?.isHanded) {
-      return 2;
-    } else if (request?.isConfirmed) {
-      return 1;
-    } else {
-      return 0;
     }
   };
 
@@ -170,18 +77,6 @@ export default function RequestMessages({
     }
   };
 
-  const getOthersName = () => {
-    if (request.requesterUsername === currentUser.username) {
-      return request.ownerUsername;
-    } else {
-      return request.requesterUsername;
-    }
-  };
-
-  // const requestedNotResponded = !request.isConfirmed && !request.isDenied;
-  // const isOwner = currentUser._id === request.ownerId;
-  // const currentStatus = getCurrentStatus();
-
   return (
     <Box style={styles.container}>
       <GiftedChat
@@ -191,8 +86,8 @@ export default function RequestMessages({
         scrollToBottom
         style={styles.chatbox}
         user={{
-          _id: currentUser._id,
-          name: currentUser.username,
+          _id: currentUser?._id,
+          name: currentUser?.username,
         }}
         onSend={(msgs) => sendMessage(msgs[0])}
       />
@@ -210,3 +105,25 @@ const styles = StyleSheet.create({
     paddingBottom: 8,
   },
 });
+
+const RequestMessagesContainer = withTracker(({ navigation, route }) => {
+  const { currentUser, isOwner, request } = route.params;
+  const chatSubscription = Meteor.subscribe('chat', request._id);
+  const chat = MessagesCollection.findOne({ requestId: request._id });
+  const discussion = chat?.messages?.map((message) => ({
+    ...message,
+    isFromMe: currentUser && message && message.senderId === currentUser._id,
+    createdDate: message.createdDate.toString(),
+  }));
+
+  return {
+    currentUser,
+    discussion,
+    isLoading: !chatSubscription.ready(),
+    isOwner,
+    navigation,
+    request,
+  };
+})(RequestMessages);
+
+export default RequestMessagesContainer;

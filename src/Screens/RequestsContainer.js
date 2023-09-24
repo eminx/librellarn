@@ -15,7 +15,7 @@ export default function RequestsContainer({}) {
         name="Request"
         component={Request}
         options={({ route }) => ({
-          title: route.params.request?.bookTitle + ' | ' + route.params.name,
+          title: 'Status | ' + route.params.request?.bookTitle,
           tabBarButton: (props) => null,
           tabBarVisible: false,
         })}
@@ -24,7 +24,7 @@ export default function RequestsContainer({}) {
         name="RequestMessages"
         component={RequestMessages}
         options={({ route }) => ({
-          title: route.params.request?.bookTitle + ' | ' + route.params.name,
+          title: 'Messages | ' + route.params.request?.bookTitle,
           tabBarButton: (props) => null,
           tabBarVisible: false,
         })}
