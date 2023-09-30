@@ -3,17 +3,11 @@ import React from 'react';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { NavigationContainer } from '@react-navigation/native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-import {
-  AddIcon,
-  AtSignIcon,
-  GluestackUIProvider,
-  Icon,
-  MessageCircleIcon,
-  SearchIcon,
-} from '@gluestack-ui/themed';
+import { GluestackUIProvider, Icon, SearchIcon } from '@gluestack-ui/themed';
 import Constants from 'expo-constants';
 import { config } from './gluestack-ui.config';
 const { expoConfig } = Constants;
+import { MessagesSquare, PlusSquare, Library } from 'lucide-react-native';
 
 import DiscoverContainer from './src/Screens/DiscoverContainer';
 import AddBookContainer from './src/Screens/AddBookContainer';
@@ -55,21 +49,22 @@ export default function App() {
               })}
             />
             <Tab.Screen
+              component={RequestsContainer}
+              name="RequestsContainer"
+              options={(route) => ({
+                headerShown: false,
+                tabBarIcon: ({ color, size }) => (
+                  <Icon as={MessagesSquare} color={color} size="xl" />
+                ),
+                tabBarLabel: 'Requests',
+              })}
+            />
+            <Tab.Screen
               component={AddBookContainer}
               name="Add Book"
               options={(route) => ({
                 headerShown: false,
-                tabBarIcon: ({ color, size }) => <Icon as={AddIcon} color={color} size="xl" />,
-              })}
-            />
-            <Tab.Screen
-              component={RequestsContainer}
-              name="Requests"
-              options={(route) => ({
-                headerShown: false,
-                tabBarIcon: ({ color, size }) => (
-                  <Icon as={MessageCircleIcon} color={color} size="xl" />
-                ),
+                tabBarIcon: ({ color, size }) => <Icon as={PlusSquare} color={color} size="xl" />,
               })}
             />
             <Tab.Screen
@@ -77,7 +72,7 @@ export default function App() {
               name="Profile"
               options={(route) => ({
                 headerShown: false,
-                tabBarIcon: ({ color, size }) => <Icon as={AtSignIcon} color={color} size="xl" />,
+                tabBarIcon: ({ color, size }) => <Icon as={Library} color={color} size="xl" />,
               })}
             />
           </Tab.Navigator>

@@ -210,8 +210,8 @@ export default function Requests({ navigation }) {
                 >
                   <Box borderBottomColor="$coolGray200" borderBottomWidth={1} p="$2">
                     <HStack justifyContent="space-between">
-                      <HStack flex={1}>
-                        <Box alignItems="center">
+                      <HStack alignItems="center" flex={1}>
+                        <Box alignItems="center" w={60} pt="$2">
                           <Image
                             alt={isOwner ? request.requesterUsername : request.ownerUsername}
                             borderRadius="$full"
@@ -220,7 +220,7 @@ export default function Requests({ navigation }) {
                               uri: isOwner ? request.requesterImage : request.ownerImage,
                             }}
                           />
-                          <Text fontWeight="bold">
+                          <Text isTruncated size="xs">
                             {isOwner ? request.requesterUsername : request.ownerUsername}
                           </Text>
                         </Box>

@@ -4,6 +4,7 @@ import {
   AddIcon,
   Box,
   Button,
+  ButtonIcon,
   ButtonSpinner,
   ButtonText,
   Center,
@@ -287,6 +288,7 @@ export default function BookForm({ book, navigation }) {
                   </Input>
                   {index === 0 ? (
                     <Button
+                      bg="$white"
                       borderRadius="$full"
                       ml="$4"
                       variant="outline"
@@ -297,6 +299,7 @@ export default function BookForm({ book, navigation }) {
                     </Button>
                   ) : index + 1 === authors.length ? (
                     <Button
+                      bg="$white"
                       borderRadius="$full"
                       ml="$4"
                       variant="outline"

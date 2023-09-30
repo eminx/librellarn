@@ -1,6 +1,7 @@
 import Meteor, { Mongo, withTracker } from '@meteorrn/core';
 import React from 'react';
 import {
+  ArrowRightIcon,
   Avatar,
   AvatarFallbackText,
   AvatarImage,
@@ -20,17 +21,14 @@ import {
   Text,
   VStack,
 } from '@gluestack-ui/themed';
-import { CheckSquare, MessagesSquare, MinusSquare } from 'lucide-react-native';
+import { Bell, CheckSquare, MessagesSquare, MinusSquare } from 'lucide-react-native';
 
 import { call } from '../utils/functions';
+import Alert from '../Components/Alert';
 
 const RequestsCollection = new Mongo.Collection('requests');
 
 const steps = [
-  {
-    title: 'Requested',
-    description: 'Request sent',
-  },
   {
     title: 'Accepted',
     description: 'Request is accepted',
@@ -108,14 +106,53 @@ function Request({ currentUser, isLoading, isOwner, navigation, request }) {
 
   const getCurrentStatus = () => {
     if (request?.isReturned) {
-      return 3;
-    } else if (request?.isHanded) {
       return 2;
-    } else if (request?.isConfirmed) {
+    } else if (request?.isHanded) {
       return 1;
     } else {
       return 0;
     }
+  };
+
+  const renderButtonWithNotification = () => {
+    const currentItem = currentUser.notifications?.find((notification) => {
+      return notification.contextId === request._id;
+    });
+
+    const count = currentItem?.unSeenIndexes?.length;
+
+    const isUnreadMessage = count && count > 0;
+    const theOther = isOwner ? requesterUsername : ownerUsername;
+
+    return (
+      <>
+        {isUnreadMessage && (
+          <Alert action="warning" mb="$2">
+            You have <Text fontWeight="bold">{count}</Text> unread messages from {theOther}
+          </Alert>
+        )}
+        <Button
+          bg="$white"
+          size="sm"
+          variant="outline"
+          onPress={() =>
+            navigation.navigate('RequestMessages', {
+              currentUser,
+              isOwner,
+              request,
+            })
+          }
+        >
+          {isUnreadMessage ? (
+            <ButtonIcon as={Bell} color="$red500" mr="$2" strokeWidth={3} />
+          ) : (
+            <ButtonIcon as={MessagesSquare} mr="$2" />
+          )}
+          <ButtonText>{`Chat with ${theOther}`}</ButtonText>
+          <ButtonIcon as={ArrowRightIcon} ml="$2" />
+        </Button>
+      </>
+    );
   };
 
   const requestedNotResponded = !request.isConfirmed && !request.isDenied;
@@ -190,23 +227,7 @@ function Request({ currentUser, isLoading, isOwner, navigation, request }) {
             </Text>
           </Center>
 
-          <Center>
-            <Button
-              bg="$white"
-              size="sm"
-              variant="outline"
-              onPress={() =>
-                navigation.navigate('RequestMessages', {
-                  currentUser,
-                  isOwner,
-                  request,
-                })
-              }
-            >
-              <ButtonIcon as={MessagesSquare} mr="$2" />
-              <ButtonText>Chat with {isOwner ? requesterUsername : ownerUsername}</ButtonText>
-            </Button>
-          </Center>
+          <Center>{renderButtonWithNotification()}</Center>
         </Box>
 
         {requestedNotResponded && isOwner ? (

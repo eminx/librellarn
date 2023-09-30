@@ -1,6 +1,7 @@
 import Meteor, { Mongo, withTracker } from '@meteorrn/core';
-import React, { useEffect } from 'react';
+import React, { useCallback, useEffect } from 'react';
 import { StyleSheet } from 'react-native';
+import { useFocusEffect } from '@react-navigation/native';
 import { Box, Spinner } from '@gluestack-ui/themed';
 import { GiftedChat } from 'react-native-gifted-chat';
 
@@ -26,6 +27,14 @@ function RequestMessages({ currentUser, discussion, isLoading, isOwner, navigati
   if (isLoading) {
     return <Spinner />;
   }
+
+  // useFocusEffect(
+  //   useCallback(() => {
+  //     const unsubscribe = API.subscribe(userId, user => setUser(user));
+
+  //     return () => unsubscribe();
+  //   }, [currentUser._id])
+  // );
 
   const messages =
     discussion &&
@@ -77,6 +86,10 @@ function RequestMessages({ currentUser, discussion, isLoading, isOwner, navigati
     }
   };
 
+  const onViewableItemsChanged = ({ viewableItems }) => {
+    console.log(viewableItems, 'lkds');
+  };
+
   return (
     <Box style={styles.container}>
       <GiftedChat
@@ -90,6 +103,7 @@ function RequestMessages({ currentUser, discussion, isLoading, isOwner, navigati
           name: currentUser?.username,
         }}
         onSend={(msgs) => sendMessage(msgs[0])}
+        onViewableItemsChanged={onViewableItemsChanged}
       />
     </Box>
   );

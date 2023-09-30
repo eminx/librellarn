@@ -148,9 +148,12 @@ function Table({ book }) {
     <VStack mb="$4">
       <Cell label="title" value={book.title} />
       <Cell label="authors" value={parseAuthors(book.authors)} />
-      <Cell label="category" value={book.category} />
+      <Cell label="category" value={book.category || book.categories[0]} />
       <Cell label="language" value={bookLang?.label} />
-      <Cell label="ISBN" value={book.ISBN} />
+      <Cell
+        label="ISBN"
+        value={book.ISBN || (book.industryIdentifiers && book.industryIdentifiers[1]?.identifier)}
+      />
       <Cell label="pages" value={book.pageCount} />
       <Cell label="publisher" value={book.publisher} />
       <Cell label="publish date" value={book.publishedDate} />

@@ -20,7 +20,7 @@ export default function Book({ route, navigation }) {
       await call('makeRequest', book._id);
       toast.show({
         placement: 'top',
-        render: ({ id }) => <Toast nativeId={id} message="Book is requested from the owner" />,
+        render: ({ id }) => <Toast nativeId={id} message="The book is requested from the owner" />,
       });
       setState({
         ...state,
@@ -30,7 +30,7 @@ export default function Book({ route, navigation }) {
       toast.show({
         placement: 'top',
         render: ({ id }) => (
-          <Toast action="error" nativeId={id} message={error.message} title="Error" />
+          <Toast action="error" nativeId={id} message={error?.message} title="Error" />
         ),
       });
     }
