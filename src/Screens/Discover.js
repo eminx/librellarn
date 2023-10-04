@@ -1,8 +1,8 @@
-import React, { useEffect, useState } from "react";
-import Meteor from "@meteorrn/core";
-import { ScrollView } from "react-native";
+import React, { useEffect, useState } from 'react';
+import Meteor from '@meteorrn/core';
+import { ScrollView } from 'react-native';
 
-import BookList from "../Components/BookList";
+import BookList from '../Components/BookList';
 
 export default function Discover({ navigation }) {
   const [state, setState] = useState({
@@ -15,7 +15,7 @@ export default function Discover({ navigation }) {
   }, []);
 
   const getData = () => {
-    Meteor.call("getDiscoverBooks", (error, respond) => {
+    Meteor.call('getDiscoverBooks', (error, respond) => {
       if (error) {
         setState({
           ...state,
@@ -34,9 +34,7 @@ export default function Discover({ navigation }) {
 
   return (
     <>
-      <ScrollView>
-        <BookList books={books} navigation={navigation} navigateTo="Book" />
-      </ScrollView>
+      <BookList books={books} navigation={navigation} navigateTo="Book" />
     </>
   );
 }

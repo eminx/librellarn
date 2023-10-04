@@ -48,7 +48,7 @@ export default function AddBookSearch({ navigation }) {
   };
 
   return (
-    <ScrollView>
+    <>
       <Box m="$4">
         <Input
           leftIcon={SearchIcon}
@@ -60,17 +60,19 @@ export default function AddBookSearch({ navigation }) {
         />
       </Box>
 
-      <Center mb="$4">
-        {searchBarInput && searchBarInput.length > 2 && (
-          <Button isDisabled={isLoading} size="lg" type="submit" onPress={() => searchBarSearch()}>
+      {searchBarInput && searchBarInput.length > 2 && (
+        <Center mb="$4">
+          <Button isDisabled={isLoading} type="submit" onPress={() => searchBarSearch()}>
             {isLoading && <ButtonSpinner mr="$1" />}
             <ButtonText>{isLoading ? 'Searching' : 'Search'}</ButtonText>
           </Button>
-        )}
-      </Center>
+        </Center>
+      )}
 
       {!isLoading && searchResults && (
-        <BookList navigation={navigation} navigateTo="Book to Add" books={searchResults} />
+        <Box h="100%">
+          <BookList navigation={navigation} navigateTo="Book to Add" books={searchResults} />
+        </Box>
       )}
 
       <Center mb={200}>
@@ -89,6 +91,6 @@ export default function AddBookSearch({ navigation }) {
           </Button>
         </Box>
       </Center>
-    </ScrollView>
+    </>
   );
 }

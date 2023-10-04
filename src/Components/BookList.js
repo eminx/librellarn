@@ -1,17 +1,27 @@
 import React from 'react';
 import { StyleSheet } from 'react-native';
-import { Box, Heading, HStack, Image, Pressable, Text, VStack } from '@gluestack-ui/themed';
+import {
+  Box,
+  FlatList,
+  Heading,
+  HStack,
+  Image,
+  Pressable,
+  Text,
+  VStack,
+} from '@gluestack-ui/themed';
 
 export default function BookList({ books, navigation, navigateTo }) {
   return (
-    <VStack mb="$8">
-      {books.map((item) => {
+    <FlatList
+      data={books}
+      renderItem={({ item }) => {
         const { dateAdded, dateUpdatedLast, ...book } = item;
         return (
           <Pressable
             key={book._id || book.canonicalVolumeLink}
             bg="$white"
-            sx={{ ':pressed': { bg: '$coolGray200' } }}
+            sx={{ ':active': { bg: '$coolGray200' } }}
             onPress={() =>
               navigation.navigate(navigateTo, {
                 book,
@@ -52,8 +62,8 @@ export default function BookList({ books, navigation, navigateTo }) {
             </Box>
           </Pressable>
         );
-      })}
-    </VStack>
+      }}
+    />
   );
 }
 

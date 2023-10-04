@@ -16,6 +16,16 @@ function RequestMessages({ currentUser, discussion, isLoading, isOwner, navigati
         display: 'none',
       },
     });
+
+    const shouldRun = currentUser?.notifications?.find((notification) => {
+      return notification.unSeenIndexes?.length > 0;
+    });
+    if (!shouldRun) {
+      return;
+    }
+
+    Meteor.call('removeAllNotifications', request._id);
+
     return () =>
       navigation.getParent()?.setOptions({
         tabBarStyle: {
@@ -27,14 +37,6 @@ function RequestMessages({ currentUser, discussion, isLoading, isOwner, navigati
   if (isLoading) {
     return <Spinner />;
   }
-
-  // useFocusEffect(
-  //   useCallback(() => {
-  //     const unsubscribe = API.subscribe(userId, user => setUser(user));
-
-  //     return () => unsubscribe();
-  //   }, [currentUser._id])
-  // );
 
   const messages =
     discussion &&
@@ -68,18 +70,9 @@ function RequestMessages({ currentUser, discussion, isLoading, isOwner, navigati
     return currentItem && currentItem.count;
   };
 
-  const removeNotification = async (messageIndex) => {
-    const shouldRun = currentUser?.notifications?.find((notification) => {
-      if (!notification.unSeenIndexes) {
-        return false;
-      }
-      return notification?.unSeenIndexes?.some((unSeenIndex) => unSeenIndex === messageIndex);
-    });
-    if (!shouldRun) {
-      return;
-    }
+  const removeNotification = async () => {
     try {
-      await call('removeNotification', request._id, messageIndex);
+      await call('removeAllNotifications', request._id);
     } catch (error) {
       // errorDialog(error.reason || error.error);
       console.log('error', error);

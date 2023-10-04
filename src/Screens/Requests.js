@@ -5,6 +5,7 @@ import {
   Button,
   ButtonGroup,
   ButtonText,
+  FlatList,
   Heading,
   HStack,
   Image,
@@ -131,7 +132,7 @@ export default function Requests({ navigation }) {
 
   return (
     <>
-      <ScrollView>
+      <>
         <HStack my="$4" space="md">
           <VStack justifyContent="flex-start" ml="$4" w="60%">
             <Text size="sm">Filter: </Text>
@@ -170,7 +171,6 @@ export default function Requests({ navigation }) {
             />
           </VStack>
         </HStack>
-
         <Box mb="$4" ml="$4">
           <ButtonGroup>
             {filterOptions.map((option) => (
@@ -187,18 +187,19 @@ export default function Requests({ navigation }) {
             ))}
           </ButtonGroup>
         </Box>
-
         {isLoading || !currentUser ? (
           <Spinner m="$4" />
         ) : (
-          <VStack>
-            {sortedRequests?.map((request) => {
+          <FlatList
+            data={sortedRequests}
+            renderItem={({ item }) => {
+              const request = item;
               const isOwner = request.ownerId === currentUserId;
               return (
                 <Pressable
                   key={request._id}
                   bg="$white"
-                  sx={{ ':active': { bg: '$grey200' } }}
+                  sx={{ ':active': { bg: '$coolGray200' } }}
                   onPress={() =>
                     navigation.navigate('Request', {
                       request,
@@ -255,10 +256,10 @@ export default function Requests({ navigation }) {
                   </Box>
                 </Pressable>
               );
-            })}
-          </VStack>
+            }}
+          />
         )}
-      </ScrollView>
+      </>
     </>
   );
 }
