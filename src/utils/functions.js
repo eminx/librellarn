@@ -12,7 +12,7 @@ const call = (method, ...parameters) =>
 
 function parseAuthors(authors) {
   if (!authors) {
-    return <Text color="$gray800">unknown authors</Text>;
+    return <Text color="$coolGray800">unknown authors</Text>;
   }
   return authors.map((author, index) => (
     <Text key={author}>{author + (authors.length !== index + 1 ? ', ' : '')}</Text>

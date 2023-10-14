@@ -164,10 +164,10 @@ function Table({ book }) {
 function Cell({ label, value }) {
   return (
     <HStack mb="$2">
-      <Text color="$gray500" mr="$2" w={120}>
+      <Text color="$coolGray500" mr="$2" w={120}>
         {label}
       </Text>
-      <Text color="$gray800" flex={1} noOfLines={2}>
+      <Text color="$coolGray800" flex={1} noOfLines={2}>
         {value}
       </Text>
     </HStack>
@@ -184,7 +184,7 @@ const darkTextStyle = {
 
 const parseAuthors = (authors) => {
   if (!authors) {
-    return <Text color="$gray800">unknown authors</Text>;
+    return <Text color="$coolGray800">unknown authors</Text>;
   }
   return authors.map((author, index) => (
     <Text key={author}>{author + (authors.length !== index + 1 ? ', ' : '')}</Text>

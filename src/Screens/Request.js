@@ -258,7 +258,7 @@ function Request({ currentUser, isLoading, isOwner, navigation, request }) {
                     </Box>
                     <Box ml="$4">
                       <Heading
-                        fontColor={currentStatus >= index ? '$gray800' : '$gray300'}
+                        fontColor={currentStatus >= index ? '$coolGray800' : '$coolGray300'}
                         size="sm"
                       >
                         {step.title}
