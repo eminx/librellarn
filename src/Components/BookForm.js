@@ -422,6 +422,7 @@ export default function BookForm({ book, navigation }) {
         <Center>
           {(selectedImage || book?.imageUrl) && (
             <Image
+              alt={book.title}
               source={{ uri: selectedImage?.assets[0]?.uri || book?.imageUrl }}
               style={{ width: 200, height: 300 }}
             />
