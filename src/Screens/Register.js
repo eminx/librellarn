@@ -1,5 +1,5 @@
-import Meteor from "@meteorrn/core";
-import React, { useState } from "react";
+import Meteor from '@meteorrn/core';
+import React, { useState } from 'react';
 import {
   Box,
   Button,
@@ -12,10 +12,10 @@ import {
   ToastTitle,
   VStack,
   useToast,
-} from "@gluestack-ui/themed";
-import { useForm, Controller } from "react-hook-form";
+} from '@gluestack-ui/themed';
+import { useForm, Controller } from 'react-hook-form';
 
-import { call } from "../utils/functions";
+import { call } from '../utils/functions';
 
 export default function Register({ setUser }) {
   const [state, setState] = useState({
@@ -29,8 +29,8 @@ export default function Register({ setUser }) {
     formState: { errors },
   } = useForm({
     defaultValues: {
-      username: "",
-      password: "",
+      username: '',
+      password: '',
     },
   });
 
@@ -45,10 +45,10 @@ export default function Register({ setUser }) {
     setState({ ...state, isLoading: true });
 
     try {
-      await call("registerUser", values);
+      await call('registerUser', values);
       Meteor.loginWithPassword(username, password, (error, respond) => {
         toast.show({
-          placement: "top",
+          placement: 'top',
           render: ({ id }) => {
             return (
               <Toast nativeId={id} action="success" variant="solid">
@@ -64,7 +64,7 @@ export default function Register({ setUser }) {
     } catch (error) {
       console.log(error);
       toast.show({
-        placement: "top",
+        placement: 'top',
         render: ({ id }) => {
           return (
             <Toast nativeId={id} action="error" variant="solid">
@@ -149,7 +149,6 @@ export default function Register({ setUser }) {
                 <Text size="sm">Password</Text>
                 <Input bg="$white" variant="rounded">
                   <InputField
-                    // placeholder="password"
                     value={value}
                     type="password"
                     onBlur={onBlur}

@@ -4,8 +4,8 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import { NavigationContainer } from '@react-navigation/native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { GluestackUIProvider, Icon, SearchIcon } from '@gluestack-ui/themed';
+import { config } from '@gluestack-ui/config';
 import Constants from 'expo-constants';
-import { config } from './gluestack-ui.config';
 const { expoConfig } = Constants;
 import { MessagesSquare, PlusSquare, Library } from 'lucide-react-native';
 

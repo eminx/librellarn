@@ -112,17 +112,40 @@ export default function Requests({ navigation }) {
   };
 
   const getRequestsSorted = (items) => {
+    const itemsWithNotifications = items.filter((request) => {
+      return currentUser?.notifications?.some((notification) => {
+        return notification?.contextId === request?._id;
+      });
+    });
+
+    const itemsWithoutNotifications = items.filter((request) => {
+      return !currentUser?.notifications?.some((notification) => {
+        return notification?.contextId === request?._id;
+      });
+    });
+
     switch (sortValue?.value) {
       case 'book':
-        return items.sort((a, b) => a.bookTitle?.localeCompare(b.bookTitle));
+        return [
+          ...itemsWithNotifications,
+          ...itemsWithoutNotifications.sort((a, b) => a.bookTitle?.localeCompare(b.bookTitle)),
+        ];
       case 'username':
-        return items.sort((a, b) => {
-          const isOwner = a.ownerId === currentUserId;
-          const param = isOwner ? 'requesterUsername' : 'ownerUsername';
-          return a[param]?.localeCompare(b[param]);
-        });
+        return [
+          ...itemsWithNotifications,
+          ...itemsWithoutNotifications.sort((a, b) => {
+            const isOwner = a.ownerId === currentUserId;
+            const param = isOwner ? 'requesterUsername' : 'ownerUsername';
+            return a[param]?.localeCompare(b[param]);
+          }),
+        ];
       default:
-        return items.sort((a, b) => new Date(b.dateRequested) - new Date(a.dateRequested));
+        return [
+          ...itemsWithNotifications,
+          ...itemsWithoutNotifications.sort(
+            (a, b) => new Date(b.dateRequested) - new Date(a.dateRequested)
+          ),
+        ];
     }
   };
 
@@ -195,6 +218,9 @@ export default function Requests({ navigation }) {
             renderItem={({ item }) => {
               const request = item;
               const isOwner = request.ownerId === currentUserId;
+
+              const nCount = getNotificationsCount(item);
+              isN = nCount > 0;
               return (
                 <Pressable
                   key={request._id}
@@ -209,10 +235,16 @@ export default function Requests({ navigation }) {
                     })
                   }
                 >
-                  <Box borderBottomColor="$coolGray200" borderBottomWidth={1} p="$2">
+                  <Box
+                    borderBottomColor="$coolGray200"
+                    borderBottomWidth={1}
+                    borderLeftColor={isN ? 'red' : 'none'}
+                    borderLeftWidth={isN ? 2 : 0}
+                    p="$2"
+                  >
                     <HStack justifyContent="space-between">
                       <HStack alignItems="center" flex={1}>
-                        <Box alignItems="center" w={60} pt="$2">
+                        <Box alignItems="center" w={54} pt="$2" pl="$2">
                           <Image
                             alt={isOwner ? request.requesterUsername : request.ownerUsername}
                             borderRadius="$full"

@@ -81,7 +81,6 @@ export default function AddBookSearch({ navigation }) {
             <Text>Can't find the book?</Text>
           </Center>
           <Button
-            // bg="$white"
             borderRadius="$full"
             size="lg"
             variant="link"
