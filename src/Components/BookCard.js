@@ -135,6 +135,10 @@ export default function BookCard({ book, children }) {
 }
 
 function Table({ book }) {
+  if (!book) {
+    return null;
+  }
+
   const bookLang = allLanguages.find((l) => {
     return l.value === book.language;
   });

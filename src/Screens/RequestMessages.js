@@ -9,20 +9,13 @@ import { call } from '../utils/functions';
 
 const MessagesCollection = new Mongo.Collection('messages');
 
-function RequestMessages({ currentUser, discussion, isLoading, isOwner, navigation, request }) {
+function RequestMessages({ currentUser, discussion, isLoading, isOwner, request }) {
   useEffect(() => {
     // navigation.getParent()?.setOptions({
     //   tabBarStyle: {
     //     display: 'none',
     //   },
     // });
-
-    const shouldRun = currentUser?.notifications?.find((notification) => {
-      return notification.unSeenIndexes?.length > 0;
-    });
-    if (!shouldRun) {
-      return;
-    }
 
     Meteor.call('removeAllNotifications', request._id);
 
@@ -32,7 +25,7 @@ function RequestMessages({ currentUser, discussion, isLoading, isOwner, navigati
     //       display: 'block',
     //     },
     //   });
-  }, [navigation]);
+  }, [discussion]);
 
   if (isLoading) {
     return <Spinner />;
@@ -88,6 +81,7 @@ function RequestMessages({ currentUser, discussion, isLoading, isOwner, navigati
       <GiftedChat
         inverted={false}
         messages={messages}
+        renderAvatarOnTop
         renderUsernameOnMessage
         scrollToBottom
         style={styles.chatbox}
