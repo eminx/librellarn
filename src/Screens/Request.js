@@ -235,6 +235,24 @@ function Request({ currentUser, isLoading, isOwner, navigation, request }) {
           <Center>{renderButtonWithNotification()}</Center>
         </Box>
 
+        <Box bg="$white">
+          {isConfirmed && !isHanded && isOwner && (
+            <Center p="$4">
+              <Button variant="solid" onPress={() => setIsHanded()}>
+                <ButtonText>I've handed over the book</ButtonText>
+              </Button>
+            </Center>
+          )}
+
+          {isHanded && !isReturned && isOwner && (
+            <Center p="$4">
+              <Button variant="solid" onPress={() => setIsReturned()}>
+                <ButtonText>I've received my book back</ButtonText>
+              </Button>
+            </Center>
+          )}
+        </Box>
+
         {requestedNotResponded && isOwner ? (
           <Box bg="$white" p="$2">
             <Center>
@@ -278,23 +296,6 @@ function Request({ currentUser, isLoading, isOwner, navigation, request }) {
             </VStack>
           </Center>
         )}
-        <Box bg="$white">
-          {isConfirmed && !isHanded && isOwner && (
-            <Center p="$4">
-              <Button variant="solid" onPress={() => setIsHanded()}>
-                <ButtonText>I've handed over the book</ButtonText>
-              </Button>
-            </Center>
-          )}
-
-          {isHanded && !isReturned && isOwner && (
-            <Center p="$4">
-              <Button variant="solid" onPress={() => setIsReturned()}>
-                <ButtonText>I've received my book back</ButtonText>
-              </Button>
-            </Center>
-          )}
-        </Box>
       </ScrollView>
     </Box>
   );
