@@ -133,7 +133,7 @@ function Request({ currentUser, isLoading, isOwner, navigation, request }) {
     return (
       <>
         {isUnreadMessage && (
-          <Alert action="warning" mb="$2">
+          <Alert bg="$lime100" mb="$2">
             You have <Text fontWeight="bold">{count}</Text> unread messages from {theOther}
           </Alert>
         )}

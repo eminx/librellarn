@@ -1,10 +1,11 @@
 import React, { useEffect, useContext, useState } from 'react';
-import { ScrollView, StyleSheet } from 'react-native';
+import { StyleSheet } from 'react-native';
 import {
   Box,
   Button,
   ButtonGroup,
   ButtonText,
+  Center,
   FlatList,
   Heading,
   HStack,
@@ -236,11 +237,13 @@ export default function Requests({ navigation }) {
                   }
                 >
                   <Box
+                    bg={isN ? '$lime100' : 'none'}
                     borderBottomColor="$coolGray200"
                     borderBottomWidth={1}
-                    borderLeftColor={isN ? 'red' : 'none'}
-                    borderLeftWidth={isN ? 2 : 0}
+                    borderLeftColor={isN ? '$lime500' : 'none'}
+                    // borderLeftWidth={isN ? 4 : 0}
                     p="$2"
+                    position="relative"
                   >
                     <HStack justifyContent="space-between">
                       <HStack alignItems="center" flex={1}>
@@ -285,6 +288,26 @@ export default function Requests({ navigation }) {
                         />
                       </Box>
                     </HStack>
+                    {isN && (
+                      <Box
+                        bg="$lime600"
+                        borderRadius="50%"
+                        borderWidth="1px"
+                        borderColor="$white"
+                        position="absolute"
+                        pt={1}
+                        top={4}
+                        right={4}
+                        w={24}
+                        h={24}
+                      >
+                        <Center>
+                          <Text color="$white" fontWeight="bold">
+                            {nCount}
+                          </Text>
+                        </Center>
+                      </Box>
+                    )}
                   </Box>
                 </Pressable>
               );
