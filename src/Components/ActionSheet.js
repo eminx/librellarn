@@ -1,5 +1,5 @@
-import React from "react";
-import { ScrollView } from "react-native";
+import React from 'react';
+import { ScrollView } from 'react-native';
 import {
   Actionsheet,
   ActionsheetBackdrop,
@@ -8,11 +8,11 @@ import {
   ActionsheetDragIndicatorWrapper,
   ActionsheetItem,
   ActionsheetItemText,
-} from "@gluestack-ui/themed";
+} from '@gluestack-ui/themed';
 
-export default function ActionSheet({ isOpen, options, onClose, onPress }) {
+export default function ActionSheet({ isOpen, options, onClose, onPress, ...otherProps }) {
   return (
-    <Actionsheet isOpen={isOpen} onClose={onClose} zIndex={999}>
+    <Actionsheet isOpen={isOpen} onClose={onClose} maxHeight={500} {...otherProps} zIndex={999}>
       <ActionsheetBackdrop />
       <ActionsheetContent zIndex={999}>
         <ActionsheetDragIndicatorWrapper>

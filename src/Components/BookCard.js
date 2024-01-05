@@ -32,6 +32,8 @@ export default function BookCard({ book, children }) {
 
   const { isInfoModalOpen } = state;
 
+  console.log(book);
+
   return (
     <>
       <ScrollView>

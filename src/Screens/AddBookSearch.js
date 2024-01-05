@@ -1,11 +1,12 @@
 import React, { useState } from 'react';
-import { ScrollView } from 'react-native';
+// import { ScrollView } from 'react-native';
 import {
   Box,
   Button,
   ButtonSpinner,
   ButtonText,
   Center,
+  ScrollView,
   SearchIcon,
   Text,
 } from '@gluestack-ui/themed';
@@ -48,8 +49,8 @@ export default function AddBookSearch({ navigation }) {
   };
 
   return (
-    <>
-      <Box m="$4">
+    <ScrollView mb="$10">
+      <Box p="$4">
         <Input
           leftIcon={SearchIcon}
           placeholder="Book title, author etc"
@@ -60,22 +61,6 @@ export default function AddBookSearch({ navigation }) {
         />
       </Box>
 
-      <Center mb={200}>
-        <Box>
-          <Center>
-            <Text>Can't find the book?</Text>
-          </Center>
-          <Button
-            borderRadius="$full"
-            size="lg"
-            variant="link"
-            onPress={() => navigation.navigate('Add Book Manually')}
-          >
-            <ButtonText>Manually Add Book</ButtonText>
-          </Button>
-        </Box>
-      </Center>
-
       {searchBarInput && searchBarInput.length > 2 && (
         <Center mb="$4">
           <Button isDisabled={isLoading} type="submit" onPress={() => searchBarSearch()}>
@@ -85,7 +70,7 @@ export default function AddBookSearch({ navigation }) {
         </Center>
       )}
 
-      {!isLoading && searchResults && (
+      {!isLoading && searchResults && searchResults.length > 0 && (
         <Box h="100%">
           <BookList navigation={navigation} navigateTo="Book to Add" books={searchResults} />
         </Box>
@@ -106,6 +91,6 @@ export default function AddBookSearch({ navigation }) {
           </Button>
         </Box>
       </Center>
-    </>
+    </ScrollView>
   );
 }

@@ -32,9 +32,9 @@ import allLanguages from '../utils/langs/allLanguages';
 import ActionSheet from '../Components/ActionSheet';
 import Toast from '../Components/Toast';
 import { call } from '../utils/functions';
-// import { awsParams } from '../../private';
-const secret = process.env.private;
-const awsParams = secret.awsParams;
+import { awsParams } from '../../private';
+// const secret = process.env.private;
+// const awsParams = secret.awsParams;
 const s3 = new S3(awsParams);
 
 export default function ProfileEdit({ navigation, route }) {
@@ -162,9 +162,20 @@ export default function ProfileEdit({ navigation, route }) {
     const resizedImage = selectedImage && (await resizeImage(selectedImage?.assets[0]));
     const imageUrl = selectedImage ? await uploadImage(resizedImage.uri) : values.imageUrl;
 
-    const images = [imageUrl];
-
-    updateProfile({ images });
+    try {
+      await call('setProfileImage', imageUrl);
+      toast.show({
+        placement: 'top',
+        render: ({ id }) => <Toast nativeId={id} message="Profile image is successfully updated" />,
+      });
+    } catch (error) {
+      console.log(error);
+    } finally {
+      setState({
+        ...state,
+        confirmImageButtonLoading: false,
+      });
+    }
   };
 
   const handleFormSubmit = (values) => {

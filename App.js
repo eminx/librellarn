@@ -16,10 +16,10 @@ import AuthContainer from './src/Screens/AuthContainer';
 import ProfileContainer from './src/Screens/ProfileContainer';
 import { StateContext } from './src/StateContext';
 
-// const uri = `ws://${expoConfig?.hostUri?.split(':').shift()}:3000`;
-// Meteor.connect(`${uri}/websocket`, { AsyncStorage });
+const uri = `ws://${expoConfig?.hostUri?.split(':').shift()}:3000`;
+Meteor.connect(`${uri}/websocket`, { AsyncStorage });
 
-Meteor.connect('wss://librella.app/websocket', { AsyncStorage });
+// Meteor.connect('wss://librella.app/websocket', { AsyncStorage });
 
 const Tab = createBottomTabNavigator();
 

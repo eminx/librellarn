@@ -30,16 +30,20 @@ const RequestsCollection = new Mongo.Collection('requests');
 
 const steps = [
   {
+    title: 'Requested',
+    description: 'Request is made',
+  },
+  {
     title: 'Accepted',
     description: 'Request is accepted',
   },
   {
     title: 'Handed',
-    description: 'The borrower received the book to read',
+    description: 'The book is handed to requester',
   },
   {
     title: 'Returned',
-    description: 'The borrower has returned the book to the owner',
+    description: 'The book is returned to the owner',
   },
 ];
 
@@ -106,8 +110,10 @@ function Request({ currentUser, isLoading, isOwner, navigation, request }) {
 
   const getCurrentStatus = () => {
     if (request?.isReturned) {
-      return 2;
+      return 3;
     } else if (request?.isHanded) {
+      return 2;
+    } else if (request?.isConfirmed) {
       return 1;
     } else {
       return 0;
@@ -296,7 +302,9 @@ function Request({ currentUser, isLoading, isOwner, navigation, request }) {
 }
 
 const RequestContainer = withTracker(({ navigation, route }) => {
-  const { currentUser, isOwner, request } = route.params;
+  const { isOwner, request } = route.params;
+  Meteor.subscribe('me');
+  const currentUser = Meteor.user();
   const requestSubscription = Meteor.subscribe('request', request._id);
   const requestSubscribed = RequestsCollection.findOne({ _id: request._id });
   return {
