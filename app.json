@@ -1,7 +1,7 @@
 {
   "expo": {
     "name": "librella",
-    "slug": "librella",
+    "slug": "librella-app",
     "version": "0.1.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
@@ -49,8 +49,9 @@
     ],
     "extra": {
       "eas": {
-        "projectId": "c1d0e397-cc0e-492f-b867-845bbc8ac36e"
+        "projectId": "cdb28fdf-0e4c-4adf-a42e-9aec279e2fbd"
       }
-    }
+    },
+    "owner": "eminx"
   }
 }
