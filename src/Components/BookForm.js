@@ -27,7 +27,9 @@ import allLanguages from '../utils/langs/allLanguages';
 import ActionSheet from './ActionSheet';
 import Toast from './Toast';
 import { call } from '../utils/functions';
-import { awsParams } from '../../private';
+// import { awsParams } from '../../private';
+const secret = process.env.private;
+const awsParams = secret.awsParams;
 
 const authorsKeys = ['elma', 'armut', 'kiraz', 'kayisi', 'seftali'];
 
