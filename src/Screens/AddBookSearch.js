@@ -6,6 +6,7 @@ import {
   ButtonSpinner,
   ButtonText,
   Center,
+  HStack,
   ScrollView,
   SearchIcon,
   Text,
@@ -48,35 +49,48 @@ export default function AddBookSearch({ navigation }) {
       });
   };
 
-  return (
-    <ScrollView mb="$10">
-      <Box p="$4">
-        <Input
-          leftIcon={SearchIcon}
-          placeholder="Book title, author etc"
-          size="lg"
-          value={searchBarInput}
-          onChangeText={(value) => setState({ ...state, searchBarInput: value })}
-          onPressCloseIcon={() => setState({ ...state, searchBarInput: '' })}
-        />
-      </Box>
+  const isSearchBarFull = searchBarInput && searchBarInput.length > 2;
 
-      {searchBarInput && searchBarInput.length > 2 && (
-        <Center mb="$4">
-          <Button isDisabled={isLoading} type="submit" onPress={() => searchBarSearch()}>
-            {isLoading && <ButtonSpinner mr="$1" />}
-            <ButtonText>{isLoading ? 'Searching' : 'Search'}</ButtonText>
-          </Button>
-        </Center>
-      )}
+  return (
+    <Box mb={72}>
+      <HStack p="$4">
+        <Box flexGrow={1}>
+          <Input
+            borderTopRightRadius={isSearchBarFull ? '0' : '60%'}
+            borderBottomRightRadius={isSearchBarFull ? '0' : '60%'}
+            height={42}
+            leftIcon={SearchIcon}
+            placeholder="Book title, author etc"
+            size="lg"
+            value={searchBarInput}
+            onChangeText={(value) => setState({ ...state, searchBarInput: value })}
+            onPressCloseIcon={() => setState({ ...state, searchBarInput: '', searchResults: [] })}
+          />
+        </Box>
+
+        {isSearchBarFull && (
+          <Center flexGrow={0}>
+            <Button
+              borderRadius={0}
+              borderBottomRightRadius="50%"
+              borderTopRightRadius="50%"
+              height={42}
+              isDisabled={isLoading}
+              type="submit"
+              onPress={() => searchBarSearch()}
+            >
+              {isLoading && <ButtonSpinner mr="$1" />}
+              <ButtonText>{isLoading ? 'Search' : 'Search'}</ButtonText>
+            </Button>
+          </Center>
+        )}
+      </HStack>
 
       {!isLoading && searchResults && searchResults.length > 0 && (
-        <Box h="100%">
-          <BookList navigation={navigation} navigateTo="Book to Add" books={searchResults} />
-        </Box>
+        <BookList navigation={navigation} navigateTo="Book to Add" books={searchResults} />
       )}
 
-      <Center mb={200}>
+      <Center mb={200} p="$4">
         <Box>
           <Center>
             <Text>Can't find the book?</Text>
@@ -91,6 +105,6 @@ export default function AddBookSearch({ navigation }) {
           </Button>
         </Box>
       </Center>
-    </ScrollView>
+    </Box>
   );
 }
