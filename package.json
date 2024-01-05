@@ -40,7 +40,8 @@
     "react-native-gifted-chat": "^2.4.0",
     "react-native-reanimated": "~3.3.0",
     "react-native-svg": "13.9.0",
-    "react-native-web": "~0.19.6"
+    "react-native-web": "~0.19.6",
+    "expo-modules-core": "~1.5.12"
   },
   "devDependencies": {
     "@babel/core": "^7.20.0"
