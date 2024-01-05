@@ -24,7 +24,7 @@ import {
 } from '@gluestack-ui/themed';
 import { useForm, Controller } from 'react-hook-form';
 import * as ImagePicker from 'expo-image-picker';
-import { S3 } from 'aws-sdk';
+import S3 from 'aws-sdk/clients/s3';
 import { manipulateAsync, SaveFormat } from 'expo-image-manipulator';
 import * as Location from 'expo-location';
 
@@ -32,8 +32,9 @@ import allLanguages from '../utils/langs/allLanguages';
 import ActionSheet from '../Components/ActionSheet';
 import Toast from '../Components/Toast';
 import { call } from '../utils/functions';
-import { awsParams } from '../../private';
-
+// import { awsParams } from '../../private';
+const secret = process.env.private;
+const awsParams = secret.awsParams;
 const s3 = new S3(awsParams);
 
 export default function ProfileEdit({ navigation, route }) {
@@ -143,6 +144,7 @@ export default function ProfileEdit({ navigation, route }) {
       .promise()
       .then(
         (data) => {
+          console.log(data);
           return data.Location;
         },
         (error) => {

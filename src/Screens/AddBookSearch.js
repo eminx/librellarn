@@ -60,6 +60,22 @@ export default function AddBookSearch({ navigation }) {
         />
       </Box>
 
+      <Center mb={200}>
+        <Box>
+          <Center>
+            <Text>Can't find the book?</Text>
+          </Center>
+          <Button
+            borderRadius="$full"
+            size="lg"
+            variant="link"
+            onPress={() => navigation.navigate('Add Book Manually')}
+          >
+            <ButtonText>Manually Add Book</ButtonText>
+          </Button>
+        </Box>
+      </Center>
+
       {searchBarInput && searchBarInput.length > 2 && (
         <Center mb="$4">
           <Button isDisabled={isLoading} type="submit" onPress={() => searchBarSearch()}>

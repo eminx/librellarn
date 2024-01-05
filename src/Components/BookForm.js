@@ -20,7 +20,7 @@ import {
   useToast,
 } from '@gluestack-ui/themed';
 import * as ImagePicker from 'expo-image-picker';
-import { S3 } from 'aws-sdk';
+import S3 from 'aws-sdk/clients/s3';
 import { manipulateAsync, SaveFormat } from 'expo-image-manipulator';
 
 import allLanguages from '../utils/langs/allLanguages';
@@ -186,7 +186,7 @@ export default function BookForm({ book, navigation }) {
       categoryLowerCase: values.category?.toLowerCase(),
       imageUrl,
       language: selectedLanguage ? selectedLanguage.value : book ? book.language : 'en',
-      titleLowerCase: values.title?.toLowerCase(),
+      titleLowerCase: values?.title?.toLowerCase(),
     };
 
     if (!book) {
@@ -266,7 +266,7 @@ export default function BookForm({ book, navigation }) {
               </Box>
             )}
           />
-          {errors.title && (
+          {errors?.title && (
             <Text mt="$1" size="sm">
               Title is required
             </Text>
@@ -422,7 +422,7 @@ export default function BookForm({ book, navigation }) {
         <Center>
           {(selectedImage || book?.imageUrl) && (
             <Image
-              alt={book.title}
+              alt={book?.title}
               source={{ uri: selectedImage?.assets[0]?.uri || book?.imageUrl }}
               style={{ width: 200, height: 300 }}
             />
