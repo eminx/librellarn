@@ -1,15 +1,6 @@
 import React from 'react';
 import { StyleSheet } from 'react-native';
-import {
-  Box,
-  FlatList,
-  Heading,
-  HStack,
-  Image,
-  Pressable,
-  Text,
-  VStack,
-} from '@gluestack-ui/themed';
+import { Box, FlatList, Heading, HStack, Image, Pressable, Text } from '@gluestack-ui/themed';
 
 export default function BookList({ books, navigation, navigateTo }) {
   return (

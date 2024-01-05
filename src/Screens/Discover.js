@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import Meteor from '@meteorrn/core';
-import { ScrollView } from 'react-native';
 
 import BookList from '../Components/BookList';
+import { Spinner } from '@gluestack-ui/themed';
 
 export default function Discover({ navigation }) {
   const [state, setState] = useState({
@@ -30,11 +30,11 @@ export default function Discover({ navigation }) {
     });
   };
 
-  const { books } = state;
+  const { books, isLoading } = state;
 
-  return (
-    <>
-      <BookList books={books} navigation={navigation} navigateTo="Book" />
-    </>
-  );
+  if (isLoading) {
+    return <Spinner />;
+  }
+
+  return <BookList books={books} navigation={navigation} navigateTo="Book" />;
 }
