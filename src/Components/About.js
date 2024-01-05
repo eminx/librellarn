@@ -9,6 +9,7 @@ import {
   HStack,
   Image,
   Text,
+  VStack,
 } from '@gluestack-ui/themed';
 
 export default function About({ user }) {
@@ -17,61 +18,37 @@ export default function About({ user }) {
   }
 
   return (
-    <Box>
-      <Center>
-        <Text fontWeight="bold" mb="$2" size="lg">
-          {user.username}
-        </Text>
-      </Center>
-      <Center>
+    <HStack px="$4">
+      <Box>
         {user.images && user.images.length > 0 ? (
-          <Image alt={user.username} size="2xl" source={{ uri: user.images[0] }} />
+          <Image alt={user.username} size="xl" source={{ uri: user.images[0] }} />
         ) : (
-          <Avatar size="2xl" name={user.username} />
+          <Avatar size="xl" name={user.username} />
         )}
-      </Center>
+      </Box>
 
-      <Center>
-        {user.firstName && user.lastName && (
-          <Box pt="$2">
-            <Text fontWeight="$bold">{user.firstName + ' ' + user.lastName}</Text>
-          </Box>
-        )}
-        {user.bio && (
-          <Box p="$2">
-            <Text size="md" textAlign="center">
-              {user.bio}
-            </Text>
-          </Box>
-        )}
-      </Center>
+      <VStack space="sm" px="$4">
+        <Heading size="md">{user.username}</Heading>
+        {user.firstName && user.lastName && <Text>{user.firstName + ' ' + user.lastName}</Text>}
+        {user.bio && <Text>{user.bio}</Text>}
 
-      <Center py="$2" mt="$2">
-        <Heading size="md" textAlign="center" mb="$2" fontWeight="light">
-          Languages
-        </Heading>
-
-        <Center>
-          <HStack flexWrap="wrap" justifyContent="center" px="$4">
-            {user.languages &&
-              user.languages.length > 0 &&
-              user.languages.map((language) => (
-                <Center key={language?.value}>
-                  <Badge
-                    key={language?.value}
-                    action="info"
-                    mb="$2"
-                    mr="$2"
-                    variant="outline"
-                    size="sm"
-                  >
-                    <BadgeText>{language?.label?.toUpperCase()} </BadgeText>
-                  </Badge>
-                </Center>
-              ))}
-          </HStack>
-        </Center>
-      </Center>
-    </Box>
+        <HStack flexWrap="wrap" space="xs">
+          {user.languages &&
+            user.languages.length > 0 &&
+            user.languages.map((language) => (
+              <Badge
+                key={language?.value}
+                action="info"
+                mb="$2"
+                mr="$2"
+                variant="outline"
+                size="sm"
+              >
+                <BadgeText>{language?.label?.toUpperCase()} </BadgeText>
+              </Badge>
+            ))}
+        </HStack>
+      </VStack>
+    </HStack>
   );
 }
