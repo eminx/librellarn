@@ -11,11 +11,11 @@ const MessagesCollection = new Mongo.Collection('messages');
 
 function RequestMessages({ currentUser, discussion, isLoading, isOwner, navigation, request }) {
   useEffect(() => {
-    navigation.getParent()?.setOptions({
-      tabBarStyle: {
-        display: 'none',
-      },
-    });
+    // navigation.getParent()?.setOptions({
+    //   tabBarStyle: {
+    //     display: 'none',
+    //   },
+    // });
 
     const shouldRun = currentUser?.notifications?.find((notification) => {
       return notification.unSeenIndexes?.length > 0;
@@ -26,12 +26,12 @@ function RequestMessages({ currentUser, discussion, isLoading, isOwner, navigati
 
     Meteor.call('removeAllNotifications', request._id);
 
-    return () =>
-      navigation.getParent()?.setOptions({
-        tabBarStyle: {
-          display: 'block',
-        },
-      });
+    // return () =>
+    //   navigation.getParent()?.setOptions({
+    //     tabBarStyle: {
+    //       display: 'block',
+    //     },
+    //   });
   }, [navigation]);
 
   if (isLoading) {

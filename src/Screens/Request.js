@@ -185,7 +185,7 @@ function Request({ currentUser, isLoading, isOwner, navigation, request }) {
               <Center>
                 <Avatar bgColor="$amber400" borderRadius="$full">
                   <AvatarFallbackText>{requesterUsername}</AvatarFallbackText>
-                  <AvatarImage source={{ uri: requesterImage }} />
+                  <AvatarImage alt={requesterUsername} source={{ uri: requesterImage }} />
                 </Avatar>
               </Center>
               <Center>
@@ -202,7 +202,6 @@ function Request({ currentUser, isLoading, isOwner, navigation, request }) {
                   h={80}
                   w={50}
                   size="lg"
-                  // fit="contain"
                   source={{
                     uri: bookImage,
                   }}
@@ -214,7 +213,7 @@ function Request({ currentUser, isLoading, isOwner, navigation, request }) {
               <Center>
                 <Avatar bgColor="$amber400" borderRadius="$full">
                   <AvatarFallbackText>{ownerUsername}</AvatarFallbackText>
-                  <AvatarImage source={{ uri: ownerImage }} />
+                  <AvatarImage alt={ownerUsername} source={{ uri: ownerImage }} />
                 </Avatar>
               </Center>
               <Center>

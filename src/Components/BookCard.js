@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-import { ScrollView } from 'react-native';
 
 import {
   Avatar,
@@ -32,93 +31,87 @@ export default function BookCard({ book, children }) {
 
   const { isInfoModalOpen } = state;
 
-  console.log(book);
-
   return (
     <>
-      <ScrollView>
-        <Box alignItems="center">
-          <Box
-            width="100%"
-            overflow="hidden"
-            _dark={{
-              backgroundColor: '$gray700',
-            }}
-            _light={{
-              backgroundColor: '$gray50',
-            }}
-          >
-            <Box>
-              <Center bg="$warmGray800" py="$2" w="100%">
-                <Image
-                  alt={book.title}
-                  h={160}
-                  size="lg"
-                  fit="contain"
-                  source={{
-                    uri:
-                      book.imageUrl ||
-                      book.imageLinks?.thumbnail ||
-                      book.imageLinks?.smallThumbnail,
-                  }}
-                />
-              </Center>
-            </Box>
-            <Box>
-              <HStack justifyContent="space-between" p="$4" space="md">
-                <Box flex={1}>
-                  <Heading size="md">{book.title}</Heading>
-                  <Text _light={lightTextStyle} _dark={darkTextStyle} size="md" fontWeight="500">
-                    {book.authors && parseAuthors(book.authors)}
-                  </Text>
-                  <HStack alignItems="center" flex={1} flexWrap="wrap" mt="$2">
-                    <Text fontWeight={700} mr="$2" size="xs">
-                      {book.category?.toUpperCase() ||
-                        (book.categories && book.categories[0]?.toUpperCase())}
-                    </Text>
-                    <Link
-                      _text={{
-                        color: '$blue400',
-                      }}
-                      onPress={() => setState({ isInfoModalOpen: true })}
-                    >
-                      <LinkText size="sm">more info</LinkText>
-                    </Link>
-                  </HStack>
-                </Box>
-                <Box>
-                  {book.ownerUsername && (
-                    <Pressable>
-                      <VStack alignItems="center">
-                        <Avatar
-                          bgColor="$amber400"
-                          borderRadius="$full"
-                          source={{ uri: book.ownerImage }}
-                        >
-                          <AvatarFallbackText>
-                            {book.ownerUsername && book.ownerUsername[0]?.toUpperCase()}
-                          </AvatarFallbackText>
-                          <AvatarImage source={{ uri: book.ownerImage }} />
-                        </Avatar>
-                        <Center>
-                          <Text>{book.ownerUsername}</Text>
-                        </Center>
-                      </VStack>
-                    </Pressable>
-                  )}
-                </Box>
-              </HStack>
-              {children}
-              <Box p="$4" w="100%">
-                <Text mb="$2" size="sm">
-                  Description
+      <Box alignItems="center">
+        <Box
+          width="100%"
+          overflow="hidden"
+          _dark={{
+            backgroundColor: '$gray700',
+          }}
+          _light={{
+            backgroundColor: '$gray50',
+          }}
+        >
+          <Box>
+            <Center bg="$warmGray800" py="$2" w="100%">
+              <Image
+                alt={book.title}
+                h={160}
+                size="lg"
+                fit="contain"
+                source={{
+                  uri:
+                    book.imageUrl || book.imageLinks?.thumbnail || book.imageLinks?.smallThumbnail,
+                }}
+              />
+            </Center>
+          </Box>
+          <Box>
+            <HStack justifyContent="space-between" p="$4" space="md">
+              <Box flex={1}>
+                <Heading size="md">{book.title}</Heading>
+                <Text _light={lightTextStyle} _dark={darkTextStyle} size="md" fontWeight="500">
+                  {book.authors && parseAuthors(book.authors)}
                 </Text>
-                <Text>{book.description}</Text>
+                <HStack alignItems="center" flex={1} flexWrap="wrap" mt="$2">
+                  <Text fontWeight={700} mr="$2" size="xs">
+                    {book.category?.toUpperCase() ||
+                      (book.categories && book.categories[0]?.toUpperCase())}
+                  </Text>
+                  <Link
+                    _text={{
+                      color: '$blue400',
+                    }}
+                    onPress={() => setState({ isInfoModalOpen: true })}
+                  >
+                    <LinkText size="sm">more info</LinkText>
+                  </Link>
+                </HStack>
               </Box>
+              <Box>
+                {book.ownerUsername && (
+                  <Pressable>
+                    <VStack alignItems="center">
+                      <Avatar
+                        bgColor="$amber400"
+                        borderRadius="$full"
+                        source={{ uri: book.ownerImage }}
+                      >
+                        <AvatarFallbackText>
+                          {book.ownerUsername && book.ownerUsername[0]?.toUpperCase()}
+                        </AvatarFallbackText>
+                        <AvatarImage alt={book.ownerUsername} source={{ uri: book.ownerImage }} />
+                      </Avatar>
+                      <Center>
+                        <Text>{book.ownerUsername}</Text>
+                      </Center>
+                    </VStack>
+                  </Pressable>
+                )}
+              </Box>
+            </HStack>
+            {children}
+            <Box p="$4" w="100%">
+              <Text mb="$2" size="sm">
+                Description
+              </Text>
+              <Text>{book.description}</Text>
             </Box>
           </Box>
         </Box>
-      </ScrollView>
+      </Box>
 
       <Modal
         isOpen={isInfoModalOpen}

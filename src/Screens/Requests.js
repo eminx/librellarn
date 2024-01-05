@@ -1,4 +1,5 @@
-import React, { useEffect, useContext, useState } from 'react';
+import Meteor, { Mongo, useTracker } from '@meteorrn/core';
+import React, { useContext, useState } from 'react';
 import { StyleSheet } from 'react-native';
 import {
   Box,
@@ -14,71 +15,34 @@ import {
   SearchIcon,
   Spinner,
   Text,
-  VStack,
 } from '@gluestack-ui/themed';
 
-import ActionSheet from '../Components/ActionSheet';
 import { StateContext } from '../StateContext';
-import { call } from '../utils/functions';
 import Input from '../Components/Input';
 
+const RequestsCollection = new Mongo.Collection('requests');
+
 const filterOptions = ['all', 'by me', 'to me'];
-const sortOptions = [
-  {
-    label: 'Date',
-    value: 'date',
-  },
-  {
-    label: 'Book title',
-    value: 'book',
-  },
-  {
-    label: 'Username',
-    value: 'username',
-  },
-];
 
 export default function Requests({ navigation }) {
   const [state, setState] = useState({
     filterInputValue: '',
-    gotoRequest: null,
-    isLoading: true,
-    noRequest: false,
-    requests: [],
     requestType: 'all',
-    sortOptionsVisible: false,
-    sortValue: sortOptions[0],
   });
+
+  const requests = useTracker(() => {
+    Meteor.subscribe('myRequests');
+    return RequestsCollection.find().fetch();
+  });
+
   const { currentUser } = useContext(StateContext);
-  const { filterInputValue, isLoading, requests, requestType, sortOptionsVisible, sortValue } =
-    state;
+  const { filterInputValue, requestType } = state;
 
   const currentUserId = currentUser._id;
 
-  useEffect(() => {
-    getRequests();
-  }, []);
-
-  const getRequests = async () => {
-    try {
-      const respond = await call('getMyRequests');
-      setState({
-        ...state,
-        requests: respond,
-        isLoading: false,
-        noRequest: Boolean(respond && respond.length === 0),
-      });
-    } catch (error) {
-      console.log(error);
-    }
-  };
-
-  const handleTypeChange = (value) => {
-    setState({
-      ...state,
-      requestType: value,
-    });
-  };
+  if (!requests || !currentUser) {
+    return <Spinner m="$4" />;
+  }
 
   const getNotificationsCount = (request) => {
     const foundContext =
@@ -86,11 +50,13 @@ export default function Requests({ navigation }) {
       currentUser?.notifications.find((notification) => {
         return notification?.contextId === request?._id;
       });
-
     return foundContext?.count;
   };
 
   const getRequestsFilteredByType = (items) => {
+    if (!items) {
+      return;
+    }
     switch (requestType) {
       case 'by me':
         return items.filter((request) => request.requesterId === currentUserId);
@@ -103,6 +69,9 @@ export default function Requests({ navigation }) {
   };
 
   const getRequestsFilteredByInput = (items) => {
+    if (!items) {
+      return;
+    }
     return items.filter((request) => {
       return (
         request.bookTitle.toLowerCase().indexOf(filterInputValue.toLowerCase()) !== -1 ||
@@ -113,41 +82,7 @@ export default function Requests({ navigation }) {
   };
 
   const getRequestsSorted = (items) => {
-    const itemsWithNotifications = items.filter((request) => {
-      return currentUser?.notifications?.some((notification) => {
-        return notification?.contextId === request?._id;
-      });
-    });
-
-    const itemsWithoutNotifications = items.filter((request) => {
-      return !currentUser?.notifications?.some((notification) => {
-        return notification?.contextId === request?._id;
-      });
-    });
-
-    switch (sortValue?.value) {
-      case 'book':
-        return [
-          ...itemsWithNotifications,
-          ...itemsWithoutNotifications.sort((a, b) => a.bookTitle?.localeCompare(b.bookTitle)),
-        ];
-      case 'username':
-        return [
-          ...itemsWithNotifications,
-          ...itemsWithoutNotifications.sort((a, b) => {
-            const isOwner = a.ownerId === currentUserId;
-            const param = isOwner ? 'requesterUsername' : 'ownerUsername';
-            return a[param]?.localeCompare(b[param]);
-          }),
-        ];
-      default:
-        return [
-          ...itemsWithNotifications,
-          ...itemsWithoutNotifications.sort(
-            (a, b) => new Date(b.dateRequested) - new Date(a.dateRequested)
-          ),
-        ];
-    }
+    return items.sort((a, b) => new Date(b.lastMessageDate) - new Date(a.lastMessageDate));
   };
 
   const filteredRequestsByType = getRequestsFilteredByType(requests);
@@ -156,165 +91,137 @@ export default function Requests({ navigation }) {
 
   return (
     <>
-      <>
-        <HStack my="$4" space="md">
-          <VStack justifyContent="flex-start" ml="$4" w="60%">
-            <Text size="sm">Filter: </Text>
-            <Box>
-              <Input
-                leftIcon={SearchIcon}
-                placeholder="Book title, author etc"
-                size="sm"
-                value={filterInputValue}
-                onChangeText={(value) => setState({ ...state, filterInputValue: value })}
-                onPressCloseIcon={() => setState({ ...state, filterInputValue: '' })}
-              />
-            </Box>
-          </VStack>
+      <HStack p="$4">
+        <Box flex={1} pr="$2">
+          <Input
+            leftIcon={SearchIcon}
+            placeholder="Book title, author etc"
+            size="sm"
+            value={filterInputValue}
+            onChangeText={(value) => setState({ ...state, filterInputValue: value })}
+            onPressCloseIcon={() => setState({ ...state, filterInputValue: '' })}
+          />
+        </Box>
 
-          <VStack justifyContent="flex-end" mr="$4">
-            <Text size="sm">Sort:</Text>
-            <Button
-              size="sm"
-              variant="link"
-              onPress={() => setState({ ...state, sortOptionsVisible: true })}
-            >
-              <ButtonText>{sortValue.label}</ButtonText>
-            </Button>
-            <ActionSheet
-              isOpen={sortOptionsVisible}
-              options={sortOptions}
-              onClose={() => setState({ ...state, sortOptionsVisible: false })}
-              onPress={(option) =>
-                setState({
-                  ...state,
-                  sortOptionsVisible: false,
-                  sortValue: option,
-                })
-              }
-            />
-          </VStack>
-        </HStack>
-        <Box mb="$4" ml="$4">
+        <Box flex={1} pr="$2">
           <ButtonGroup>
             {filterOptions.map((option) => (
               <Button
                 key={option}
-                bg={requestType === option ? '$blue500' : '$white'}
-                borderRadius={0}
-                size="xs"
-                variant={requestType === option ? 'solid' : 'outline'}
+                borderBottomColor={requestType === option ? '$blue600' : '$white'}
+                borderBottomWidth="2px"
+                borderRadius="0"
+                px="$2"
+                size="sm"
+                variant="link"
                 onPress={() => setState({ ...state, requestType: option })}
               >
-                <ButtonText>{option}</ButtonText>
+                <ButtonText color={requestType === option ? '$blue600' : '$coolGray800'}>
+                  {option}
+                </ButtonText>
               </Button>
             ))}
           </ButtonGroup>
         </Box>
-        {isLoading || !currentUser ? (
-          <Spinner m="$4" />
-        ) : (
-          <FlatList
-            data={sortedRequests}
-            renderItem={({ item }) => {
-              const request = item;
-              const isOwner = request.ownerId === currentUserId;
+      </HStack>
 
-              const nCount = getNotificationsCount(item);
-              isN = nCount > 0;
-              return (
-                <Pressable
-                  key={request._id}
-                  bg="$white"
-                  sx={{ ':active': { bg: '$coolGray200' } }}
-                  onPress={() =>
-                    navigation.navigate('Request', {
-                      request,
-                      currentUser,
-                      isOwner,
-                      name: isOwner ? request.requesterUsername : request.ownerUsername,
-                    })
-                  }
-                >
-                  <Box
-                    bg={isN ? '$lime100' : 'none'}
-                    borderBottomColor="$coolGray200"
-                    borderBottomWidth={1}
-                    borderLeftColor={isN ? '$lime500' : 'none'}
-                    // borderLeftWidth={isN ? 4 : 0}
-                    p="$2"
-                    position="relative"
-                  >
-                    <HStack justifyContent="space-between">
-                      <HStack alignItems="center" flex={1}>
-                        <Box alignItems="center" w={54} pt="$2" pl="$2">
-                          <Image
-                            alt={isOwner ? request.requesterUsername : request.ownerUsername}
-                            borderRadius="$full"
-                            style={styles.avatar}
-                            source={{
-                              uri: isOwner ? request.requesterImage : request.ownerImage,
-                            }}
-                          />
-                          <Text isTruncated size="xs">
-                            {isOwner ? request.requesterUsername : request.ownerUsername}
-                          </Text>
+      <FlatList
+        data={sortedRequests}
+        renderItem={({ item }) => {
+          const request = item;
+          const isOwner = request.ownerId === currentUserId;
+          const nCount = getNotificationsCount(item);
+          const isNCount = typeof nCount !== 'undefined';
+
+          return (
+            <Pressable
+              key={request._id}
+              bg="$white"
+              sx={{ ':active': { bg: '$coolGray200' } }}
+              onPress={() =>
+                navigation.navigate('Request', {
+                  request,
+                  currentUser,
+                  isOwner,
+                  name: isOwner ? request.requesterUsername : request.ownerUsername,
+                })
+              }
+            >
+              <Box
+                bg={isNCount ? '$lime100' : 'none'}
+                borderBottomColor="$coolGray200"
+                borderBottomWidth={1}
+                borderLeftColor={isNCount ? '$lime500' : 'none'}
+                p="$2"
+              >
+                <HStack justifyContent="space-between">
+                  <HStack alignItems="center" flex={1}>
+                    <Box alignItems="center" w={54} pt="$2" pl="$2" position="relative">
+                      <Image
+                        alt={isOwner ? request.requesterUsername : request.ownerUsername}
+                        borderRadius="$full"
+                        style={styles.avatar}
+                        source={{
+                          uri: isOwner ? request.requesterImage : request.ownerImage,
+                        }}
+                      />
+                      <Text isTruncated size="xs">
+                        {isOwner ? request.requesterUsername : request.ownerUsername}
+                      </Text>
+                      {isNCount && (
+                        <Box
+                          bg="$lime800"
+                          borderRadius="50%"
+                          borderWidth="1px"
+                          borderColor="$white"
+                          position="absolute"
+                          pt={1}
+                          top={2}
+                          right={-12}
+                          w={24}
+                          h={24}
+                        >
+                          <Center>
+                            <Text color="$white" fontWeight="bold">
+                              {nCount}
+                            </Text>
+                          </Center>
                         </Box>
-                        <Box flex={1}>
-                          <Box px="$4">
-                            <Heading size="sm">{request.bookTitle}</Heading>
-                          </Box>
-                          <Box px="$4">
-                            <HStack flexWrap="wrap">
-                              {request.bookAuthors?.map((author, index) => (
-                                <Text key={author} mr="$2" size="xs">
-                                  {author}
-                                  {index < request?.bookAuthors?.length - 1 && ','}
-                                </Text>
-                              ))}
-                            </HStack>
-                          </Box>
-                          <Box mt="$2" px="$4">
-                            <Text size="xs">{request?.dateRequested?.toLocaleDateString()}</Text>
-                          </Box>
-                        </Box>
-                      </HStack>
-                      <Box>
-                        <Image
-                          alignSelf="flex-end"
-                          alt={request.bookTitle}
-                          style={styles.thumbImage}
-                          source={{ uri: request.bookImage }}
-                        />
+                      )}
+                    </Box>
+                    <Box flex={1}>
+                      <Box px="$4">
+                        <Heading size="sm">{request.bookTitle}</Heading>
                       </Box>
-                    </HStack>
-                    {isN && (
-                      <Box
-                        bg="$lime600"
-                        borderRadius="50%"
-                        borderWidth="1px"
-                        borderColor="$white"
-                        position="absolute"
-                        pt={1}
-                        top={4}
-                        right={4}
-                        w={24}
-                        h={24}
-                      >
-                        <Center>
-                          <Text color="$white" fontWeight="bold">
-                            {nCount}
-                          </Text>
-                        </Center>
+                      <Box px="$4">
+                        <HStack flexWrap="wrap">
+                          {request.bookAuthors?.map((author, index) => (
+                            <Text key={author} mr="$2" size="xs">
+                              {author}
+                              {index < request?.bookAuthors?.length - 1 && ','}
+                            </Text>
+                          ))}
+                        </HStack>
                       </Box>
-                    )}
+                      <Box mt="$2" px="$4">
+                        <Text size="xs">{request?.lastMessageDate?.toLocaleDateString()}</Text>
+                      </Box>
+                    </Box>
+                  </HStack>
+                  <Box>
+                    <Image
+                      alignSelf="flex-end"
+                      alt={request.bookTitle}
+                      style={styles.thumbImage}
+                      source={{ uri: request.bookImage }}
+                    />
                   </Box>
-                </Pressable>
-              );
-            }}
-          />
-        )}
-      </>
+                </HStack>
+              </Box>
+            </Pressable>
+          );
+        }}
+      />
     </>
   );
 }
