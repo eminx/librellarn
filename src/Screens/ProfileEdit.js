@@ -27,12 +27,14 @@ import * as ImagePicker from 'expo-image-picker';
 import S3 from 'aws-sdk/clients/s3';
 import { manipulateAsync, SaveFormat } from 'expo-image-manipulator';
 import * as Location from 'expo-location';
+import { Picker } from '@react-native-picker/picker';
 
 import allLanguages from '../utils/langs/allLanguages';
 import ActionSheet from '../Components/ActionSheet';
 import Toast from '../Components/Toast';
 import { call } from '../utils/functions';
 import { awsParams } from '../../private';
+import Select from '../Components/Select';
 // const secret = process.env.private;
 // const awsParams = secret.awsParams;
 const s3 = new S3(awsParams);
@@ -203,6 +205,18 @@ export default function ProfileEdit({ navigation, route }) {
     }
   };
 
+  const handleSelectLanguage = (lang) => {
+    const { selectedLanguages } = state;
+    if (selectedLanguages.find((l) => l.value === lang)) {
+      return;
+    }
+    const selectedLang = allLanguages.find((l) => l.value === lang);
+    setState({
+      ...state,
+      selectedLanguages: [...selectedLanguages, selectedLang],
+    });
+  };
+
   const handleRemoveLanguage = (lang) => {
     const newLanguages = selectedLanguages.filter((language) => lang.value !== language.value);
     setState({
@@ -267,38 +281,41 @@ export default function ProfileEdit({ navigation, route }) {
     currentUser?.languages.map((l) => l.value).toString() !==
     selectedLanguages.map((l) => l.value).toString();
 
+  const buttonProps = {
+    borderBottomWidth: '2px',
+    borderRadius: '0',
+    px: '$2',
+    variant: 'link',
+  };
+
   return (
     <ScrollView>
       <Center m="$4">
-        <ButtonGroup bg="$white">
+        <ButtonGroup>
           <Button
-            borderRadius={0}
-            size="sm"
-            variant={selectedTab === 'image' ? 'solid' : 'outline'}
+            {...buttonProps}
+            borderBottomColor={selectedTab === 'image' ? '$blue600' : '$white'}
             onPress={() => setState({ ...state, selectedTab: 'image' })}
           >
             <ButtonText>Image</ButtonText>
           </Button>
           <Button
-            borderRadius={0}
-            size="sm"
-            variant={selectedTab === 'info' ? 'solid' : 'outline'}
+            {...buttonProps}
+            borderBottomColor={selectedTab === 'info' ? '$blue600' : '$white'}
             onPress={() => setState({ ...state, selectedTab: 'info' })}
           >
             <ButtonText>Info</ButtonText>
           </Button>
           <Button
-            borderRadius={0}
-            size="sm"
-            variant={selectedTab === 'languages' ? 'solid' : 'outline'}
+            {...buttonProps}
+            borderBottomColor={selectedTab === 'languages' ? '$blue600' : '$white'}
             onPress={() => setState({ ...state, selectedTab: 'languages' })}
           >
             <ButtonText>Languages</ButtonText>
           </Button>
           <Button
-            borderRadius={0}
-            size="sm"
-            variant={selectedTab === 'location' ? 'solid' : 'outline'}
+            {...buttonProps}
+            borderBottomColor={selectedTab === 'location' ? '$blue600' : '$white'}
             onPress={() => setState({ ...state, selectedTab: 'location' })}
           >
             <ButtonText>Location</ButtonText>
@@ -424,7 +441,14 @@ export default function ProfileEdit({ navigation, route }) {
           <Center bg="$white" px="$4" pt="$4">
             <HStack flexWrap="wrap" justifyContent="center">
               {selectedLanguages?.map((lang) => (
-                <Badge key={lang.value} mb="$4" mr="$4" size="lg" variant="outline">
+                <Badge
+                  key={lang.value}
+                  action="success"
+                  mb="$4"
+                  mr="$4"
+                  size="lg"
+                  variant="outline"
+                >
                   <BadgeText>{lang.label}</BadgeText>
                   <Pressable onPress={() => handleRemoveLanguage(lang)}>
                     <BadgeIcon as={CloseIcon} ml="$2" />
@@ -434,16 +458,12 @@ export default function ProfileEdit({ navigation, route }) {
             </HStack>
           </Center>
 
-          <Center>
-            <Button
-              bg="$white"
-              my="$4"
-              size="sm"
-              variant="outline"
-              onPress={() => setState({ ...state, pickerVisible: true })}
-            >
-              <ButtonText>Pick language</ButtonText>
-            </Button>
+          <Center pt="$4">
+            <Select
+              options={allLanguages}
+              placeholder="Pick language"
+              onValueChange={(item) => handleSelectLanguage(item)}
+            />
           </Center>
 
           {languagesChanged && (
@@ -458,7 +478,7 @@ export default function ProfileEdit({ navigation, route }) {
               </Button>
             </Center>
           )}
-
+          {/* 
           <ActionSheet
             isOpen={pickerVisible}
             options={allLanguages}
@@ -470,7 +490,7 @@ export default function ProfileEdit({ navigation, route }) {
                 selectedLanguages: [...selectedLanguages, option],
               });
             }}
-          />
+          /> */}
         </>
       )}
 

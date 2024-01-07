@@ -23,8 +23,8 @@ import * as ImagePicker from 'expo-image-picker';
 import S3 from 'aws-sdk/clients/s3';
 import { manipulateAsync, SaveFormat } from 'expo-image-manipulator';
 
+import Select from './Select';
 import allLanguages from '../utils/langs/allLanguages';
-import ActionSheet from './ActionSheet';
 import Toast from './Toast';
 import { call } from '../utils/functions';
 import { awsParams } from '../../private';
@@ -58,26 +58,26 @@ export default function BookForm({ book, navigation }) {
   const [state, setState] = useState({
     authors: book ? book.authors : [''],
     isLoading,
-    pickerVisible: false,
     selectedLanguage: book ? allLanguages.find((l) => l.value === book.language) : null,
     selectedImage: null,
     selectImageButtonLoading: false,
   });
 
-  const {
-    authors,
-    isLoading,
-    pickerVisible,
-    selectedLanguage,
-    selectedImage,
-    selectImageButtonLoading,
-  } = state;
+  const { authors, isLoading, selectedLanguage, selectedImage, selectImageButtonLoading } = state;
 
   const handleAuthorChange = (value, index) => {
     const newAuthors = authors.map((item, i) => (i === index ? value : item));
     setState({
       ...state,
       authors: newAuthors,
+    });
+  };
+
+  const handleSelectLanguage = (value) => {
+    const selectedLang = allLanguages.find((l) => l.value === value);
+    setState({
+      ...state,
+      selectedLanguage: selectedLang,
     });
   };
 
@@ -344,7 +344,15 @@ export default function BookForm({ book, navigation }) {
 
         <Box>
           <Text mb="$1">Language</Text>
-          <Button
+          <Select
+            bg="$white"
+            options={allLanguages}
+            variant="rounded"
+            placeholder={!selectedLanguage?.label && !book?.language?.label ? 'Select' : null}
+            onValueChange={(item) => handleSelectLanguage(item)}
+          />
+
+          {/* <Button
             action="secondary"
             bg="$white"
             borderRadius="$full"
@@ -353,7 +361,7 @@ export default function BookForm({ book, navigation }) {
             onPress={() => setState({ ...state, pickerVisible: true })}
           >
             <ButtonText>{selectedLanguage?.label || book?.language?.label || 'Select'}</ButtonText>
-          </Button>
+          </Button> */}
         </Box>
 
         <Box>
@@ -448,19 +456,6 @@ export default function BookForm({ book, navigation }) {
           <ButtonText>Submit</ButtonText>
         </Button>
       </VStack>
-
-      <ActionSheet
-        isOpen={pickerVisible}
-        options={allLanguages}
-        onClose={() => setState({ ...state, pickerVisible: false })}
-        onPress={(value) =>
-          setState({
-            ...state,
-            pickerVisible: false,
-            selectedLanguage: value,
-          })
-        }
-      />
     </Box>
   );
 }

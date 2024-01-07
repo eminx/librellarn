@@ -81,6 +81,8 @@ export default function Register({ setUser }) {
     }
   };
 
+  const { isLoading } = state;
+
   return (
     <Box p="$4">
       <VStack space="md">
@@ -166,7 +168,7 @@ export default function Register({ setUser }) {
           )}
         </Box>
 
-        <Button onPress={handleSubmit(onSubmit)} type="submit">
+        <Button isLoading={isLoading} onPress={handleSubmit(onSubmit)} type="submit">
           <ButtonText>Submit</ButtonText>
         </Button>
       </VStack>

@@ -14,21 +14,28 @@ export default function AuthContainer() {
 
   const { selectedTab } = state;
 
+  const buttonProps = {
+    borderBottomWidth: '2px',
+    borderRadius: '0',
+    px: '$2',
+    variant: 'link',
+  };
+
   return (
     <View>
       <Box bg="$gray200" h="100%">
         <Center mt="$8">
           <ButtonGroup>
             <Button
-              borderRadius={0}
-              variant={selectedTab === 'Register' ? 'solid' : 'outline'}
+              {...buttonProps}
+              borderBottomColor={selectedTab === 'Register' ? '$blue600' : '$white'}
               onPress={() => setState({ ...state, selectedTab: 'Register' })}
             >
               <ButtonText>Register</ButtonText>
             </Button>
             <Button
-              borderRadius={0}
-              variant={selectedTab === 'Login' ? 'solid' : 'outline'}
+              {...buttonProps}
+              borderBottomColor={selectedTab === 'Login' ? '$blue600' : '$white'}
               onPress={() => setState({ ...state, selectedTab: 'Login' })}
             >
               <ButtonText>Login</ButtonText>

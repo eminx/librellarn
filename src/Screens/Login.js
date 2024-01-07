@@ -1,5 +1,5 @@
-import Meteor from "@meteorrn/core";
-import React from "react";
+import Meteor from '@meteorrn/core';
+import React, { useState } from 'react';
 import {
   Box,
   Button,
@@ -9,12 +9,15 @@ import {
   Text,
   VStack,
   useToast,
-} from "@gluestack-ui/themed";
-import { useForm, Controller } from "react-hook-form";
+} from '@gluestack-ui/themed';
+import { useForm, Controller } from 'react-hook-form';
 
-import Toast from "../Components/Toast";
+import Toast from '../Components/Toast';
 
 export default function Login() {
+  const [state, setState] = useState({
+    isLoading: false,
+  });
   const toast = useToast();
 
   const {
@@ -23,49 +26,36 @@ export default function Login() {
     formState: { errors },
   } = useForm({
     defaultValues: {
-      username: "",
-      password: "",
+      username: '',
+      password: '',
     },
   });
 
   const onSubmit = (data) => {
+    setState({ ...state, isLoading: true });
     const { username, password } = data;
-    Meteor.loginWithPassword(
-      username.toLowerCase(),
-      password,
-      (error, respond) => {
-        if (error) {
-          console.log(error);
-          toast.show({
-            placement: "top",
-            render: ({ id }) => {
-              return (
-                <Toast
-                  nativeId={id}
-                  action="error"
-                  title="Error"
-                  message={error.reason}
-                />
-              );
-            },
-          });
-          return;
-        }
+    Meteor.loginWithPassword(username.toLowerCase(), password, (error, respond) => {
+      if (error) {
+        console.log(error);
         toast.show({
-          placement: "top",
+          placement: 'top',
           render: ({ id }) => {
-            return (
-              <Toast
-                nativeId={id}
-                title="Success!"
-                message="You are logged in"
-              />
-            );
+            return <Toast nativeId={id} action="error" title="Error" message={error.reason} />;
           },
         });
+        return;
       }
-    );
+      setState({ ...state, isLoading: false });
+      toast.show({
+        placement: 'top',
+        render: ({ id }) => {
+          return <Toast nativeId={id} title="Success!" message="You are logged in" />;
+        },
+      });
+    });
   };
+
+  const { isLoading } = state;
 
   return (
     <Box p="$4">
@@ -127,7 +117,7 @@ export default function Login() {
           )}
         </Box>
 
-        <Button onPress={handleSubmit(onSubmit)} type="submit">
+        <Button isDisabled={isLoading} onPress={handleSubmit(onSubmit)} type="submit">
           <ButtonText>Submit</ButtonText>
         </Button>
       </VStack>

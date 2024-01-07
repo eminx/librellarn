@@ -12,10 +12,10 @@ import {
   VStack,
 } from '@gluestack-ui/themed';
 
-import ActionSheet from './ActionSheet';
 import BookList from './BookList';
 import { BooksContext } from '../StateContext';
 import Input from './Input';
+import Select from './Select';
 
 const sortValueOptions = [
   {
@@ -45,7 +45,6 @@ export default function MyBooks({ navigation }) {
 
   const [state, setState] = useState({
     filterInputValue: '',
-    sortOptionVisible: false,
     sortValue: sortValueOptions[0],
   });
 
@@ -88,6 +87,14 @@ export default function MyBooks({ navigation }) {
     });
   };
 
+  const handleSortValueChange = (value) => {
+    const selectedValue = sortValueOptions.find((o) => o.value === value);
+    setState({
+      ...state,
+      sortValue: selectedValue,
+    });
+  };
+
   const sortedBooks = getBooksSorted();
   const filteredSortedBooks = sortedBooks && getBooksFiltered(sortedBooks);
 
@@ -114,37 +121,15 @@ export default function MyBooks({ navigation }) {
 
         <VStack justifyContent="flex-end" mr="$4">
           <Text size="sm">Sort:</Text>
-          <Button
-            size="sm"
-            variant="link"
-            onPress={() => setState({ ...state, sortOptionVisible: true })}
-          >
-            <ButtonText>{sortValue?.label}</ButtonText>
-          </Button>
-          <ActionSheet
-            isOpen={sortOptionVisible}
+          <Select
             options={sortValueOptions}
-            onClose={() => setState({ ...state, sortOptionVisible: false })}
-            onPress={(option) =>
-              setState({
-                ...state,
-                sortOptionVisible: false,
-                sortValue: option,
-              })
-            }
+            placeholder={sortValue?.label}
+            size="sm"
+            variant="underlined"
+            onValueChange={(option) => handleSortValueChange(option)}
           />
         </VStack>
       </HStack>
-
-      {/* <Center>
-        {isLoading ? (
-          <Spinner m="$2.5" />
-        ) : (
-          <Button variant="link" onPress={getUserBooks}>
-            <ButtonText>Refresh</ButtonText>
-          </Button>
-        )}
-      </Center> */}
 
       {filteredSortedBooks && (
         <BookList books={filteredSortedBooks} navigation={navigation} navigateTo="My Book" />

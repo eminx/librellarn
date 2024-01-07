@@ -1,4 +1,4 @@
-import React from "react";
+import React from 'react';
 import {
   ChevronDownIcon,
   Icon,
@@ -11,19 +11,25 @@ import {
   SelectInput,
   SelectItem,
   SelectPortal,
+  SelectScrollView,
   SelectTrigger,
-} from "@gluestack-ui/themed";
+  Text,
+} from '@gluestack-ui/themed';
 
 export default function Select({
   options,
-  placeholder,
-  variant,
+  placeholder = 'Select option',
+  size = 'md',
+  variant = 'rounded',
   ...otherProps
 }) {
   return (
     <GlSelect {...otherProps}>
-      <SelectTrigger variant={variant} size="sm">
-        <SelectInput placeholder={placeholder} />
+      <SelectTrigger size={size} variant={variant}>
+        <SelectInput />
+        <Text color="$coolGray600" mr="$4">
+          {placeholder}
+        </Text>
         <SelectIcon mr="$3">
           <Icon as={ChevronDownIcon} />
         </SelectIcon>
@@ -34,13 +40,11 @@ export default function Select({
           <SelectDragIndicatorWrapper>
             <SelectDragIndicator />
           </SelectDragIndicatorWrapper>
-          {options?.map((option) => (
-            <SelectItem
-              key={option.value}
-              label={option.label}
-              value={option.value}
-            />
-          ))}
+          <SelectScrollView>
+            {options?.map((option) => (
+              <SelectItem key={option.value} label={option.label} value={option.value} />
+            ))}
+          </SelectScrollView>
         </SelectContent>
       </SelectPortal>
     </GlSelect>
