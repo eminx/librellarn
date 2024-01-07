@@ -41,8 +41,13 @@ export default function Book({ route, navigation }) {
   return (
     <ScrollView>
       <BookCard book={book}>
-        <Box bg="#fff" p="$4">
-          <Button type="submit" onPress={() => setState({ ...state, isRequestModalOpen: true })}>
+        <Box bg="$amber100" p="$4">
+          <Button
+            bg="$green500"
+            borderRadius="$full"
+            type="submit"
+            onPress={() => setState({ ...state, isRequestModalOpen: true })}
+          >
             <ButtonText>Request to Borrow</ButtonText>
           </Button>
         </Box>

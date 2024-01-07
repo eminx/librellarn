@@ -39,7 +39,14 @@ export default function App() {
     <StateContext.Provider value={{ currentUser }}>
       <GluestackUIProvider config={config}>
         <NavigationContainer>
-          <Tab.Navigator>
+          <Tab.Navigator
+            screenOptions={({ route }) => ({
+              tabBarIcon: ({ focused, color, size }) => ({
+                tabBarActiveTintColor: 'tomato',
+                tabBarInactiveTintColor: 'gray',
+              }),
+            })}
+          >
             <Tab.Screen
               component={DiscoverContainer}
               name="DiscoverContainer"

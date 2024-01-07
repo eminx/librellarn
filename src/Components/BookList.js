@@ -12,7 +12,7 @@ export default function BookList({ books, navigation, navigateTo }) {
           <Pressable
             key={book._id || book.canonicalVolumeLink}
             bg="$white"
-            sx={{ ':active': { bg: '$coolGray200' } }}
+            sx={{ ':active': { bg: '$amber100' } }}
             onPress={() =>
               navigation.navigate(navigateTo, {
                 book,

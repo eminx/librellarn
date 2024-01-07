@@ -58,7 +58,7 @@ export default function BookCard({ book, children }) {
               />
             </Center>
           </Box>
-          <Box>
+          <Box bg="$amber50" h="100%">
             <HStack justifyContent="space-between" p="$4" space="md">
               <Box flex={1}>
                 <Heading size="md">{book.title}</Heading>

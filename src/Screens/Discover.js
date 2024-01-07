@@ -1,7 +1,5 @@
 import React, { useEffect, useState } from 'react';
 import Meteor from '@meteorrn/core';
-
-import BookList from '../Components/BookList';
 import {
   Avatar,
   AvatarImage,
@@ -15,6 +13,8 @@ import {
   Text,
   VStack,
 } from '@gluestack-ui/themed';
+
+import BookList from '../Components/BookList';
 import { call } from '../utils/functions';
 
 export default function Discover({ navigation }) {
@@ -27,6 +27,8 @@ export default function Discover({ navigation }) {
   useEffect(() => {
     getData();
   }, []);
+
+  const { books, isLoading, usersNearBy } = state;
 
   const getData = () => {
     Meteor.call('getDiscoverBooks', (error, respond) => {
@@ -45,6 +47,9 @@ export default function Discover({ navigation }) {
   };
 
   const getUsersNearBy = async () => {
+    if (usersNearBy && usersNearBy.length > 0) {
+      return;
+    }
     try {
       const respond = await call('getUsersNearBy');
       setState({
@@ -56,37 +61,54 @@ export default function Discover({ navigation }) {
     }
   };
 
-  const { books, isLoading, usersNearBy } = state;
-
   if (isLoading) {
     return <Spinner />;
   }
 
   return (
-    <Box>
-      <Button m="$4" onPress={() => getUsersNearBy()}>
-        <ButtonText>Get users around</ButtonText>
-      </Button>
+    <>
+      {usersNearBy?.length === 0 && (
+        <Button m="$2" size="sm" onPress={() => getUsersNearBy()}>
+          <ButtonText>See users around</ButtonText>
+        </Button>
+      )}
+      <UsersNearBy usersNearBy={usersNearBy} />
+      <BookList books={books} navigation={navigation} navigateTo="Book" />
+    </>
+  );
+}
+
+function UsersNearBy({ usersNearBy }) {
+  if (usersNearBy?.length === 0) {
+    return null;
+  }
+  return (
+    <Box bg="$amber50">
       <ScrollView horizontal>
-        <HStack pb="$8" px="$2">
-          {usersNearBy?.length > 0 &&
-            usersNearBy.map((u) => (
-              <Box key={u.userId} p="$2">
-                <VStack>
-                  <Center>
-                    <Avatar bgColor="$amber400" borderRadius="$full">
-                      <AvatarImage alt={u.username} source={{ uri: u.userImage }} />
-                    </Avatar>
-                  </Center>
-                  <Center>
-                    <Text textAlign="center">{u.username}</Text>
-                  </Center>
-                </VStack>
-              </Box>
-            ))}
+        <HStack p="$2">
+          {usersNearBy.map((u) => (
+            <Box key={u.userId} p="$2">
+              <VStack>
+                <Center>
+                  <Avatar bgColor="$amber400" borderRadius="$full">
+                    <AvatarImage alt={u.username} source={{ uri: u.userImage }} />
+                  </Avatar>
+                </Center>
+                <Center>
+                  <Text size="xs" textAlign="center">
+                    {u.username}
+                  </Text>
+                </Center>
+                <Center>
+                  <Text size="2xs" textAlign="center">
+                    {u.distance.toFixed(2) + ' km'}
+                  </Text>
+                </Center>
+              </VStack>
+            </Box>
+          ))}
         </HStack>
       </ScrollView>
-      <BookList books={books} navigation={navigation} navigateTo="Book" />
     </Box>
   );
 }
