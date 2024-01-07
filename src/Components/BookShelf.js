@@ -99,8 +99,8 @@ export default function BookShelf({ books, isMyShelf = false }) {
   const filteredSortedBooks = sortedBooks && getBooksFiltered(sortedBooks);
 
   return (
-    <Box>
-      <HStack py="$4" space="md">
+    <Box mb={200}>
+      <HStack py="$2" space="md">
         <VStack justifyContent="flex-start" ml="$4" w="60%">
           <Text size="sm">Filter: </Text>
           <Box>
@@ -128,12 +128,12 @@ export default function BookShelf({ books, isMyShelf = false }) {
       </HStack>
 
       {isMyShelf && (
-        <Box bg="$rose100" p="$2">
+        <Box bg="$white" p="$2">
           <Button
-            bg="$white"
+            // bg="$white"
             borderRadius="$full"
             size="sm"
-            variant="outline"
+            // variant="outline"
             onPress={() => {
               navigation.navigate('AddBookSearch');
             }}

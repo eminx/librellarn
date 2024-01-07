@@ -30,7 +30,7 @@ export default function About({ user }) {
   ];
 
   return (
-    <Box bg="$amber50" w="100%">
+    <Box bg="$blue50" w="100%">
       <Accordion items={items} />
     </Box>
   );
