@@ -56,8 +56,8 @@ export default function AddBookSearch({ navigation }) {
       <HStack p="$4">
         <Box flexGrow={1}>
           <Input
-            borderTopRightRadius={isSearchBarFull ? '0' : '60%'}
-            borderBottomRightRadius={isSearchBarFull ? '0' : '60%'}
+            borderTopRightRadius={isSearchBarFull ? '0' : '100%'}
+            borderBottomRightRadius={isSearchBarFull ? '0' : '100%'}
             height={42}
             leftIcon={SearchIcon}
             placeholder="Book title, author etc"

@@ -7,13 +7,4 @@ export const config = createConfig({
       primary600_alpha_20: '#1a91ff33',
     },
   },
-
-  components: {
-    Input: {
-      props: {
-        editable: false,
-        selectTextOnFocus: false,
-      },
-    },
-  },
 });
