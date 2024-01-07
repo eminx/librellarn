@@ -21,15 +21,15 @@ export default function Input({
   return (
     <GInput bg="$white" variant="rounded" {...otherProps}>
       {leftIcon && (
-        <InputSlot pl="$3" pt="$1">
+        <InputSlot pl="$3">
           <InputIcon>
             <Icon as={leftIcon} size="sm" />
           </InputIcon>
         </InputSlot>
       )}
-      <InputField placeholder={placeholder} pb="$2" value={value} onChangeText={onChangeText} />
+      <InputField placeholder={placeholder} value={value} onChangeText={onChangeText} />
       {showCLoseIcon && value?.length > 0 && (
-        <InputSlot pr="$3" pt="$1" onPress={() => onPressCloseIcon()}>
+        <InputSlot pr="$3" onPress={() => onPressCloseIcon()}>
           <InputIcon>
             <Icon as={CloseIcon} />
           </InputIcon>

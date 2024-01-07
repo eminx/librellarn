@@ -27,10 +27,8 @@ import * as ImagePicker from 'expo-image-picker';
 import S3 from 'aws-sdk/clients/s3';
 import { manipulateAsync, SaveFormat } from 'expo-image-manipulator';
 import * as Location from 'expo-location';
-import { Picker } from '@react-native-picker/picker';
 
 import allLanguages from '../utils/langs/allLanguages';
-import ActionSheet from '../Components/ActionSheet';
 import Toast from '../Components/Toast';
 import { call } from '../utils/functions';
 import { awsParams } from '../../private';
@@ -60,7 +58,6 @@ export default function ProfileEdit({ navigation, route }) {
     confirmLanguagesButtonLoading: false,
     confirmLocationButtonLoading: false,
     location: null,
-    pickerVisible: false,
     selectedLanguages: currentUser?.languages,
     selectedImage: null,
     selectedTab: 'image',
@@ -72,7 +69,6 @@ export default function ProfileEdit({ navigation, route }) {
     confirmInfoButtonLoading,
     confirmLanguagesButtonLoading,
     confirmLocationButtonLoading,
-    pickerVisible,
     selectedLanguages,
     selectedImage,
     selectedTab,
@@ -250,7 +246,7 @@ export default function ProfileEdit({ navigation, route }) {
     }
   };
 
-  const setGeoLocation = async () => {
+  const setLocation = async () => {
     setState({
       ...state,
       confirmLocationButtonLoading: true,
@@ -478,27 +474,14 @@ export default function ProfileEdit({ navigation, route }) {
               </Button>
             </Center>
           )}
-          {/* 
-          <ActionSheet
-            isOpen={pickerVisible}
-            options={allLanguages}
-            onClose={() => setState({ ...state, pickerVisible: false })}
-            onPress={(option) => {
-              setState({
-                ...state,
-                pickerVisible: false,
-                selectedLanguages: [...selectedLanguages, option],
-              });
-            }}
-          /> */}
         </>
       )}
 
       {selectedTab === 'location' && (
         <Center bg="$white" p="$4">
-          <Button isDisabled={confirmLocationButtonLoading} onPress={() => setGeoLocation()}>
+          <Button isDisabled={confirmLocationButtonLoading} onPress={() => setLocation()}>
             {confirmLocationButtonLoading && <ButtonSpinner mr="$1" />}
-            <ButtonText>Save Geolocation</ButtonText>
+            <ButtonText>Save Location</ButtonText>
           </Button>
         </Center>
       )}
