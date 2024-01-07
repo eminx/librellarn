@@ -1,19 +1,20 @@
-import React, { useContext, useState } from 'react';
+import React, { useState } from 'react';
 
 import {
   Box,
   Button,
+  ButtonIcon,
   ButtonText,
   Center,
   HStack,
-  Heading,
   SearchIcon,
   Text,
   VStack,
 } from '@gluestack-ui/themed';
+import { AddIcon } from '@gluestack-ui/themed';
+import { useNavigation } from '@react-navigation/native';
 
 import BookList from './BookList';
-import { BooksContext } from '../StateContext';
 import Input from './Input';
 import Select from './Select';
 
@@ -40,15 +41,14 @@ const sortValueOptions = [
   },
 ];
 
-export default function MyBooks({ navigation }) {
-  const { books } = useContext(BooksContext);
-
+export default function BookShelf({ books, isMyShelf = false }) {
+  const navigation = useNavigation();
   const [state, setState] = useState({
     filterInputValue: '',
     sortValue: sortValueOptions[0],
   });
 
-  const { filterInputValue, sortOptionVisible, sortValue } = state;
+  const { filterInputValue, sortValue } = state;
 
   const getBooksSorted = () => {
     if (!books || books.length === 0) {
@@ -99,12 +99,8 @@ export default function MyBooks({ navigation }) {
   const filteredSortedBooks = sortedBooks && getBooksFiltered(sortedBooks);
 
   return (
-    <>
-      <Heading size="md" textAlign="center" my="$2" mt="$4" fontWeight="light">
-        Books
-      </Heading>
-
-      <HStack mb="$4" space="md">
+    <Box>
+      <HStack py="$4" space="md">
         <VStack justifyContent="flex-start" ml="$4" w="60%">
           <Text size="sm">Filter: </Text>
           <Box>
@@ -131,15 +127,30 @@ export default function MyBooks({ navigation }) {
         </VStack>
       </HStack>
 
-      {filteredSortedBooks && (
-        <BookList books={filteredSortedBooks} navigation={navigation} navigateTo="My Book" />
+      {isMyShelf && (
+        <Box bg="$rose100" p="$2">
+          <Button
+            bg="$white"
+            borderRadius="$full"
+            size="sm"
+            variant="outline"
+            onPress={() => {
+              navigation.navigate('AddBookSearch');
+            }}
+          >
+            <ButtonText>Add book to my shelf</ButtonText>
+            <ButtonIcon as={AddIcon} ml="$2" />
+          </Button>
+        </Box>
       )}
+
+      {filteredSortedBooks && <BookList books={filteredSortedBooks} />}
 
       {filteredSortedBooks?.length === 0 && (
         <Center>
           <Text textAlign="center">No books</Text>
         </Center>
       )}
-    </>
+    </Box>
   );
 }

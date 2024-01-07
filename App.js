@@ -68,16 +68,8 @@ export default function App() {
               })}
             />
             <Tab.Screen
-              component={AddBookContainer}
-              name="Add Book"
-              options={(route) => ({
-                headerShown: false,
-                tabBarIcon: ({ color, size }) => <Icon as={PlusSquare} color={color} size="xl" />,
-              })}
-            />
-            <Tab.Screen
               component={ProfileContainer}
-              name="Profile"
+              name="MyShelf"
               options={(route) => ({
                 headerShown: false,
                 tabBarIcon: ({ color, size }) => <Icon as={Library} color={color} size="xl" />,

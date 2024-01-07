@@ -1,3 +1,4 @@
+import Meteor from '@meteorrn/core';
 import React, { useState } from 'react';
 import { ScrollView } from 'react-native';
 import {
@@ -33,12 +34,14 @@ import Toast from '../Components/Toast';
 import { call } from '../utils/functions';
 import { awsParams } from '../../private';
 import Select from '../Components/Select';
+
 // const secret = process.env.private;
 // const awsParams = secret.awsParams;
 const s3 = new S3(awsParams);
 
-export default function ProfileEdit({ navigation, route }) {
-  const { currentUser } = route.params;
+export default function ProfileEdit() {
+  const currentUser = Meteor.user();
+
   const {
     control,
     handleSubmit,

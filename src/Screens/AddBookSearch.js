@@ -87,7 +87,7 @@ export default function AddBookSearch({ navigation }) {
       </HStack>
 
       {!isLoading && searchResults && searchResults.length > 0 && (
-        <BookList navigation={navigation} navigateTo="Book to Add" books={searchResults} />
+        <BookList navigation={navigation} navigateTo="AddBookItem" books={searchResults} />
       )}
 
       <Center mb={200} p="$4">
@@ -99,7 +99,7 @@ export default function AddBookSearch({ navigation }) {
             borderRadius="$full"
             size="lg"
             variant="link"
-            onPress={() => navigation.navigate('Add Book Manually')}
+            onPress={() => navigation.navigate('AddBookManually')}
           >
             <ButtonText>Manually Add Book</ButtonText>
           </Button>

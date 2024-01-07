@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useContext, useState } from 'react';
 import { ScrollView } from 'react-native';
 import { Box, Button, ButtonText, Text, useToast } from '@gluestack-ui/themed';
 
@@ -6,14 +6,17 @@ import BookCard from '../Components/BookCard';
 import ConfirmDialog from '../Components/ConfirmDialog';
 import Toast from '../Components/Toast';
 import { call } from '../utils/functions';
+import { StateContext } from '../StateContext';
 
 export default function Book({ route, navigation }) {
+  const { currentUser } = useContext(StateContext);
   const [state, setState] = useState({
     isRequestModalOpen: false,
   });
   const toast = useToast();
 
   const { book } = route.params;
+  const { isRequestModalOpen } = state;
 
   const makeRequest = async () => {
     try {
@@ -36,11 +39,9 @@ export default function Book({ route, navigation }) {
     }
   };
 
-  const { isRequestModalOpen } = state;
-
   return (
     <ScrollView>
-      <BookCard book={book}>
+      <BookCard book={book} navigation={navigation}>
         <Box bg="$amber100" p="$4">
           <Button
             bg="$green500"

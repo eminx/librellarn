@@ -1,9 +1,6 @@
-import React, { useState } from 'react';
+import React, { useContext, useState } from 'react';
 
 import {
-  Avatar,
-  AvatarFallbackText,
-  AvatarImage,
   Box,
   Center,
   HStack,
@@ -23,13 +20,18 @@ import {
 } from '@gluestack-ui/themed';
 
 import allLanguages from '../utils/langs/allLanguages';
+import AvatarWithUsername from './AvatarWithUsername';
+import { StateContext } from '../StateContext';
 
-export default function BookCard({ book, children }) {
+export default function BookCard({ book, navigation, children }) {
+  const { currentUser } = useContext(StateContext);
   const [state, setState] = useState({
     isInfoModalOpen: false,
   });
 
   const { isInfoModalOpen } = state;
+
+  const isMyBook = currentUser.username === book.ownerUsername;
 
   return (
     <>
@@ -82,28 +84,22 @@ export default function BookCard({ book, children }) {
               </Box>
               <Box>
                 {book.ownerUsername && (
-                  <Pressable>
-                    <VStack alignItems="center">
-                      <Avatar
-                        bgColor="$amber400"
-                        borderRadius="$full"
-                        source={{ uri: book.ownerImage }}
-                      >
-                        <AvatarFallbackText>
-                          {book.ownerUsername && book.ownerUsername[0]?.toUpperCase()}
-                        </AvatarFallbackText>
-                        <AvatarImage alt={book.ownerUsername} source={{ uri: book.ownerImage }} />
-                      </Avatar>
-                      <Center>
-                        <Text>{book.ownerUsername}</Text>
-                      </Center>
-                    </VStack>
+                  <Pressable
+                    onPress={() => {
+                      !isMyBook
+                        ? navigation.navigate('User', {
+                            username: book.ownerUsername,
+                          })
+                        : null;
+                    }}
+                  >
+                    <AvatarWithUsername username={book.ownerUsername} image={book.ownerImage} />
                   </Pressable>
                 )}
               </Box>
             </HStack>
             {children}
-            <Box p="$4" w="100%">
+            <Box bg="$white" p="$4" w="100%">
               <Text mb="$2" size="sm">
                 Description
               </Text>

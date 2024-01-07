@@ -1,20 +1,39 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import { StyleSheet } from 'react-native';
-import { Box, FlatList, Heading, HStack, Image, Pressable, Text } from '@gluestack-ui/themed';
+import {
+  Avatar,
+  AvatarImage,
+  AvatarFallbackText,
+  Box,
+  FlatList,
+  Heading,
+  HStack,
+  Image,
+  Pressable,
+  Text,
+} from '@gluestack-ui/themed';
+import { useNavigation } from '@react-navigation/native';
 
-export default function BookList({ books, navigation, navigateTo }) {
+import { StateContext } from '../StateContext';
+import AvatarWithUsername from './AvatarWithUsername';
+
+export default function BookList({ books, navigateTo }) {
+  const { currentUser } = useContext(StateContext);
+  const navigation = useNavigation();
+
   return (
     <FlatList
       data={books}
       renderItem={({ item }) => {
         const { dateAdded, dateUpdatedLast, ...book } = item;
+        const isMyBook = item?.ownerUsername === currentUser?.username;
         return (
           <Pressable
             key={book._id || book.canonicalVolumeLink}
             bg="$white"
             sx={{ ':active': { bg: '$amber100' } }}
             onPress={() =>
-              navigation.navigate(navigateTo, {
+              navigation.navigate(isMyBook ? 'MyBook' : 'Book', {
                 book,
                 name: book.title,
               })
@@ -40,7 +59,9 @@ export default function BookList({ books, navigation, navigateTo }) {
                   </Box>
                   <Box px="$4">
                     {book.authors?.map((author) => (
-                      <Text key={author}>{author}</Text>
+                      <Text key={author} size="sm">
+                        {author}
+                      </Text>
                     ))}
                   </Box>
                   <Box px="$4" mt="$2">
@@ -49,6 +70,8 @@ export default function BookList({ books, navigation, navigateTo }) {
                     </Text>
                   </Box>
                 </Box>
+
+                <AvatarWithUsername image={book.ownerImage} username={book.ownerUsername} />
               </HStack>
             </Box>
           </Pressable>

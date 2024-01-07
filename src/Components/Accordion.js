@@ -15,7 +15,7 @@ import {
 export default function EasyAccordion({ items, ...otherProps }) {
   return (
     <Accordion
-      variant="filled"
+      variant="unfilled"
       type="single"
       isCollapsible={true}
       isDisabled={false}
@@ -37,7 +37,7 @@ export default function EasyAccordion({ items, ...otherProps }) {
               )}
             </AccordionTrigger>
           </AccordionHeader>
-          <AccordionContent p="0">
+          <AccordionContent p="$0">
             <AccordionContentText>{item.content}</AccordionContentText>
           </AccordionContent>
         </AccordionItem>
