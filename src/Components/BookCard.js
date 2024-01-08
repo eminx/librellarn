@@ -139,16 +139,16 @@ function Table({ book }) {
     return l.value === book.language;
   });
 
+  const ISBN = book.ISBN || (book.industryIdentifiers && book.industryIdentifiers[1]?.identifier);
+  const category = book.category || (book.categories && book.categories[0]);
+
   return (
     <VStack mb="$4">
       <Cell label="title" value={book.title} />
       <Cell label="authors" value={parseAuthors(book.authors)} />
-      <Cell label="category" value={book.category || book.categories[0]} />
-      <Cell label="language" value={bookLang?.label} />
-      <Cell
-        label="ISBN"
-        value={book.ISBN || (book.industryIdentifiers && book.industryIdentifiers[1]?.identifier)}
-      />
+      {category && <Cell label="category" value={book.category || book.categories[0]} />}
+      {bookLang && <Cell label="language" value={bookLang?.label} />}
+      {ISBN && <Cell label="ISBN" value={ISBN} />}
       <Cell label="pages" value={book.pageCount} />
       <Cell label="publisher" value={book.publisher} />
       <Cell label="publish date" value={book.publishedDate} />
