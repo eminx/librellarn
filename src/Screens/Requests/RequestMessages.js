@@ -5,7 +5,7 @@ import { useFocusEffect } from '@react-navigation/native';
 import { Box, Spinner } from '@gluestack-ui/themed';
 import { GiftedChat } from 'react-native-gifted-chat';
 
-import { call } from '../utils/functions';
+import { call } from '../../utils/functions';
 
 const MessagesCollection = new Mongo.Collection('messages');
 

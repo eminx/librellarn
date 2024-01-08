@@ -1,24 +1,11 @@
-import React, { useContext } from 'react';
+import React from 'react';
 import { StyleSheet } from 'react-native';
-import {
-  Avatar,
-  AvatarImage,
-  AvatarFallbackText,
-  Box,
-  FlatList,
-  Heading,
-  HStack,
-  Image,
-  Pressable,
-  Text,
-} from '@gluestack-ui/themed';
+import { Box, FlatList, Heading, HStack, Image, Pressable, Text } from '@gluestack-ui/themed';
 import { useNavigation } from '@react-navigation/native';
 
-import { StateContext } from '../StateContext';
 import AvatarWithUsername from './AvatarWithUsername';
 
 export default function BookList({ books, navigateTo }) {
-  const { currentUser } = useContext(StateContext);
   const navigation = useNavigation();
 
   return (
@@ -26,14 +13,14 @@ export default function BookList({ books, navigateTo }) {
       data={books}
       renderItem={({ item }) => {
         const { dateAdded, dateUpdatedLast, ...book } = item;
-        const isMyBook = item?.ownerUsername === currentUser?.username;
+
         return (
           <Pressable
             key={book._id || book.canonicalVolumeLink}
             bg="$white"
-            sx={{ ':active': { bg: '$amber100' } }}
+            sx={{ ':active': { bg: '$lime50' } }}
             onPress={() =>
-              navigation.navigate(isMyBook ? 'MyBook' : 'Book', {
+              navigation.navigate(navigateTo, {
                 book,
                 name: book.title,
               })
@@ -71,7 +58,9 @@ export default function BookList({ books, navigateTo }) {
                   </Box>
                 </Box>
 
-                <AvatarWithUsername image={book.ownerImage} username={book.ownerUsername} />
+                {(book.ownerImage || book.ownerUsername) && (
+                  <AvatarWithUsername image={book.ownerImage} username={book.ownerUsername} />
+                )}
               </HStack>
             </Box>
           </Pressable>

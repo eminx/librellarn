@@ -1,9 +1,9 @@
-import React from "react";
-import { createNativeStackNavigator } from "@react-navigation/native-stack";
+import React from 'react';
+import { createNativeStackNavigator } from '@react-navigation/native-stack';
 
-import AddBookSearch from "./AddBookSearch";
-import AddBookItem from "./AddBookItem";
-import AddBookManually from "./AddBookManually";
+import AddBookSearch from './Profile/AddBookSearch';
+import AddBookItem from './Profile/AddBookItem';
+import AddBookManually from './Profile/AddBookManually';
 
 const Stack = createNativeStackNavigator();
 

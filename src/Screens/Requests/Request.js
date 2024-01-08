@@ -23,8 +23,8 @@ import {
 } from '@gluestack-ui/themed';
 import { Bell, CheckSquare, MessagesSquare, MinusSquare } from 'lucide-react-native';
 
-import { call } from '../utils/functions';
-import Alert from '../Components/Alert';
+import { call } from '../../utils/functions';
+import Alert from '../../Components/Alert';
 
 const RequestsCollection = new Mongo.Collection('requests');
 

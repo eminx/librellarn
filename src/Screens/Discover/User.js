@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from 'react';
 import { Box, Spinner } from '@gluestack-ui/themed';
 
-import About from '../Components/About';
-import BookShelf from '../Components/BookShelf';
-import { call } from '../utils/functions';
+import About from '../../Components/About';
+import BookShelf from '../../Components/BookShelf';
+import { call } from '../../utils/functions';
 
 export default function User({ route }) {
   const [state, setState] = useState({
@@ -45,7 +45,7 @@ export default function User({ route }) {
   return (
     <>
       <About user={user} />
-      <BookShelf books={books} />
+      <BookShelf books={books} navigateTo="DiscoverBook" />
     </>
   );
 }

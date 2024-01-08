@@ -87,7 +87,7 @@ export default function BookCard({ book, navigation, children }) {
                   <Pressable
                     onPress={() => {
                       !isMyBook
-                        ? navigation.navigate('User', {
+                        ? navigation.navigate('DiscoverUser', {
                             username: book.ownerUsername,
                           })
                         : null;
@@ -157,6 +157,10 @@ function Table({ book }) {
 }
 
 function Cell({ label, value }) {
+  if (!value) {
+    return null;
+  }
+
   return (
     <HStack mb="$2">
       <Text color="$coolGray500" mr="$2" w={120}>

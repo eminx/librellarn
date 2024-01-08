@@ -9,11 +9,10 @@ import Constants from 'expo-constants';
 const { expoConfig } = Constants;
 import { MessagesSquare, PlusSquare, Library } from 'lucide-react-native';
 
-import DiscoverContainer from './src/Screens/DiscoverContainer';
-import AddBookContainer from './src/Screens/AddBookContainer';
-import RequestsContainer from './src/Screens/RequestsContainer';
-import AuthContainer from './src/Screens/AuthContainer';
-import ProfileContainer from './src/Screens/ProfileContainer';
+import DiscoverContainer from './src/Screens/Discover';
+import RequestsContainer from './src/Screens/Requests';
+import AuthContainer from './src/Screens/Auth/AuthContainer';
+import ProfileContainer from './src/Screens/Profile';
 import { StateContext } from './src/StateContext';
 
 const uri = `ws://${expoConfig?.hostUri?.split(':').shift()}:3000`;

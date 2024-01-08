@@ -12,12 +12,12 @@ export default function DiscoverContainer({}) {
     <Stack.Navigator initialRouteName="Discover">
       <Stack.Screen name="Discover" component={Discover} />
       <Stack.Screen
-        name="Book"
+        name="DiscoverBook"
         component={Book}
         options={({ route }) => ({ title: route.params.name })}
       />
       <Stack.Screen
-        name="User"
+        name="DiscoverUser"
         component={User}
         options={({ route }) => ({ title: route.params.username })}
       />

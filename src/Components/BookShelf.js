@@ -41,7 +41,7 @@ const sortValueOptions = [
   },
 ];
 
-export default function BookShelf({ books, isMyShelf = false }) {
+export default function BookShelf({ books, navigateTo, isMyShelf = false }) {
   const navigation = useNavigation();
   const [state, setState] = useState({
     filterInputValue: '',
@@ -130,10 +130,8 @@ export default function BookShelf({ books, isMyShelf = false }) {
       {isMyShelf && (
         <Box bg="$white" p="$2">
           <Button
-            // bg="$white"
             borderRadius="$full"
             size="sm"
-            // variant="outline"
             onPress={() => {
               navigation.navigate('AddBookSearch');
             }}
@@ -144,7 +142,7 @@ export default function BookShelf({ books, isMyShelf = false }) {
         </Box>
       )}
 
-      {filteredSortedBooks && <BookList books={filteredSortedBooks} />}
+      {filteredSortedBooks && <BookList books={filteredSortedBooks} navigateTo={navigateTo} />}
 
       {filteredSortedBooks?.length === 0 && (
         <Center>

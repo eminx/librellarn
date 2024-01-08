@@ -2,9 +2,9 @@ import React, { useState } from 'react';
 import { ScrollView } from 'react-native';
 import { useToast } from '@gluestack-ui/themed';
 
-import BookForm from '../Components/BookForm';
-import Toast from '../Components/Toast';
-import { call } from '../utils/functions';
+import BookForm from '../../Components/BookForm';
+import Toast from '../../Components/Toast';
+import { call } from '../../utils/functions';
 
 export default function AddBookManually() {
   const [state, setState] = useState({

@@ -12,8 +12,8 @@ import {
   VStack,
 } from '@gluestack-ui/themed';
 
-import BookList from '../Components/BookList';
-import { call } from '../utils/functions';
+import BookList from '../../Components/BookList';
+import { call } from '../../utils/functions';
 
 export default function Discover({ navigation }) {
   const [state, setState] = useState({
@@ -54,7 +54,7 @@ export default function Discover({ navigation }) {
   return (
     <>
       <UsersNearBy navigation={navigation} users={users} />
-      <BookList books={books} navigation={navigation} navigateTo="Book" />
+      <BookList books={books} navigateTo="DiscoverBook" />
     </>
   );
 }
@@ -73,7 +73,7 @@ function UsersNearBy({ navigation, users }) {
               p="$2"
               sx={{ ':active': { bg: '$amber100' } }}
               onPress={() => {
-                navigation.navigate('User', {
+                navigation.navigate('DiscoverUser', {
                   username: u.username,
                 });
               }}

@@ -7,14 +7,17 @@ import {
   Input,
   InputField,
   Text,
+  Toast,
+  ToastDescription,
+  ToastTitle,
   VStack,
   useToast,
 } from '@gluestack-ui/themed';
 import { useForm, Controller } from 'react-hook-form';
 
-import Toast from '../Components/Toast';
+import { call } from '../../utils/functions';
 
-export default function Login() {
+export default function Register({ setUser }) {
   const [state, setState] = useState({
     isLoading: false,
   });
@@ -31,28 +34,51 @@ export default function Login() {
     },
   });
 
-  const onSubmit = (data) => {
+  const onSubmit = async (data) => {
+    const { email, username, password } = data;
+    const values = {
+      email: email?.toLowerCase(),
+      username: username?.toLowerCase(),
+      password,
+    };
+
     setState({ ...state, isLoading: true });
-    const { username, password } = data;
-    Meteor.loginWithPassword(username.toLowerCase(), password, (error, respond) => {
-      if (error) {
-        console.log(error);
+
+    try {
+      await call('registerUser', values);
+      Meteor.loginWithPassword(username, password, (error, respond) => {
         toast.show({
           placement: 'top',
           render: ({ id }) => {
-            return <Toast nativeId={id} action="error" title="Error" message={error.reason} />;
+            return (
+              <Toast nativeId={id} action="success" variant="solid">
+                <VStack space="xs">
+                  <ToastTitle>Success!</ToastTitle>
+                  <ToastDescription>Your account is created</ToastDescription>
+                </VStack>
+              </Toast>
+            );
           },
         });
-        return;
-      }
-      setState({ ...state, isLoading: false });
+      });
+    } catch (error) {
+      console.log(error);
       toast.show({
         placement: 'top',
         render: ({ id }) => {
-          return <Toast nativeId={id} title="Success!" message="You are logged in" />;
+          return (
+            <Toast nativeId={id} action="error" variant="solid">
+              <VStack space="xs">
+                <ToastTitle>Error</ToastTitle>
+                <ToastDescription>{error.reason}</ToastDescription>
+              </VStack>
+            </Toast>
+          );
         },
       });
-    });
+    } finally {
+      setState({ ...state, isLoading: false });
+    }
   };
 
   const { isLoading } = state;
@@ -68,10 +94,9 @@ export default function Login() {
             }}
             render={({ field: { onChange, onBlur, value } }) => (
               <Box>
-                <Text size="sm">Username or email address</Text>
+                <Text size="sm">Username</Text>
                 <Input bg="$white" variant="rounded">
                   <InputField
-                    // placeholder="username or email address"
                     value={value?.toLowerCase()}
                     onBlur={onBlur}
                     onChangeText={onChange}
@@ -88,6 +113,33 @@ export default function Login() {
           )}
         </Box>
 
+        <Box>
+          <Controller
+            control={control}
+            rules={{
+              required: true,
+            }}
+            render={({ field: { onChange, onBlur, value } }) => (
+              <Box>
+                <Text size="sm">Email address</Text>
+                <Input bg="$white" variant="rounded">
+                  <InputField
+                    value={value?.toLowerCase()}
+                    onBlur={onBlur}
+                    onChangeText={onChange}
+                  />
+                </Input>
+              </Box>
+            )}
+            name="email"
+          />
+          {errors.username && (
+            <Text color="$red500" mt="$1" size="sm">
+              Username or email address is required
+            </Text>
+          )}
+        </Box>
+
         <Box mb="$4">
           <Controller
             control={control}
@@ -99,7 +151,6 @@ export default function Login() {
                 <Text size="sm">Password</Text>
                 <Input bg="$white" variant="rounded">
                   <InputField
-                    // placeholder="password"
                     value={value}
                     type="password"
                     onBlur={onBlur}
@@ -111,13 +162,13 @@ export default function Login() {
             name="password"
           />
           {errors.password && (
-            <Text mt="$1" size="sm">
+            <Text color="$red500" mt="$1" size="sm">
               Password is required
             </Text>
           )}
         </Box>
 
-        <Button isDisabled={isLoading} onPress={handleSubmit(onSubmit)} type="submit">
+        <Button isLoading={isLoading} onPress={handleSubmit(onSubmit)} type="submit">
           <ButtonText>Submit</ButtonText>
         </Button>
       </VStack>

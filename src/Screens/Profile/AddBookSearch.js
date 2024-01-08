@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-// import { ScrollView } from 'react-native';
 import {
   Box,
   Button,
@@ -7,13 +6,12 @@ import {
   ButtonText,
   Center,
   HStack,
-  ScrollView,
   SearchIcon,
   Text,
 } from '@gluestack-ui/themed';
 
-import BookList from '../Components/BookList';
-import Input from '../Components/Input';
+import BookList from '../../Components/BookList';
+import Input from '../../Components/Input';
 
 const apiKey = '808034619888-91df5q015u8ahrjnov41d9isn3juknuv.apps.googleusercontent.com';
 

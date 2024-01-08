@@ -1,7 +1,7 @@
 import React from 'react';
 import { Box, Button, ButtonText, ScrollView } from '@gluestack-ui/themed';
 
-import BookCard from '../Components/BookCard';
+import BookCard from '../../Components/BookCard';
 
 export default function MyBook({ route, navigation }) {
   const { book } = route.params;
@@ -9,7 +9,7 @@ export default function MyBook({ route, navigation }) {
   return (
     <ScrollView>
       <BookCard book={book} navigation={navigation}>
-        <Box bg="$amber100" p="$4">
+        <Box bg="$blue100" p="$4">
           <Button
             type="submit"
             borderRadius="$full"

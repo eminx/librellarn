@@ -14,10 +14,10 @@ import {
 } from '@gluestack-ui/themed';
 import { useNavigation } from '@react-navigation/native';
 
-import BookCard from '../Components/BookCard';
-import ConfirmDialog from '../Components/ConfirmDialog';
-import { call } from '../utils/functions';
-import Toast from '../Components/Toast';
+import BookCard from '../../Components/BookCard';
+import ConfirmDialog from '../../Components/ConfirmDialog';
+import { call } from '../../utils/functions';
+import Toast from '../../Components/Toast';
 
 export default function AddBookItem({ route }) {
   const navigation = useNavigation();
@@ -67,7 +67,7 @@ export default function AddBookItem({ route }) {
   return (
     <ScrollView>
       <BookCard book={book} navigation={navigation}>
-        <Box bg="#fff" p="$4">
+        <Box bg="$green100" p="$4">
           {isBookAdded ? (
             <Alert mx="$2.5" action="info" variant="solid">
               <AlertIcon as={InfoIcon} mr="$3" />
@@ -75,6 +75,8 @@ export default function AddBookItem({ route }) {
             </Alert>
           ) : (
             <Button
+              bg="$green700"
+              borderRadius="$full"
               isDisabled={isLoading}
               type="submit"
               onPress={() => setState({ ...state, isAddModalOpen: true })}

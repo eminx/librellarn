@@ -17,8 +17,8 @@ import Profile from './Profile';
 import ProfileEdit from './ProfileEdit';
 import MyBook from './MyBook';
 import MyBookEdit from './MyBookEdit';
-import { BooksContext, StateContext } from '../StateContext';
-import { call } from '../utils/functions';
+import { BooksContext, StateContext } from '../../StateContext';
+import { call } from '../../utils/functions';
 import AddBookSearch from './AddBookSearch';
 import AddBookItem from './AddBookItem';
 import AddBookManually from './AddBookManually';
@@ -83,10 +83,10 @@ export default function ProfileContainer() {
         <Stack.Screen
           component={AddBookSearch}
           name="AddBookSearch"
-          options={(route) => ({
-            // headerShown: false,
-            // tabBarIcon: ({ color, size }) => <Icon as={PlusSquare} color={color} size="xl" />,
-          })}
+          // options={(route) => ({
+          //   headerShown: false,
+          //   tabBarIcon: ({ color, size }) => <Icon as={PlusSquare} color={color} size="xl" />,
+          // })}
         />
         <Stack.Screen component={AddBookItem} name="AddBookItem" />
         <Stack.Screen component={AddBookManually} name="AddBookManually" />

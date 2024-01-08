@@ -7,17 +7,14 @@ import {
   Input,
   InputField,
   Text,
-  Toast,
-  ToastDescription,
-  ToastTitle,
   VStack,
   useToast,
 } from '@gluestack-ui/themed';
 import { useForm, Controller } from 'react-hook-form';
 
-import { call } from '../utils/functions';
+import Toast from '../../Components/Toast';
 
-export default function Register({ setUser }) {
+export default function Login() {
   const [state, setState] = useState({
     isLoading: false,
   });
@@ -34,51 +31,28 @@ export default function Register({ setUser }) {
     },
   });
 
-  const onSubmit = async (data) => {
-    const { email, username, password } = data;
-    const values = {
-      email: email?.toLowerCase(),
-      username: username?.toLowerCase(),
-      password,
-    };
-
+  const onSubmit = (data) => {
     setState({ ...state, isLoading: true });
-
-    try {
-      await call('registerUser', values);
-      Meteor.loginWithPassword(username, password, (error, respond) => {
+    const { username, password } = data;
+    Meteor.loginWithPassword(username.toLowerCase(), password, (error, respond) => {
+      if (error) {
+        console.log(error);
         toast.show({
           placement: 'top',
           render: ({ id }) => {
-            return (
-              <Toast nativeId={id} action="success" variant="solid">
-                <VStack space="xs">
-                  <ToastTitle>Success!</ToastTitle>
-                  <ToastDescription>Your account is created</ToastDescription>
-                </VStack>
-              </Toast>
-            );
+            return <Toast nativeId={id} action="error" title="Error" message={error.reason} />;
           },
         });
-      });
-    } catch (error) {
-      console.log(error);
+        return;
+      }
+      setState({ ...state, isLoading: false });
       toast.show({
         placement: 'top',
         render: ({ id }) => {
-          return (
-            <Toast nativeId={id} action="error" variant="solid">
-              <VStack space="xs">
-                <ToastTitle>Error</ToastTitle>
-                <ToastDescription>{error.reason}</ToastDescription>
-              </VStack>
-            </Toast>
-          );
+          return <Toast nativeId={id} title="Success!" message="You are logged in" />;
         },
       });
-    } finally {
-      setState({ ...state, isLoading: false });
-    }
+    });
   };
 
   const { isLoading } = state;
@@ -94,9 +68,10 @@ export default function Register({ setUser }) {
             }}
             render={({ field: { onChange, onBlur, value } }) => (
               <Box>
-                <Text size="sm">Username</Text>
+                <Text size="sm">Username or email address</Text>
                 <Input bg="$white" variant="rounded">
                   <InputField
+                    // placeholder="username or email address"
                     value={value?.toLowerCase()}
                     onBlur={onBlur}
                     onChangeText={onChange}
@@ -113,33 +88,6 @@ export default function Register({ setUser }) {
           )}
         </Box>
 
-        <Box>
-          <Controller
-            control={control}
-            rules={{
-              required: true,
-            }}
-            render={({ field: { onChange, onBlur, value } }) => (
-              <Box>
-                <Text size="sm">Email address</Text>
-                <Input bg="$white" variant="rounded">
-                  <InputField
-                    value={value?.toLowerCase()}
-                    onBlur={onBlur}
-                    onChangeText={onChange}
-                  />
-                </Input>
-              </Box>
-            )}
-            name="email"
-          />
-          {errors.username && (
-            <Text color="$red500" mt="$1" size="sm">
-              Username or email address is required
-            </Text>
-          )}
-        </Box>
-
         <Box mb="$4">
           <Controller
             control={control}
@@ -151,6 +99,7 @@ export default function Register({ setUser }) {
                 <Text size="sm">Password</Text>
                 <Input bg="$white" variant="rounded">
                   <InputField
+                    // placeholder="password"
                     value={value}
                     type="password"
                     onBlur={onBlur}
@@ -162,13 +111,13 @@ export default function Register({ setUser }) {
             name="password"
           />
           {errors.password && (
-            <Text color="$red500" mt="$1" size="sm">
+            <Text mt="$1" size="sm">
               Password is required
             </Text>
           )}
         </Box>
 
-        <Button isLoading={isLoading} onPress={handleSubmit(onSubmit)} type="submit">
+        <Button isDisabled={isLoading} onPress={handleSubmit(onSubmit)} type="submit">
           <ButtonText>Submit</ButtonText>
         </Button>
       </VStack>

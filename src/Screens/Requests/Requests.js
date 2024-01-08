@@ -17,8 +17,8 @@ import {
   Text,
 } from '@gluestack-ui/themed';
 
-import { StateContext } from '../StateContext';
-import Input from '../Components/Input';
+import { StateContext } from '../../StateContext';
+import Input from '../../Components/Input';
 
 const RequestsCollection = new Mongo.Collection('requests');
 
@@ -137,7 +137,7 @@ export default function Requests({ navigation }) {
             <Pressable
               key={request._id}
               bg="$white"
-              sx={{ ':active': { bg: '$amber100' } }}
+              sx={{ ':active': { bg: '$lime50' } }}
               onPress={() =>
                 navigation.navigate('Request', {
                   request,
