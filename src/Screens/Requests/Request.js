@@ -138,9 +138,9 @@ function Request({ currentUser, isLoading, isOwner, navigation, request }) {
           </Alert>
         )}
         <Button
-          bg="$white"
           size="sm"
-          variant="outline"
+          variant="solid"
+          borderRadius="$full"
           onPress={() =>
             navigation.navigate('RequestMessages', {
               currentUser,
@@ -150,7 +150,7 @@ function Request({ currentUser, isLoading, isOwner, navigation, request }) {
           }
         >
           {isUnreadMessage ? (
-            <ButtonIcon as={Bell} color="$red500" mr="$2" strokeWidth={3} />
+            <ButtonIcon as={Bell} color="$red400" mr="$2" strokeWidth={3} />
           ) : (
             <ButtonIcon as={MessagesSquare} mr="$2" />
           )}

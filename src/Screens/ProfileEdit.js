@@ -29,11 +29,11 @@ import S3 from 'aws-sdk/clients/s3';
 import { manipulateAsync, SaveFormat } from 'expo-image-manipulator';
 import * as Location from 'expo-location';
 
-import allLanguages from '../../utils/langs/allLanguages';
-import Toast from '../../Components/Toast';
-import { call } from '../../utils/functions';
-import { awsParams } from '../../../private';
-import Select from '../../Components/Select';
+import allLanguages from '../utils/langs/allLanguages';
+import Toast from '../Components/Toast';
+import { call } from '../utils/functions';
+import { awsParams } from '../../private';
+import Select from '../Components/Select';
 
 // const secret = process.env.private;
 // const awsParams = secret.awsParams;

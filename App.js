@@ -7,13 +7,15 @@ import { GluestackUIProvider, Icon, SearchIcon } from '@gluestack-ui/themed';
 import { config } from '@gluestack-ui/config';
 import Constants from 'expo-constants';
 const { expoConfig } = Constants;
-import { MessagesSquare, PlusSquare, Library } from 'lucide-react-native';
+import { MessagesSquare, Library } from 'lucide-react-native';
+import { SettingsIcon } from 'lucide-react-native';
 
 import DiscoverContainer from './src/Screens/Discover';
 import RequestsContainer from './src/Screens/Requests';
 import AuthContainer from './src/Screens/Auth/AuthContainer';
 import ProfileContainer from './src/Screens/Profile';
 import { StateContext } from './src/StateContext';
+import ProfileEdit from './src/Screens/ProfileEdit';
 
 const uri = `ws://${expoConfig?.hostUri?.split(':').shift()}:3000`;
 Meteor.connect(`${uri}/websocket`, { AsyncStorage });
@@ -68,10 +70,17 @@ export default function App() {
             />
             <Tab.Screen
               component={ProfileContainer}
-              name="MyShelf"
+              name="My Profile"
               options={(route) => ({
                 headerShown: false,
                 tabBarIcon: ({ color, size }) => <Icon as={Library} color={color} size="xl" />,
+              })}
+            />
+            <Tab.Screen
+              component={ProfileEdit}
+              name="Settings"
+              options={(route) => ({
+                tabBarIcon: ({ color, size }) => <Icon as={SettingsIcon} color={color} size="xl" />,
               })}
             />
           </Tab.Navigator>

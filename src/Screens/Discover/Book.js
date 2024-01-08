@@ -42,12 +42,12 @@ export default function Book({ route, navigation }) {
       <BookCard book={book} navigation={navigation}>
         <Box bg="$lime100" p="$4">
           <Button
-            bg="$lime700"
+            bg="$lime500"
             borderRadius="$full"
             type="submit"
             onPress={() => setState({ ...state, isRequestModalOpen: true })}
           >
-            <ButtonText>Request to Borrow</ButtonText>
+            <ButtonText>{`Borrow from ${book.ownerUsername}`}</ButtonText>
           </Button>
         </Box>
       </BookCard>

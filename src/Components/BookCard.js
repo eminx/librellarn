@@ -93,7 +93,7 @@ export default function BookCard({ book, navigation, children }) {
                         : null;
                     }}
                   >
-                    <AvatarWithUsername username={book.ownerUsername} image={book.ownerImage} />
+                    <AvatarWithUsername image={book.ownerImage} username={book.ownerUsername} />
                   </Pressable>
                 )}
               </Box>

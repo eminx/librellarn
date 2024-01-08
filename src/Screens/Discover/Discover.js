@@ -14,6 +14,7 @@ import {
 
 import BookList from '../../Components/BookList';
 import { call } from '../../utils/functions';
+import AvatarWithUsername from '../../Components/AvatarWithUsername';
 
 export default function Discover({ navigation }) {
   const [state, setState] = useState({
@@ -31,7 +32,8 @@ export default function Discover({ navigation }) {
   const getData = async () => {
     try {
       const respondUsers = await call('getUsersNearBy');
-      const respondBooks = await call('getDiscoverBooks');
+      const respondBooks = await call('getBooksNearBy');
+
       setState({
         ...state,
         users: respondUsers,
@@ -79,16 +81,7 @@ function UsersNearBy({ navigation, users }) {
               }}
             >
               <VStack>
-                <Center>
-                  <Avatar bgColor="$amber400" borderRadius="$full" size="lg">
-                    <AvatarImage alt={u.username} source={{ uri: u.userImage }} />
-                  </Avatar>
-                </Center>
-                <Center>
-                  <Text fontWeight="bold" size="xs" textAlign="center">
-                    {u.username}
-                  </Text>
-                </Center>
+                <AvatarWithUsername image={u.userImage} username={u.username} />
                 <Center mt="-$1">
                   <Text size="2xs" textAlign="center">
                     {u.distance.toFixed(2) + ' km'}

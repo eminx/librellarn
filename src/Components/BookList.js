@@ -1,6 +1,15 @@
 import React from 'react';
 import { StyleSheet } from 'react-native';
-import { Box, FlatList, Heading, HStack, Image, Pressable, Text } from '@gluestack-ui/themed';
+import {
+  Box,
+  FlatList,
+  Heading,
+  HStack,
+  Image,
+  Pressable,
+  Text,
+  VStack,
+} from '@gluestack-ui/themed';
 import { useNavigation } from '@react-navigation/native';
 
 import AvatarWithUsername from './AvatarWithUsername';
@@ -13,7 +22,6 @@ export default function BookList({ books, navigateTo }) {
       data={books}
       renderItem={({ item }) => {
         const { dateAdded, dateUpdatedLast, ...book } = item;
-
         return (
           <Pressable
             key={book._id || book.canonicalVolumeLink}
@@ -57,10 +65,16 @@ export default function BookList({ books, navigateTo }) {
                     </Text>
                   </Box>
                 </Box>
-
-                {(book.ownerImage || book.ownerUsername) && (
-                  <AvatarWithUsername image={book.ownerImage} username={book.ownerUsername} />
-                )}
+                <VStack>
+                  {(book.ownerImage || book.ownerUsername) && (
+                    <AvatarWithUsername image={book.ownerImage} username={book.ownerUsername} />
+                  )}
+                  {book.distance ? (
+                    <Text size="2xs" textAlign="center">
+                      {book.distance.toFixed(2) + ' km'}
+                    </Text>
+                  ) : null}
+                </VStack>
               </HStack>
             </Box>
           </Pressable>

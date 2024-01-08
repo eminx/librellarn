@@ -11,9 +11,9 @@ import {
 export default function AvatarWithUsername({ image, username }) {
   return (
     <VStack alignItems="center">
-      <Avatar bgColor="$amber400" borderRadius="$full" source={{ uri: image }}>
+      <Avatar bgColor="$amber400" borderRadius="$full">
         <AvatarFallbackText>{username?.toUpperCase()}</AvatarFallbackText>
-        <AvatarImage alt={username} source={{ uri: image }} />
+        {image && <AvatarImage alt={username} source={{ uri: image }} />}
       </Avatar>
       <Center>
         <Text size="sm">{username}</Text>

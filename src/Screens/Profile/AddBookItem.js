@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useContext, useState } from 'react';
 import { ScrollView } from 'react-native';
 import {
   Alert,
@@ -18,9 +18,11 @@ import BookCard from '../../Components/BookCard';
 import ConfirmDialog from '../../Components/ConfirmDialog';
 import { call } from '../../utils/functions';
 import Toast from '../../Components/Toast';
+import { BooksContext } from '../../StateContext';
 
 export default function AddBookItem({ route }) {
   const navigation = useNavigation();
+  const { getMyBooks } = useContext(BooksContext);
 
   const [state, setState] = useState({
     isAddModalOpen: false,
@@ -39,6 +41,7 @@ export default function AddBookItem({ route }) {
     });
     try {
       await call('insertBook', book);
+      await getMyBooks();
       toast.show({
         placement: 'top',
         render: ({ id }) => <Toast nativeId={id} message="Book is added to your virtual shelf" />,
@@ -75,14 +78,14 @@ export default function AddBookItem({ route }) {
             </Alert>
           ) : (
             <Button
-              bg="$green700"
+              bg="$green500"
               borderRadius="$full"
               isDisabled={isLoading}
               type="submit"
               onPress={() => setState({ ...state, isAddModalOpen: true })}
             >
               {isLoading && <ButtonSpinner mr="$1" />}
-              <ButtonText>Add to your shelf</ButtonText>
+              <ButtonText>Add to my shelf</ButtonText>
             </Button>
           )}
         </Box>
