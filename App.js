@@ -17,10 +17,11 @@ import ProfileContainer from './src/Screens/Profile';
 import { StateContext } from './src/StateContext';
 import ProfileEdit from './src/Screens/ProfileEdit';
 
-const uri = `ws://${expoConfig?.hostUri?.split(':').shift()}:3000`;
-// Meteor.connect(`${uri}/websocket`, { AsyncStorage });
+const localDevApi = `ws://${expoConfig?.hostUri?.split(':').shift()}:3000/websocket`;
+const productionApi = 'wss://librella.app/websocket';
+const api = __DEV__ ? localDevApi : productionApi;
 
-Meteor.connect('wss://librella.app/websocket', { AsyncStorage });
+Meteor.connect(api, { AsyncStorage });
 
 const Tab = createBottomTabNavigator();
 
