@@ -18,9 +18,9 @@ import { StateContext } from './src/StateContext';
 import ProfileEdit from './src/Screens/ProfileEdit';
 
 const uri = `ws://${expoConfig?.hostUri?.split(':').shift()}:3000`;
-Meteor.connect(`${uri}/websocket`, { AsyncStorage });
+// Meteor.connect(`${uri}/websocket`, { AsyncStorage });
 
-// Meteor.connect('wss://librella.app/websocket', { AsyncStorage });
+Meteor.connect('wss://librella.app/websocket', { AsyncStorage });
 
 const Tab = createBottomTabNavigator();
 
