@@ -167,6 +167,7 @@ export default function Requests({ navigation }) {
                       <Image
                         alt={isOwner ? request.requesterUsername : request.ownerUsername}
                         borderRadius="$full"
+                        resizeMode="cover"
                         style={styles.avatar}
                         source={{
                           uri: isOwner ? request.requesterImage : request.ownerImage,
@@ -219,8 +220,9 @@ export default function Requests({ navigation }) {
                     <Image
                       alignSelf="flex-end"
                       alt={request.bookTitle}
-                      style={styles.thumbImage}
+                      resizeMode="cover"
                       source={{ uri: request.bookImage }}
+                      style={styles.thumbImage}
                     />
                   </Box>
                 </HStack>

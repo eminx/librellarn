@@ -1,4 +1,3 @@
-import Meteor from '@meteorrn/core';
 import React, { useContext, useState } from 'react';
 import { ScrollView } from 'react-native';
 import {
@@ -336,6 +335,7 @@ export default function ProfileEdit() {
             {(selectedImage || currentUser?.images[0]) && (
               <Image
                 alt={currentUser.username}
+                resizeMode="contain"
                 source={{
                   uri: selectedImage?.assets[0]?.uri || currentUser?.images[0],
                 }}

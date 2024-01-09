@@ -441,6 +441,7 @@ export default function BookForm({ book, navigation }) {
           {(selectedImage || book?.imageUrl) && (
             <Image
               alt={book?.title || 'New book'}
+              resizeMode="contain"
               source={{ uri: selectedImage?.assets[0]?.uri || book?.imageUrl }}
               style={{ width: 200, height: 300 }}
             />

@@ -200,11 +200,12 @@ function Request({ currentUser, isLoading, isOwner, navigation, request }) {
                 <Image
                   alt={bookTitle}
                   h={80}
-                  w={50}
+                  resizeMode="contain"
                   size="lg"
                   source={{
                     uri: bookImage,
                   }}
+                  w={50}
                 />
               </Box>
             </Center>

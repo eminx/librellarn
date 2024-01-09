@@ -39,6 +39,7 @@ export default function BookList({ books, navigateTo }) {
                 <Box>
                   <Image
                     alt={book.title}
+                    resizeMethod="contain"
                     style={styles.thumbImage}
                     source={{
                       uri:

@@ -5,7 +5,6 @@ import {
   Center,
   HStack,
   Heading,
-  Image,
   Link,
   LinkText,
   Modal,
@@ -22,6 +21,7 @@ import {
 import allLanguages from '../utils/langs/allLanguages';
 import AvatarWithUsername from './AvatarWithUsername';
 import { StateContext } from '../StateContext';
+import Image from './Image';
 
 export default function BookCard({ book, navigation, children }) {
   const { currentUser } = useContext(StateContext);
@@ -51,12 +51,13 @@ export default function BookCard({ book, navigation, children }) {
               <Image
                 alt={book.title}
                 h={160}
+                resizeMode="contain"
                 size="lg"
-                fit="contain"
                 source={{
                   uri:
                     book.imageUrl || book.imageLinks?.thumbnail || book.imageLinks?.smallThumbnail,
                 }}
+                w={100}
               />
             </Center>
           </Box>
