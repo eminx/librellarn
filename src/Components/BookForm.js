@@ -27,7 +27,15 @@ import Select from './Select';
 import allLanguages from '../utils/langs/allLanguages';
 import Toast from './Toast';
 import { call } from '../utils/functions';
-import { awsParams } from '../../private';
+
+import { accessKeyId, secretAccessKey, region, signatureVersion } from '@env';
+const awsParams = {
+  accessKeyId,
+  secretAccessKey,
+  region,
+  signatureVersion,
+};
+
 // const secret = process.env.private;
 // const awsParams = secret.awsParams;
 
@@ -432,7 +440,7 @@ export default function BookForm({ book, navigation }) {
         <Center>
           {(selectedImage || book?.imageUrl) && (
             <Image
-              alt={book?.title}
+              alt={book?.title || 'New book'}
               source={{ uri: selectedImage?.assets[0]?.uri || book?.imageUrl }}
               style={{ width: 200, height: 300 }}
             />

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useContext, useState } from 'react';
 import { ScrollView } from 'react-native';
 import { useToast } from '@gluestack-ui/themed';
 
@@ -10,12 +10,15 @@ export default function AddBookManually() {
   const [state, setState] = useState({
     isLoading: false,
   });
+  const { getMyBooks } = useContext(BooksContext);
+
   const { isLoading } = state;
   const toast = useToast();
 
   const insertBookManually = async (values) => {
     try {
       await call('insertBookManually', values);
+      await getMyBooks();
       toast.show({
         placement: 'top',
         render: ({ id }) => <Toast nativeId={id} message="Book is added to your virtual shelf" />,

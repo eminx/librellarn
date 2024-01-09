@@ -1,5 +1,5 @@
 import Meteor from '@meteorrn/core';
-import React, { useState } from 'react';
+import React, { useContext, useState } from 'react';
 import { ScrollView } from 'react-native';
 import {
   Badge,
@@ -32,15 +32,23 @@ import * as Location from 'expo-location';
 import allLanguages from '../utils/langs/allLanguages';
 import Toast from '../Components/Toast';
 import { call } from '../utils/functions';
-import { awsParams } from '../../private';
 import Select from '../Components/Select';
+import { StateContext } from '../StateContext';
 
 // const secret = process.env.private;
 // const awsParams = secret.awsParams;
+
+import { accessKeyId, secretAccessKey, region, signatureVersion } from '@env';
+const awsParams = {
+  accessKeyId,
+  secretAccessKey,
+  region,
+  signatureVersion,
+};
 const s3 = new S3(awsParams);
 
 export default function ProfileEdit() {
-  const currentUser = Meteor.user();
+  const { currentUser } = useContext(StateContext);
 
   const {
     control,
