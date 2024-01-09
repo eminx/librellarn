@@ -62,7 +62,7 @@ export default function Discover({ navigation }) {
 }
 
 function UsersNearBy({ navigation, users }) {
-  if (users?.length === 0) {
+  if (!users || users.length === 0) {
     return null;
   }
   return (

@@ -19,7 +19,7 @@ import ProfileEdit from './src/Screens/ProfileEdit';
 
 const localDevApi = `ws://${expoConfig?.hostUri?.split(':').shift()}:3000/websocket`;
 const productionApi = 'wss://librella.app/websocket';
-const api = __DEV__ ? localDevApi : productionApi;
+const api = productionApi;
 
 Meteor.connect(api, { AsyncStorage });
 

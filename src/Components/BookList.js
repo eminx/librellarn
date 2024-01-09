@@ -17,6 +17,10 @@ import AvatarWithUsername from './AvatarWithUsername';
 export default function BookList({ books, navigateTo }) {
   const navigation = useNavigation();
 
+  if (!books || books.length === 0) {
+    return null;
+  }
+
   return (
     <FlatList
       data={books}
