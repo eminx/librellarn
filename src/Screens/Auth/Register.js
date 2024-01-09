@@ -1,4 +1,4 @@
-import Meteor from '@meteorrn/core';
+// import Meteor from '@meteorrn/core';
 import React, { useState } from 'react';
 import {
   Box,

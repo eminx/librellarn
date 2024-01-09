@@ -1,4 +1,4 @@
-import Meteor, { useTracker } from '@meteorrn/core';
+// import Meteor, { useTracker } from '@meteorrn/core';
 import React from 'react';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { NavigationContainer } from '@react-navigation/native';
@@ -21,21 +21,21 @@ const localDevApi = `ws://${expoConfig?.hostUri?.split(':').shift()}:3000/websoc
 const productionApi = 'wss://librella.app/websocket';
 const api = __DEV__ ? localDevApi : productionApi;
 
-Meteor.connect(api, { AsyncStorage });
+// Meteor.connect(api, { AsyncStorage });
 
 const Tab = createBottomTabNavigator();
 
 export default function App() {
-  Meteor.subscribe('me');
-  const currentUser = useTracker(() => Meteor.user(), []);
+  // Meteor.subscribe('me');
+  // const currentUser = useTracker(() => Meteor.user(), []);
 
-  if (!currentUser) {
-    return (
-      <GluestackUIProvider config={config}>
-        <AuthContainer />
-      </GluestackUIProvider>
-    );
-  }
+  // if (!currentUser) {
+  return (
+    <GluestackUIProvider config={config}>
+      <AuthContainer />
+    </GluestackUIProvider>
+  );
+  // }
 
   return (
     <StateContext.Provider value={{ currentUser }}>
