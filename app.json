@@ -2,7 +2,7 @@
   "expo": {
     "name": "librella",
     "slug": "librella-app",
-    "version": "0.1.4",
+    "version": "0.1.5",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
     "userInterfaceStyle": "light",
@@ -15,7 +15,7 @@
     "ios": {
       "supportsTablet": true,
       "bundleIdentifier": "com.eminx.librella",
-      "buildNumber": "0.1.4"
+      "buildNumber": "0.1.5"
     },
     "android": {
       "adaptiveIcon": {
