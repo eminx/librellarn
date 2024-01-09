@@ -5,6 +5,7 @@ import {
   Center,
   HStack,
   Heading,
+  Image,
   Link,
   LinkText,
   Modal,
@@ -21,7 +22,6 @@ import {
 import allLanguages from '../utils/langs/allLanguages';
 import AvatarWithUsername from './AvatarWithUsername';
 import { StateContext } from '../StateContext';
-import Image from './Image';
 
 export default function BookCard({ book, navigation, children }) {
   const { currentUser } = useContext(StateContext);
