@@ -1,3 +1,4 @@
+import Meteor from '@meteorrn/core';
 import React, { useContext, useState } from 'react';
 import { ScrollView } from 'react-native';
 import {
@@ -296,7 +297,10 @@ export default function ProfileEdit() {
 
   return (
     <ScrollView>
-      <Center m="$4">
+      <Button m="$2" variant="link" onPress={() => Meteor.logout()}>
+        <ButtonText>Log out</ButtonText>
+      </Button>
+      <Center m="$2">
         <ButtonGroup>
           <Button
             {...buttonProps}

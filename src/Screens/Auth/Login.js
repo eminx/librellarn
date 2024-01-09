@@ -43,9 +43,9 @@ export default function Login() {
             return <Toast nativeId={id} action="error" title="Error" message={error.reason} />;
           },
         });
+        setState({ ...state, isLoading: false });
         return;
       }
-      setState({ ...state, isLoading: false });
       toast.show({
         placement: 'top',
         render: ({ id }) => {
