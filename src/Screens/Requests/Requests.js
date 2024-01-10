@@ -135,7 +135,14 @@ export default function Requests({ navigation }) {
       <FlatList
         data={sortedRequests}
         renderItem={({ item }) => {
-          const request = item;
+          const request = {
+            ...item,
+            dateRequested: item.dateRequested.toString(),
+            isConfirmed: item.isConfirmed?.toString(),
+            isHanded: item.isHanded?.toString(),
+            isReturned: item.isReturned?.toString(),
+            lastMessageDate: item.lastMessageDate?.toLocaleString(),
+          };
           const isOwner = request.ownerId === currentUserId;
           const nCount = getNotificationsCount(item);
           const isNCount = typeof nCount !== 'undefined';
@@ -212,7 +219,7 @@ export default function Requests({ navigation }) {
                         </HStack>
                       </Box>
                       <Box mt="$2" px="$4">
-                        <Text size="xs">{request?.lastMessageDate?.toLocaleDateString()}</Text>
+                        <Text size="xs">{request?.lastMessageDate}</Text>
                       </Box>
                     </Box>
                   </HStack>
