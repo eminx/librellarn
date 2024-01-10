@@ -11,7 +11,7 @@ export default function Profile() {
   return (
     <>
       <About user={currentUser} />
-      <BookShelf books={books} isMyShelf navigateTo="MyBook" />
+      <BookShelf books={books} isMyShelf mb={216} navigateTo="MyBook" />
     </>
   );
 }

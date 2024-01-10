@@ -43,9 +43,9 @@ export default function User({ route }) {
   }
 
   return (
-    <>
+    <Box>
       <About user={user} />
-      <BookShelf books={books} navigateTo="DiscoverBook" />
-    </>
+      <BookShelf books={books} mb={118} navigateTo="DiscoverBook" />
+    </Box>
   );
 }

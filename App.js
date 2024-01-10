@@ -106,25 +106,23 @@ function NotificationBadge({ count, children }) {
   }
 
   return (
-    <Box>
-      <VStack>
-        <Badge
-          h={20}
-          w={20}
-          bg="$red500"
-          borderRadius="$full"
-          mb={-14}
-          mr={-14}
-          size="sm"
-          zIndex={1}
-          variant="solid"
-          alignSelf="flex-end"
-        >
-          <BadgeText color="$white">{count}</BadgeText>
-        </Badge>
-        {children}
-      </VStack>
-    </Box>
+    <VStack>
+      <Badge
+        alignSelf="flex-end"
+        bg="$red500"
+        borderRadius="$full"
+        h={20}
+        mb={-14}
+        mr={-14}
+        size="sm"
+        variant="solid"
+        w={20}
+        zIndex={1}
+      >
+        <BadgeText color="$white">{count}</BadgeText>
+      </Badge>
+      {children}
+    </VStack>
   );
 }
 

@@ -41,7 +41,7 @@ const sortValueOptions = [
   },
 ];
 
-export default function BookShelf({ books, navigateTo, isMyShelf = false }) {
+export default function BookShelf({ books, navigateTo, isMyShelf = false, ...otherProps }) {
   const navigation = useNavigation();
   const [state, setState] = useState({
     filterInputValue: '',
@@ -99,7 +99,7 @@ export default function BookShelf({ books, navigateTo, isMyShelf = false }) {
   const filteredSortedBooks = sortedBooks && getBooksFiltered(sortedBooks);
 
   return (
-    <Box mb={200}>
+    <Box {...otherProps}>
       <HStack py="$2" space="md">
         <VStack justifyContent="flex-start" ml="$4" w="60%">
           <Text size="sm">Filter: </Text>
@@ -128,7 +128,7 @@ export default function BookShelf({ books, navigateTo, isMyShelf = false }) {
       </HStack>
 
       {isMyShelf && (
-        <Box bg="$white" p="$2">
+        <Box bg="$blue100" p="$2">
           <Button
             borderRadius="$full"
             onPress={() => {
