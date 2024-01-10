@@ -1,11 +1,17 @@
 import React, { useState } from 'react';
-import { View } from 'react-native';
-import { Box, ButtonGroup, Button, ButtonText, Center } from '@gluestack-ui/themed';
+import {
+  Box,
+  ButtonGroup,
+  Button,
+  ButtonText,
+  Center,
+  Image,
+  ScrollView,
+} from '@gluestack-ui/themed';
 
 import Login from './Login';
 import Register from './Register';
-
-const tabs = ['Register', 'Login'];
+import { mainLogo } from '../../../assets';
 
 export default function AuthContainer() {
   const [state, setState] = useState({
@@ -15,38 +21,39 @@ export default function AuthContainer() {
   const { selectedTab } = state;
 
   const buttonProps = {
-    borderBottomWidth: '2px',
-    borderRadius: '0',
-    px: '$2',
-    variant: 'link',
+    borderRadius: '$full',
   };
 
   return (
-    <View>
-      <Box bg="$gray200" h="100%">
-        <Center mt="$8">
-          <ButtonGroup>
+    <ScrollView bg="$coolGray900">
+      <Center pt="$8">
+        <Image source={mainLogo} alt="logo" w={100} h={120} resizeMode="contain" />
+      </Center>
+      <Box h="100%" px="$4" pb={200}>
+        <Center py="$4">
+          <ButtonGroup size="sm">
             <Button
               {...buttonProps}
-              borderBottomColor={selectedTab === 'Register' ? '$blue600' : '$white'}
+              variant={selectedTab === 'Register' ? 'solid' : 'outline'}
               onPress={() => setState({ ...state, selectedTab: 'Register' })}
             >
-              <ButtonText>Register</ButtonText>
+              <ButtonText color="$white">Register</ButtonText>
             </Button>
             <Button
               {...buttonProps}
-              borderBottomColor={selectedTab === 'Login' ? '$blue600' : '$white'}
+              variant={selectedTab === 'Login' ? 'solid' : 'outline'}
               onPress={() => setState({ ...state, selectedTab: 'Login' })}
             >
-              <ButtonText>Login</ButtonText>
+              <ButtonText color="$white">Login</ButtonText>
             </Button>
           </ButtonGroup>
         </Center>
 
-        <Box>{selectedTab === 'Register' && <Register />}</Box>
-
-        <Box>{selectedTab === 'Login' && <Login />}</Box>
+        <Box bg="#B3E8FF" rounded="$md" px="$4">
+          <Box>{selectedTab === 'Register' && <Register />}</Box>
+          <Box>{selectedTab === 'Login' && <Login />}</Box>
+        </Box>
       </Box>
-    </View>
+    </ScrollView>
   );
 }

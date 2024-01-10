@@ -338,7 +338,7 @@ export default function ProfileEdit() {
                 alt={currentUser.username}
                 resizeMode="contain"
                 source={{
-                  uri: selectedImage?.assets[0]?.uri || currentUser?.images[0],
+                  uri: selectedImage ? selectedImage.assets[0]?.uri : currentUser?.images[0],
                 }}
                 style={{ width: 300, height: 300 }}
               />

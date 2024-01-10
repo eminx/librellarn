@@ -4,6 +4,7 @@ import {
   Box,
   Button,
   ButtonText,
+  Heading,
   Input,
   InputField,
   Text,
@@ -85,7 +86,8 @@ export default function Register({ setUser }) {
 
   return (
     <Box p="$4">
-      <VStack space="md">
+      <Heading textAlign="center">Create a new account</Heading>
+      <VStack space="md" py="$2">
         <Box>
           <Controller
             control={control}
@@ -97,6 +99,7 @@ export default function Register({ setUser }) {
                 <Text size="sm">Username</Text>
                 <Input bg="$white" variant="rounded">
                   <InputField
+                    mb="$1"
                     value={value?.toLowerCase()}
                     onBlur={onBlur}
                     onChangeText={onChange}
@@ -107,7 +110,7 @@ export default function Register({ setUser }) {
             name="username"
           />
           {errors.username && (
-            <Text mt="$1" size="sm">
+            <Text color="$red500" mt="$1" size="sm">
               Username or email address is required
             </Text>
           )}
@@ -124,6 +127,7 @@ export default function Register({ setUser }) {
                 <Text size="sm">Email address</Text>
                 <Input bg="$white" variant="rounded">
                   <InputField
+                    mb="$1"
                     value={value?.toLowerCase()}
                     onBlur={onBlur}
                     onChangeText={onChange}
@@ -168,7 +172,13 @@ export default function Register({ setUser }) {
           )}
         </Box>
 
-        <Button isLoading={isLoading} onPress={handleSubmit(onSubmit)} type="submit">
+        <Button
+          bg="$green500"
+          borderRadius="$full"
+          isLoading={isLoading}
+          onPress={handleSubmit(onSubmit)}
+          type="submit"
+        >
           <ButtonText>Submit</ButtonText>
         </Button>
       </VStack>

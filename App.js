@@ -7,7 +7,6 @@ import {
   GluestackUIProvider,
   Badge,
   BadgeText,
-  Box,
   Icon,
   SearchIcon,
   VStack,
@@ -28,7 +27,35 @@ const localDevApi = `ws://${expoConfig?.hostUri?.split(':').shift()}:3000/websoc
 const productionApi = 'wss://app.librella.co/websocket';
 const api = __DEV__ ? localDevApi : productionApi;
 
-Meteor.connect(api, { AsyncStorage });
+const errToBody = (err) => {
+  const errProps = Object.getOwnPropertyNames(err);
+  const formBody = [];
+  for (const prop of errProps) {
+    const encodedKey = encodeURIComponent(prop);
+    const encodedValue = encodeURIComponent(err[prop]);
+    formBody.push(encodedKey + '=' + encodedValue);
+  }
+  return formBody.join('&');
+};
+
+const sendErr = (err) => {
+  const body = errToBody(err);
+  fetch('https://app.librella.co/errorlog', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/x-www-form-urlencoded;charset=UTF-8',
+    },
+    body,
+  })
+    .then(console.debug)
+    .catch(console.error);
+};
+
+try {
+  Meteor.connect(api, { AsyncStorage });
+} catch (err) {
+  sendErr(err);
+}
 
 const Tab = createBottomTabNavigator();
 
@@ -129,7 +156,7 @@ function NotificationBadge({ count, children }) {
 let AppContainer = withTracker(() => {
   Meteor.subscribe('me');
   const user = Meteor.user();
-  const currentUser = {
+  const currentUser = user && {
     ...user,
     createdAt: user?.createdAt,
   };
@@ -138,5 +165,10 @@ let AppContainer = withTracker(() => {
     currentUser,
   };
 })(App);
+
+ErrorUtils.setGlobalHandler((error, isFatal) => {
+  error.isFatal = isFatal;
+  sendErr(error);
+});
 
 export default AppContainer;

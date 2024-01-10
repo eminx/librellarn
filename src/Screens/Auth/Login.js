@@ -4,6 +4,7 @@ import {
   Box,
   Button,
   ButtonText,
+  Heading,
   Input,
   InputField,
   Text,
@@ -59,7 +60,8 @@ export default function Login() {
 
   return (
     <Box p="$4">
-      <VStack space="md">
+      <Heading textAlign="center">Login to your account</Heading>
+      <VStack space="md" py="$2">
         <Box>
           <Controller
             control={control}
@@ -71,7 +73,7 @@ export default function Login() {
                 <Text size="sm">Username or email address</Text>
                 <Input bg="$white" variant="rounded">
                   <InputField
-                    // placeholder="username or email address"
+                    mb="$1"
                     value={value?.toLowerCase()}
                     onBlur={onBlur}
                     onChangeText={onChange}
@@ -82,7 +84,7 @@ export default function Login() {
             name="username"
           />
           {errors.username && (
-            <Text mt="$1" size="sm">
+            <Text color="$red500" mt="$1" size="sm">
               Username or email address is required
             </Text>
           )}
@@ -99,7 +101,6 @@ export default function Login() {
                 <Text size="sm">Password</Text>
                 <Input bg="$white" variant="rounded">
                   <InputField
-                    // placeholder="password"
                     value={value}
                     type="password"
                     onBlur={onBlur}
@@ -111,13 +112,19 @@ export default function Login() {
             name="password"
           />
           {errors.password && (
-            <Text mt="$1" size="sm">
+            <Text color="$red500" mt="$1" size="sm">
               Password is required
             </Text>
           )}
         </Box>
 
-        <Button isDisabled={isLoading} onPress={handleSubmit(onSubmit)} type="submit">
+        <Button
+          bg="$green500"
+          borderRadius="$full"
+          isDisabled={isLoading}
+          onPress={handleSubmit(onSubmit)}
+          type="submit"
+        >
           <ButtonText>Submit</ButtonText>
         </Button>
       </VStack>
