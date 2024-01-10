@@ -51,6 +51,9 @@ const sendErr = (err) => {
     .catch(console.error);
 };
 
+const Data = Meteor.getData();
+Data.on('onLoginFailure', (e) => sendErr(e));
+
 try {
   Meteor.connect(api, { AsyncStorage });
 } catch (err) {
@@ -158,7 +161,7 @@ let AppContainer = withTracker(() => {
   const user = Meteor.user();
   const currentUser = user && {
     ...user,
-    createdAt: user?.createdAt,
+    createdAt: user?.createdAt?.toString(),
   };
 
   return {
