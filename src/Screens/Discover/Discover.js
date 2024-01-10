@@ -1,20 +1,10 @@
-import React, { useEffect, useState } from 'react';
-import {
-  Avatar,
-  AvatarImage,
-  Box,
-  Center,
-  HStack,
-  Pressable,
-  ScrollView,
-  Spinner,
-  Text,
-  VStack,
-} from '@gluestack-ui/themed';
+import React, { useContext, useEffect, useState } from 'react';
+import { Box, Center, FlatList, Pressable, Spinner, Text, VStack } from '@gluestack-ui/themed';
 
 import BookList from '../../Components/BookList';
 import { call } from '../../utils/functions';
 import AvatarWithUsername from '../../Components/AvatarWithUsername';
+import { StateContext } from '../../StateContext';
 
 export default function Discover({ navigation }) {
   const [state, setState] = useState({
@@ -23,23 +13,27 @@ export default function Discover({ navigation }) {
     isLoading: true,
   });
 
+  const { currentUser } = useContext(StateContext);
+
   useEffect(() => {
     getData();
-  }, []);
+  }, [currentUser]);
 
   const { books, users, isLoading } = state;
 
   const getData = async () => {
     try {
-      const respondUsers = await call('getUsersNearBy');
       const respondBooks = await call('getBooksNearBy');
+      const respondUsers = await call('getUsersNearBy');
 
-      setState({
-        ...state,
-        users: respondUsers,
-        books: respondBooks,
-        isLoading: false,
-      });
+      respondBooks &&
+        respondUsers &&
+        setState({
+          ...state,
+          books: respondBooks,
+          users: respondUsers,
+          isLoading: false,
+        });
     } catch (error) {
       console.log(error);
     }
@@ -67,9 +61,14 @@ function UsersNearBy({ navigation, users }) {
   }
   return (
     <Box bg="$amber50">
-      <ScrollView horizontal>
-        <HStack p="$2">
-          {users.map((u) => (
+      <FlatList
+        data={users}
+        horizontal
+        px="$2"
+        py="$1"
+        renderItem={({ item }) => {
+          const u = item;
+          return (
             <Pressable
               key={u.userId}
               p="$2"
@@ -89,9 +88,9 @@ function UsersNearBy({ navigation, users }) {
                 </Center>
               </VStack>
             </Pressable>
-          ))}
-        </HStack>
-      </ScrollView>
+          );
+        }}
+      />
     </Box>
   );
 }

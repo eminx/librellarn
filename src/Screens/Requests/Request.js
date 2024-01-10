@@ -130,6 +130,11 @@ function Request({ currentUser, isLoading, isOwner, navigation, request }) {
     const isUnreadMessage = count && count > 0;
     const theOther = isOwner ? requesterUsername : ownerUsername;
 
+    const requestNoDate = {
+      ...request,
+      createdAt: request.createdAt?.toDateString(),
+    };
+
     return (
       <>
         {isUnreadMessage && (
@@ -145,7 +150,7 @@ function Request({ currentUser, isLoading, isOwner, navigation, request }) {
             navigation.navigate('RequestMessages', {
               currentUser,
               isOwner,
-              request,
+              request: requestNoDate,
             })
           }
         >

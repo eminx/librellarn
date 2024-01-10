@@ -6,8 +6,6 @@ import {
   Badge,
   BadgeText,
   Box,
-  Center,
-  Divider,
   Heading,
   HStack,
   Text,
@@ -60,12 +58,12 @@ function AccordionContent({ user }) {
   return (
     <Box>
       {user.bio && (
-        <Box pb="$4">
+        <Box pb="$2">
           <Text>{user.bio}</Text>
         </Box>
       )}
-      <Center>
-        <HStack flexWrap="wrap" justifyContent="center" space="2xs" px="$4">
+      <Box>
+        <HStack flexWrap="wrap" space="2xs">
           {user.languages &&
             user.languages.length > 0 &&
             user.languages.map((language, index) => (
@@ -81,7 +79,7 @@ function AccordionContent({ user }) {
               </Badge>
             ))}
         </HStack>
-      </Center>
+      </Box>
     </Box>
   );
 }

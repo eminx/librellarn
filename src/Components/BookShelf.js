@@ -11,7 +11,7 @@ import {
   Text,
   VStack,
 } from '@gluestack-ui/themed';
-import { AddIcon } from '@gluestack-ui/themed';
+import { Plus } from 'lucide-react-native';
 import { useNavigation } from '@react-navigation/native';
 
 import BookList from './BookList';
@@ -131,13 +131,12 @@ export default function BookShelf({ books, navigateTo, isMyShelf = false }) {
         <Box bg="$white" p="$2">
           <Button
             borderRadius="$full"
-            size="sm"
             onPress={() => {
               navigation.navigate('AddBookSearch');
             }}
           >
             <ButtonText>Add book to my shelf</ButtonText>
-            <ButtonIcon as={AddIcon} ml="$2" />
+            <ButtonIcon as={Plus} ml="$2" size="xl" />
           </Button>
         </Box>
       )}

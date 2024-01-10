@@ -26,6 +26,8 @@ export default function BookList({ books, navigateTo }) {
       data={books}
       renderItem={({ item }) => {
         const { dateAdded, dateUpdatedLast, ...book } = item;
+        const bookImageSrc =
+          book.imageUrl || book.imageLinks?.thumbnail || book.imageLinks?.smallThumbnail;
         return (
           <Pressable
             key={book._id || book.canonicalVolumeLink}
@@ -41,17 +43,21 @@ export default function BookList({ books, navigateTo }) {
             <Box borderBottomColor="$coolGray200" borderBottomWidth={1} p="$2">
               <HStack flexWrap="wrap">
                 <Box>
-                  <Image
-                    alt={book.title}
-                    resizeMethod="contain"
-                    style={styles.thumbImage}
-                    source={{
-                      uri:
-                        book.imageUrl ||
-                        book.imageLinks?.thumbnail ||
-                        book.imageLinks?.smallThumbnail,
-                    }}
-                  />
+                  {bookImageSrc ? (
+                    <Image
+                      alt={book.title}
+                      resizeMode="contain"
+                      style={styles.thumbImage}
+                      source={{
+                        uri:
+                          book.imageUrl ||
+                          book.imageLinks?.thumbnail ||
+                          book.imageLinks?.smallThumbnail,
+                      }}
+                    />
+                  ) : (
+                    <Box bg="$blueGray200" w={48} h={72} />
+                  )}
                 </Box>
                 <Box flex={1}>
                   <Box px="$4">

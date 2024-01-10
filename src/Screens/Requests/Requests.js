@@ -154,10 +154,8 @@ export default function Requests({ navigation }) {
               sx={{ ':active': { bg: '$lime50' } }}
               onPress={() =>
                 navigation.navigate('Request', {
-                  request,
-                  currentUser,
                   isOwner,
-                  name: isOwner ? request.requesterUsername : request.ownerUsername,
+                  request,
                 })
               }
             >

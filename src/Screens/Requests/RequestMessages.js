@@ -1,7 +1,6 @@
 import Meteor, { Mongo, withTracker } from '@meteorrn/core';
-import React, { useCallback, useEffect } from 'react';
+import React, { useEffect } from 'react';
 import { StyleSheet } from 'react-native';
-import { useFocusEffect } from '@react-navigation/native';
 import { Box, Spinner } from '@gluestack-ui/themed';
 import { GiftedChat } from 'react-native-gifted-chat';
 

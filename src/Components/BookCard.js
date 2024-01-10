@@ -32,6 +32,8 @@ export default function BookCard({ book, navigation, children }) {
   const { isInfoModalOpen } = state;
 
   const isMyBook = currentUser.username === book.ownerUsername;
+  const bookImageSrc =
+    book.imageUrl || book.imageLinks?.thumbnail || book.imageLinks?.smallThumbnail;
 
   return (
     <>
@@ -48,17 +50,20 @@ export default function BookCard({ book, navigation, children }) {
         >
           <Box>
             <Center bg="$warmGray800" py="$2" w="100%">
-              <Image
-                alt={book.title}
-                h={160}
-                resizeMode="contain"
-                size="lg"
-                source={{
-                  uri:
-                    book.imageUrl || book.imageLinks?.thumbnail || book.imageLinks?.smallThumbnail,
-                }}
-                w={100}
-              />
+              {bookImageSrc ? (
+                <Image
+                  alt={book.title}
+                  h={160}
+                  resizeMode="contain"
+                  size="lg"
+                  source={{
+                    uri: bookImageSrc,
+                  }}
+                  w={100}
+                />
+              ) : (
+                <Box bg="$amber900" w={100} h={160} />
+              )}
             </Center>
           </Box>
           <Box bg="$amber50" h="100%">
