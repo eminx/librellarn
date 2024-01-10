@@ -18,7 +18,7 @@ import { StateContext } from './src/StateContext';
 import ProfileEdit from './src/Screens/ProfileEdit';
 
 const localDevApi = `ws://${expoConfig?.hostUri?.split(':').shift()}:3000/websocket`;
-const productionApi = 'wss://librella.app/websocket';
+const productionApi = 'wss://app.librella.co/websocket';
 const api = __DEV__ ? localDevApi : productionApi;
 
 Meteor.connect(api, { AsyncStorage });
