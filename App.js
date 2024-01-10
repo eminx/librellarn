@@ -15,6 +15,7 @@ import { config } from '@gluestack-ui/config';
 import Constants from 'expo-constants';
 const { expoConfig } = Constants;
 import { MessagesSquare, Library, SettingsIcon } from 'lucide-react-native';
+import * as Sentry from 'sentry-expo';
 
 import DiscoverContainer from './src/Screens/Discover';
 import RequestsContainer from './src/Screens/Requests';
@@ -26,6 +27,13 @@ import ProfileEdit from './src/Screens/ProfileEdit';
 const localDevApi = `ws://${expoConfig?.hostUri?.split(':').shift()}:3000/websocket`;
 const productionApi = 'wss://app.librella.co/websocket';
 const api = __DEV__ ? localDevApi : productionApi;
+import { sentryDSN } from '@env';
+
+Sentry.init({
+  dsn: sentryDSN,
+  enableInExpoDevelopment: true,
+  debug: true, // If `true`, Sentry will try to print out useful debugging information if something goes wrong with sending the event. Set it to `false` in production
+});
 
 const errToBody = (err) => {
   const errProps = Object.getOwnPropertyNames(err);

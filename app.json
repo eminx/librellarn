@@ -33,6 +33,7 @@
       "favicon": "./assets/favicon.png"
     },
     "plugins": [
+      ["sentry-expo"],
       [
         "expo-image-picker",
         {
@@ -51,6 +52,17 @@
         "projectId": "cdb28fdf-0e4c-4adf-a42e-9aec279e2fbd"
       }
     },
-    "owner": "eminx"
+    "owner": "eminx",
+    "hooks": {
+      "postPublish": [
+        {
+          "file": "sentry-expo/upload-sourcemaps",
+          "config": {
+            "organization": "mikroklima",
+            "project": "librella"
+          }
+        }
+      ]
+    }
   }
 }
