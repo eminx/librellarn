@@ -83,12 +83,10 @@ export default function Requests({ navigation }) {
 
   const getRequestsSorted = (items) => {
     return items.sort((a, b) => {
-      if (!b.lastMessageDate) {
-        return -1;
-      } else if (!a.lastMessageDate) {
-        return -1;
-      }
-      return new Date(b.lastMessageDate) - new Date(a.lastMessageDate);
+      return (
+        new Date(b.lastMessageDate || b.dateRequested) -
+        new Date(a.lastMessageDate || a.dateRequested)
+      );
     });
   };
 
