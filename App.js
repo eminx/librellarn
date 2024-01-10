@@ -130,7 +130,11 @@ function NotificationBadge({ count, children }) {
 
 let AppContainer = withTracker(() => {
   Meteor.subscribe('me');
-  let currentUser = Meteor.user();
+  const user = Meteor.user();
+  const currentUser = {
+    ...user,
+    createdAt: user?.createdAt,
+  };
 
   return {
     currentUser,
