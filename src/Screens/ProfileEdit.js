@@ -35,9 +35,6 @@ import { call } from '../utils/functions';
 import Select from '../Components/Select';
 import { StateContext } from '../StateContext';
 
-// const secret = process.env.private;
-// const awsParams = secret.awsParams;
-
 import { accessKeyId, secretAccessKey, region, signatureVersion } from '@env';
 const awsParams = {
   accessKeyId,
@@ -286,7 +283,7 @@ export default function ProfileEdit() {
 
   const languagesChanged =
     currentUser?.languages.map((l) => l.value).toString() !==
-    selectedLanguages.map((l) => l.value).toString();
+    selectedLanguages?.map((l) => l.value).toString();
 
   const buttonProps = {
     borderBottomWidth: '2px',

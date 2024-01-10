@@ -36,9 +36,6 @@ const awsParams = {
   signatureVersion,
 };
 
-// const secret = process.env.private;
-// const awsParams = secret.awsParams;
-
 const authorsKeys = ['elma', 'armut', 'kiraz', 'kayisi', 'seftali'];
 
 const bookModel = {

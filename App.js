@@ -1,5 +1,6 @@
 import Meteor, { withTracker } from '@meteorrn/core';
 import React from 'react';
+import { AsyncStorage } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { GluestackUIProvider, Icon, SearchIcon } from '@gluestack-ui/themed';
@@ -20,7 +21,7 @@ const localDevApi = `ws://${expoConfig?.hostUri?.split(':').shift()}:3000/websoc
 const productionApi = 'wss://librella.app/websocket';
 const api = __DEV__ ? localDevApi : productionApi;
 
-Meteor.connect(api);
+Meteor.connect(api, { AsyncStorage });
 
 const Tab = createBottomTabNavigator();
 
