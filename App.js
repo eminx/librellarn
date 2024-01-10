@@ -1,6 +1,6 @@
 import Meteor, { withTracker } from '@meteorrn/core';
 import React from 'react';
-import { AsyncStorage } from 'react-native';
+import { AsyncStorage } from '@react-native-async-storage/async-storage';
 import { NavigationContainer } from '@react-navigation/native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { GluestackUIProvider, Icon, SearchIcon } from '@gluestack-ui/themed';
