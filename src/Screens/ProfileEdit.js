@@ -282,7 +282,7 @@ export default function ProfileEdit() {
   };
 
   const languagesChanged =
-    currentUser?.languages.map((l) => l.value).toString() !==
+    currentUser?.languages?.map((l) => l.value).toString() !==
     selectedLanguages?.map((l) => l.value).toString();
 
   const buttonProps = {
@@ -381,7 +381,7 @@ export default function ProfileEdit() {
                 <Box>
                   <Text mb="$1">First name</Text>
                   <Input bg="$white" variant="rounded">
-                    <InputField value={value} onBlur={onBlur} onChangeText={onChange} />
+                    <InputField mb="$1" value={value} onBlur={onBlur} onChangeText={onChange} />
                   </Input>
                 </Box>
               )}
@@ -401,7 +401,7 @@ export default function ProfileEdit() {
                 <Box>
                   <Text mb="$1">Last name</Text>
                   <Input bg="$white" variant="rounded">
-                    <InputField value={value} onBlur={onBlur} onChangeText={onChange} />
+                    <InputField mb="$1" value={value} onBlur={onBlur} onChangeText={onChange} />
                   </Input>
                 </Box>
               )}
@@ -422,6 +422,7 @@ export default function ProfileEdit() {
                   <Text mb="$1">Self description</Text>
                   <Textarea bg="$white" variant="rounded">
                     <TextareaInput
+                      mt="$1"
                       placeholder="Description about you..."
                       value={value}
                       onBlur={onBlur}

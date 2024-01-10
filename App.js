@@ -3,12 +3,19 @@ import React from 'react';
 import { AsyncStorage } from '@react-native-async-storage/async-storage';
 import { NavigationContainer } from '@react-navigation/native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-import { GluestackUIProvider, Icon, SearchIcon } from '@gluestack-ui/themed';
+import {
+  GluestackUIProvider,
+  Badge,
+  BadgeText,
+  Box,
+  Icon,
+  SearchIcon,
+  VStack,
+} from '@gluestack-ui/themed';
 import { config } from '@gluestack-ui/config';
 import Constants from 'expo-constants';
 const { expoConfig } = Constants;
-import { MessagesSquare, Library } from 'lucide-react-native';
-import { SettingsIcon } from 'lucide-react-native';
+import { MessagesSquare, Library, SettingsIcon } from 'lucide-react-native';
 
 import DiscoverContainer from './src/Screens/Discover';
 import RequestsContainer from './src/Screens/Requests';
@@ -33,6 +40,9 @@ function App({ currentUser }) {
       </GluestackUIProvider>
     );
   }
+
+  let notificationCount = 0;
+  currentUser.notifications?.forEach((item) => (notificationCount += item.count));
 
   return (
     <StateContext.Provider value={{ currentUser }}>
@@ -61,7 +71,9 @@ function App({ currentUser }) {
               options={(route) => ({
                 headerShown: false,
                 tabBarIcon: ({ color, size }) => (
-                  <Icon as={MessagesSquare} color={color} size="xl" />
+                  <NotificationBadge count={notificationCount}>
+                    <Icon as={MessagesSquare} color={color} size="xl" />
+                  </NotificationBadge>
                 ),
                 tabBarLabel: 'Requests',
               })}
@@ -85,6 +97,34 @@ function App({ currentUser }) {
         </NavigationContainer>
       </GluestackUIProvider>
     </StateContext.Provider>
+  );
+}
+
+function NotificationBadge({ count, children }) {
+  if (count === 0) {
+    return children;
+  }
+
+  return (
+    <Box>
+      <VStack>
+        <Badge
+          h={20}
+          w={20}
+          bg="$red500"
+          borderRadius="$full"
+          mb={-14}
+          mr={-14}
+          size="sm"
+          zIndex={1}
+          variant="solid"
+          alignSelf="flex-end"
+        >
+          <BadgeText color="$white">{count}</BadgeText>
+        </Badge>
+        {children}
+      </VStack>
+    </Box>
   );
 }
 

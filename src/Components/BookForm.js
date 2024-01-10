@@ -268,7 +268,7 @@ export default function BookForm({ book, navigation }) {
               <Box>
                 <Text mb="$1">Title</Text>
                 <Input bg="$white" variant="rounded">
-                  <InputField value={value} onBlur={onBlur} onChangeText={onChange} />
+                  <InputField mb="$1" value={value} onBlur={onBlur} onChangeText={onChange} />
                 </Input>
               </Box>
             )}
@@ -289,6 +289,7 @@ export default function BookForm({ book, navigation }) {
                 <HStack>
                   <Input bg="$white" flex={1} variant="rounded">
                     <InputField
+                      mb="$1"
                       value={item}
                       onChangeText={(value) => handleAuthorChange(value, index)}
                     />
@@ -335,7 +336,7 @@ export default function BookForm({ book, navigation }) {
               <Box>
                 <Text mb="$1">Category</Text>
                 <Input bg="$white" variant="rounded">
-                  <InputField value={value} onBlur={onBlur} onChangeText={onChange} />
+                  <InputField mb="$1" value={value} onBlur={onBlur} onChangeText={onChange} />
                 </Input>
               </Box>
             )}
@@ -377,7 +378,7 @@ export default function BookForm({ book, navigation }) {
               <Box>
                 <Text mb="$1">ISBN</Text>
                 <Input bg="$white" variant="rounded">
-                  <InputField value={value} onBlur={onBlur} onChangeText={onChange} />
+                  <InputField mb="$1" value={value} onBlur={onBlur} onChangeText={onChange} />
                 </Input>
               </Box>
             )}
@@ -392,7 +393,7 @@ export default function BookForm({ book, navigation }) {
               <Box>
                 <Text mb="$1">Publisher</Text>
                 <Input bg="$white" variant="rounded">
-                  <InputField value={value} onBlur={onBlur} onChangeText={onChange} />
+                  <InputField mb="$1" value={value} onBlur={onBlur} onChangeText={onChange} />
                 </Input>
               </Box>
             )}
@@ -407,7 +408,7 @@ export default function BookForm({ book, navigation }) {
               <Box>
                 <Text mb="$1">Publication date</Text>
                 <Input bg="$white" variant="rounded">
-                  <InputField value={value} onBlur={onBlur} onChangeText={onChange} />
+                  <InputField mb="$1" value={value} onBlur={onBlur} onChangeText={onChange} />
                 </Input>
               </Box>
             )}
