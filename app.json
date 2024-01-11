@@ -15,7 +15,8 @@
     "ios": {
       "supportsTablet": true,
       "bundleIdentifier": "com.eminx.librella",
-      "buildNumber": "0.1.11"
+      "buildNumber": "0.1.11",
+      "bitcode": false
     },
     "android": {
       "adaptiveIcon": {
