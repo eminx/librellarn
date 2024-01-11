@@ -16,6 +16,7 @@ import Constants from 'expo-constants';
 const { expoConfig } = Constants;
 import { MessagesSquare, Library, SettingsIcon } from 'lucide-react-native';
 import * as Sentry from 'sentry-expo';
+import * as SecureStore from 'expo-secure-store';
 
 import DiscoverContainer from './src/Screens/Discover';
 import RequestsContainer from './src/Screens/Requests';
@@ -63,7 +64,16 @@ const Data = Meteor.getData();
 Data.on('onLoginFailure', (e) => sendErr(e));
 
 try {
-  Meteor.connect(api, { AsyncStorage });
+  Meteor.connect(api, {
+    AsyncStorage: {
+      getItem: SecureStore.getItemAsync,
+      setItem: SecureStore.setItemAsync,
+      removeItem: SecureStore.deleteItemAsync,
+    },
+    autoConnect: true,
+    autoReconnect: true,
+    reconnectInterval: 1500,
+  });
 } catch (err) {
   sendErr(err);
 }
