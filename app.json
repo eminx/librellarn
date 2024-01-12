@@ -54,16 +54,5 @@
       }
     },
     "owner": "eminx"
-    // "hooks": {
-    //   "postPublish": [
-    //     {
-    //       "file": "sentry-expo/upload-sourcemaps",
-    //       "config": {
-    //         "organization": "mikroklima",
-    //         "project": "librella"
-    //       }
-    //     }
-    //   ]
-    // }
   }
 }
