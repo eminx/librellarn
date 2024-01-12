@@ -2,7 +2,7 @@
   "expo": {
     "name": "librella",
     "slug": "librella-app",
-    "version": "0.1.12",
+    "version": "0.1.13",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
     "userInterfaceStyle": "light",
@@ -15,7 +15,7 @@
     "ios": {
       "supportsTablet": true,
       "bundleIdentifier": "com.eminx.librella",
-      "buildNumber": "0.1.12",
+      "buildNumber": "0.1.13",
       "bitcode": false
     },
     "android": {
@@ -34,7 +34,6 @@
       "favicon": "./assets/favicon.png"
     },
     "plugins": [
-      // ["sentry-expo"],
       [
         "expo-image-picker",
         {

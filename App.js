@@ -15,7 +15,6 @@ import { config } from '@gluestack-ui/config';
 import Constants from 'expo-constants';
 const { expoConfig } = Constants;
 import { MessagesSquare, Library, SettingsIcon } from 'lucide-react-native';
-import * as Sentry from 'sentry-expo';
 import * as SecureStore from 'expo-secure-store';
 
 import DiscoverContainer from './src/Screens/Discover';
