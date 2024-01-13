@@ -1,5 +1,5 @@
 import Meteor, { Mongo, withTracker } from '@meteorrn/core';
-import React, { useEffect } from 'react';
+import React, { useContext, useEffect } from 'react';
 import { StyleSheet } from 'react-native';
 import { Box, Spinner } from '@gluestack-ui/themed';
 import { GiftedChat } from 'react-native-gifted-chat';
@@ -8,27 +8,10 @@ import { call } from '../../utils/functions';
 
 const MessagesCollection = new Mongo.Collection('messages');
 
-function RequestMessages({ currentUser, discussion, isLoading, isOwner, request }) {
+function RequestMessages({ currentUser, discussion, isOwner, request }) {
   useEffect(() => {
-    // navigation.getParent()?.setOptions({
-    //   tabBarStyle: {
-    //     display: 'none',
-    //   },
-    // });
-
     Meteor.call('removeAllNotifications', request._id);
-
-    // return () =>
-    //   navigation.getParent()?.setOptions({
-    //     tabBarStyle: {
-    //       display: 'block',
-    //     },
-    //   });
-  }, [discussion]);
-
-  if (isLoading) {
-    return <Spinner />;
-  }
+  }, [discussion?.length]);
 
   const messages =
     discussion &&
@@ -71,15 +54,11 @@ function RequestMessages({ currentUser, discussion, isLoading, isOwner, request 
     }
   };
 
-  const onViewableItemsChanged = ({ viewableItems }) => {
-    console.log(viewableItems, 'lkds');
-  };
-
   return (
     <Box style={styles.container}>
       <GiftedChat
         inverted={false}
-        messages={messages}
+        messages={messages || []}
         renderAvatarOnTop
         renderUsernameOnMessage
         scrollToBottom
@@ -89,7 +68,6 @@ function RequestMessages({ currentUser, discussion, isLoading, isOwner, request 
           name: currentUser?.username,
         }}
         onSend={(msgs) => sendMessage(msgs[0])}
-        onViewableItemsChanged={onViewableItemsChanged}
       />
     </Box>
   );
@@ -107,8 +85,9 @@ const styles = StyleSheet.create({
 });
 
 const RequestMessagesContainer = withTracker(({ navigation, route }) => {
-  const { currentUser, isOwner, request } = route.params;
+  const { isOwner, request } = route.params;
   const chatSubscription = Meteor.subscribe('chat', request._id);
+  const currentUser = Meteor.user();
   const chat = MessagesCollection.findOne({ requestId: request._id });
   const discussion = chat?.messages?.map((message) => ({
     ...message,
@@ -119,7 +98,7 @@ const RequestMessagesContainer = withTracker(({ navigation, route }) => {
   return {
     currentUser,
     discussion,
-    isLoading: !chatSubscription.ready(),
+    // isLoading: !chatSubscription.ready(),
     isOwner,
     navigation,
     request,

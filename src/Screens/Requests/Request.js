@@ -1,5 +1,5 @@
 import Meteor, { Mongo, withTracker } from '@meteorrn/core';
-import React from 'react';
+import React, { useContext } from 'react';
 import {
   ArrowRightIcon,
   Avatar,
@@ -25,6 +25,7 @@ import { Bell, CheckSquare, MessagesSquare, MinusSquare } from 'lucide-react-nat
 
 import { call } from '../../utils/functions';
 import Alert from '../../Components/Alert';
+import { StateContext } from '../../StateContext';
 
 const RequestsCollection = new Mongo.Collection('requests');
 
@@ -47,10 +48,8 @@ const steps = [
   },
 ];
 
-function Request({ currentUser, isLoading, isOwner, navigation, request }) {
-  if (isLoading) {
-    return <Spinner />;
-  }
+function Request({ isOwner, navigation, request }) {
+  const { currentUser } = useContext(StateContext);
 
   const acceptRequest = async () => {
     if (currentUser._id !== request.ownerId) {
@@ -309,13 +308,9 @@ function Request({ currentUser, isLoading, isOwner, navigation, request }) {
 
 const RequestContainer = withTracker(({ navigation, route }) => {
   const { isOwner, request } = route.params;
-  Meteor.subscribe('me');
-  const currentUser = Meteor.user();
   const requestSubscription = Meteor.subscribe('request', request._id);
   const requestSubscribed = RequestsCollection.findOne({ _id: request._id });
   return {
-    currentUser,
-    isLoading: !requestSubscription.ready(),
     isOwner,
     navigation,
     request: requestSubscribed,

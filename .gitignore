@@ -8,7 +8,10 @@ node_modules/
 dist/
 web-build/
 app.json
+ios
 ios/*
+ios-releases
+ios-releases/*
 
 # Native
 *.orig.*
