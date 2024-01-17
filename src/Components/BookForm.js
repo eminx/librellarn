@@ -86,6 +86,40 @@ export default function BookForm({ book, navigation }) {
     });
   };
 
+  const handleSelectImage = (value) => {
+    console.log(value);
+    if (value === 'library') {
+      pickImageAsync();
+    } else {
+      openCamera();
+    }
+  };
+
+  const openCamera = async () => {
+    // Ask the user for the permission to access the camera
+    const permissionResult = await ImagePicker.requestCameraPermissionsAsync();
+
+    if (permissionResult.granted === false) {
+      alert("You've refused to allow this appp to access your camera!");
+      return;
+    }
+
+    const result = await ImagePicker.launchCameraAsync();
+
+    if (!result.canceled) {
+      setState({
+        ...state,
+        selectedImage: result,
+        selectImageButtonLoading: false,
+      });
+    } else {
+      setState({
+        ...state,
+        selectImageButtonLoading: false,
+      });
+    }
+  };
+
   const pickImageAsync = async () => {
     setState({
       ...state,
@@ -118,7 +152,6 @@ export default function BookForm({ book, navigation }) {
         ...state,
         selectImageButtonLoading: false,
       });
-      alert('You did not select any image.');
     }
   };
 
@@ -146,6 +179,7 @@ export default function BookForm({ book, navigation }) {
         {
           resize: {
             width: 300,
+            height: 200,
           },
         },
       ],
@@ -258,6 +292,41 @@ export default function BookForm({ book, navigation }) {
     <Box mb={200} w="100%">
       <VStack p="$4" space="lg" w="100%">
         <Box>
+          <Text mb="$1">Image</Text>
+          <Center>
+            {(selectedImage || book?.imageUrl) && (
+              <Image
+                alt={book?.title || 'New book'}
+                mb="$1"
+                resizeMode="contain"
+                source={{ uri: selectedImage?.assets[0]?.uri || book?.imageUrl }}
+                style={{ width: 200, height: 300 }}
+              />
+            )}
+          </Center>
+          <Select
+            options={[
+              { label: 'Pick a photo from library', value: 'library' },
+              { label: 'Take a photo', value: 'camera' },
+            ]}
+            value={book?.imageUrl || selectedImage ? 'Replace Image' : 'Pick Image'}
+            placeholder="Pick or Take Image"
+            onValueChange={(value) => handleSelectImage(value)}
+          />
+
+          {/* <Button
+            bg="$white"
+            isDisabled={selectImageButtonLoading}
+            rounded="$full"
+            variant="outline"
+            onPress={pickImageAsync}
+          >
+            {selectImageButtonLoading && <ButtonSpinner mr="$1" />}
+            <ButtonText>{selectedImage ? 'Replace Image' : 'Pick Image'}</ButtonText>
+          </Button> */}
+        </Box>
+
+        <Box>
           <Controller
             control={control}
             name="title"
@@ -351,23 +420,11 @@ export default function BookForm({ book, navigation }) {
         <Box>
           <Text mb="$1">Language</Text>
           <Select
-            bg="$white"
             options={allLanguages}
-            variant="rounded"
-            placeholder={!selectedLanguage?.label && !book?.language?.label ? 'Select' : null}
+            placeholder={selectedLanguage?.label || 'Select'}
+            // value={selectedLanguage?.label || 'Select'}
             onValueChange={(item) => handleSelectLanguage(item)}
           />
-
-          {/* <Button
-            action="secondary"
-            bg="$white"
-            borderRadius="$full"
-            color="$gray"
-            variant="outline"
-            onPress={() => setState({ ...state, pickerVisible: true })}
-          >
-            <ButtonText>{selectedLanguage?.label || book?.language?.label || 'Select'}</ButtonText>
-          </Button> */}
         </Box>
 
         <Box>
@@ -433,29 +490,6 @@ export default function BookForm({ book, navigation }) {
               </Box>
             )}
           />
-        </Box>
-
-        <Center>
-          {(selectedImage || book?.imageUrl) && (
-            <Image
-              alt={book?.title || 'New book'}
-              resizeMode="contain"
-              source={{ uri: selectedImage?.assets[0]?.uri || book?.imageUrl }}
-              style={{ width: 200, height: 300 }}
-            />
-          )}
-        </Center>
-
-        <Box>
-          <Button
-            bg="$white"
-            isDisabled={selectImageButtonLoading}
-            variant="outline"
-            onPress={pickImageAsync}
-          >
-            {selectImageButtonLoading && <ButtonSpinner mr="$1" />}
-            <ButtonText>{selectedImage ? 'Replace Image' : 'Pick or Take Image'}</ButtonText>
-          </Button>
         </Box>
 
         <Button isDisabled={isLoading} onPress={handleSubmit(onFormSubmit)} type="submit">

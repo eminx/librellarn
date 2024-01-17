@@ -21,15 +21,13 @@ export default function Select({
   placeholder = 'Select option',
   size = 'md',
   variant = 'rounded',
+  value,
   ...otherProps
 }) {
   return (
     <GlSelect {...otherProps}>
-      <SelectTrigger size={size} variant={variant}>
-        <SelectInput />
-        <Text color="$coolGray600" mr="$4">
-          {placeholder}
-        </Text>
+      <SelectTrigger bg="$white" size={size} variant={variant}>
+        <SelectInput placeholder={placeholder} placeholderTextColor="#262626" value={value} />
         <SelectIcon mr="$3">
           <Icon as={ChevronDownIcon} />
         </SelectIcon>

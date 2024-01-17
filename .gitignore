@@ -12,6 +12,8 @@ ios
 ios/*
 ios-releases
 ios-releases/*
+android
+android/*
 
 # Native
 *.orig.*

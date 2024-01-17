@@ -1,6 +1,6 @@
 import Meteor, { withTracker } from '@meteorrn/core';
 import React from 'react';
-// import { AsyncStorage } from '@react-native-async-storage/async-storage';
+import { AsyncStorage } from '@react-native-async-storage/async-storage';
 import { NavigationContainer } from '@react-navigation/native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import {
@@ -12,10 +12,9 @@ import {
   VStack,
 } from '@gluestack-ui/themed';
 import { config } from '@gluestack-ui/config';
-import Constants from 'expo-constants';
-const { expoConfig } = Constants;
+// import Constants from 'expo-constants';
 import { MessagesSquare, Library, SettingsIcon } from 'lucide-react-native';
-import * as SecureStore from 'expo-secure-store';
+// import * as SecureStore from 'expo-secure-store';
 
 import DiscoverContainer from './src/Screens/Discover';
 import RequestsContainer from './src/Screens/Requests';
@@ -28,8 +27,6 @@ import ProfileEdit from './src/Screens/ProfileEdit';
 const localDevApi = 'ws://localhost:3000/websocket';
 const productionApi = 'wss://app.librella.co/websocket';
 const api = __DEV__ ? localDevApi : productionApi;
-
-console.log(__DEV__, localDevApi);
 // const api = productionApi;
 
 const errToBody = (err) => {
@@ -60,16 +57,17 @@ const Data = Meteor.getData();
 Data.on('onLoginFailure', (e) => sendErr(e));
 
 try {
-  Meteor.connect(api, {
-    AsyncStorage: {
-      getItem: SecureStore.getItemAsync,
-      setItem: SecureStore.setItemAsync,
-      removeItem: SecureStore.deleteItemAsync,
-    },
-    autoConnect: true,
-    autoReconnect: true,
-    reconnectInterval: 1500,
-  });
+  Meteor.connect(api, { AsyncStorage });
+  // Meteor.connect(api, {
+  //   AsyncStorage: {
+  //     getItem: SecureStore.getItemAsync,
+  //     setItem: SecureStore.setItemAsync,
+  //     removeItem: SecureStore.deleteItemAsync,
+  //   },
+  //   autoConnect: true,
+  //   autoReconnect: true,
+  //   reconnectInterval: 1500,
+  // });
 } catch (err) {
   sendErr(err);
 }
@@ -86,7 +84,7 @@ function App({ currentUser }) {
   }
 
   let notificationCount = 0;
-  currentUser.notifications?.forEach((item) => {
+  currentUser?.notifications?.forEach((item) => {
     if (Number.isInteger(item.count)) {
       return (notificationCount += item.count);
     }

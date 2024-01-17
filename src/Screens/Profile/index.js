@@ -26,6 +26,7 @@ export default function ProfileContainer() {
   const getMyBooks = async () => {
     try {
       const respond = await call('getMyBooks');
+      console.log(respond.map((i) => i.title));
       setState({ ...state, books: respond });
     } catch (error) {
       console.log(error);

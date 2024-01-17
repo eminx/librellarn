@@ -35,6 +35,7 @@ export default function Login() {
   const onSubmit = (data) => {
     setState({ ...state, isLoading: true });
     const { username, password } = data;
+    console.log(username, password);
     Meteor.loginWithPassword(username.toLowerCase(), password, (error, respond) => {
       if (error) {
         console.log(error);

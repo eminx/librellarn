@@ -28,16 +28,22 @@
         "android.permission.ACCESS_COARSE_LOCATION",
         "android.permission.ACCESS_FINE_LOCATION",
         "android.permission.FOREGROUND_SERVICE"
-      ]
+      ],
+      "package": "com.eminx.librella"
     },
     "web": {
       "favicon": "./assets/favicon.png"
     },
     "plugins": [
       [
+        "expo-camera",
+        {
+          "cameraPermission": "Allow $(PRODUCT_NAME) to access your camera."
+        }
+      ],
+      [
         "expo-image-picker",
         {
-          "cameraPermission": "The app accesses your camera to take photos",
           "photosPermission": "The app accesses your photos to let you share them with your friends."
         }
       ],
