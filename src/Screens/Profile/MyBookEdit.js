@@ -12,6 +12,7 @@ export default function MyBookEdit({ route, navigation }) {
   const { book } = route.params;
   const [state, setState] = useState({
     deleteDialogOpen: false,
+    isDeleting: false,
   });
   const { getMyBooks } = useContext(BooksContext);
   const toast = useToast();
@@ -20,6 +21,7 @@ export default function MyBookEdit({ route, navigation }) {
 
   const handleDelete = async () => {
     try {
+      setState({ ...state, isDeleting: true });
       await call('removeBook', book._id);
       await getMyBooks();
       toast.show({
@@ -37,14 +39,19 @@ export default function MyBookEdit({ route, navigation }) {
         ),
       });
       console.log(error);
+    } finally {
+      setState({ ...state, isDeleting: false });
     }
   };
+
+  const { isDeleting } = state;
 
   return (
     <ScrollView>
       <BookForm book={book} navigation={navigation} />
       <Button
         action="negative"
+        isDisabled={isDeleting}
         mt={-180}
         size="sm"
         variant="link"
