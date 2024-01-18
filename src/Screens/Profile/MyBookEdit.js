@@ -27,7 +27,7 @@ export default function MyBookEdit({ route, navigation }) {
       toast.show({
         placement: 'top',
         render: ({ id }) => (
-          <Toast nativeId={id} message="Book is deleted from you virtual shelf" />
+          <Toast nativeId={id} message="Book is deleted from your virtual shelf" />
         ),
       });
       navigation.navigate('Profile');

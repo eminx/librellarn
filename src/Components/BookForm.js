@@ -105,12 +105,18 @@ export default function BookForm({ book, navigation }) {
       return;
     }
 
-    const result = await ImagePicker.launchCameraAsync();
+    const result = await ImagePicker.launchCameraAsync({
+      allowsEditing: true,
+      aspect: [2, 3],
+      quality: 1,
+    });
+
+    const resultResized = result && (await resizeImage(result.assets[0]));
 
     if (!result.canceled) {
       setState({
         ...state,
-        selectedImage: result,
+        selectedImage: { ...resultResized, fileName: resultResized.fileName },
         selectImageButtonLoading: false,
       });
     } else {
