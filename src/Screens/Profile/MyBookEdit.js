@@ -1,44 +1,46 @@
-import React from 'react';
+import React, { useContext, useState } from 'react';
 import { ScrollView } from 'react-native';
-import { Text } from '@gluestack-ui/themed';
+import { Button, ButtonText, Text, useToast } from '@gluestack-ui/themed';
 
 import BookForm from '../../Components/BookForm';
 import ConfirmDialog from '../../Components/ConfirmDialog';
+import Toast from '../../Components/Toast';
+import { call } from '../../utils/functions';
+import { BooksContext } from '../../StateContext';
 
 export default function MyBookEdit({ route, navigation }) {
   const { book } = route.params;
+  const [state, setState] = useState({
+    deleteDialogOpen: false,
+  });
+  const { getMyBooks } = useContext(BooksContext);
 
-  const updateBook = async (values) => {
-    try {
-      await call('updateBook', book._id, values);
-      await getBook();
-      successDialog('Your book is successfully updated');
-      setIsEditDialogOpen(false);
-    } catch (error) {
-      console.log(error);
-      errorDialog(error.reason || error.error);
-    } finally {
-      setState({
-        isLoading: false,
-      });
-    }
-  };
+  const { deleteDialogOpen } = state;
 
   const handleDelete = async () => {
     try {
-      await call('removeBook', id);
-      successDialog('Your book is successfully deleted');
-      navigate(`/${currentUser?.username}`);
+      await call('removeBook', book._id);
+      getMyBooks();
+      navigation.navigate('Profile');
     } catch (error) {
-      errorDialog(error);
+      console.log(error);
     }
   };
 
   return (
     <ScrollView>
-      <BookForm book={book} navigation={navigation} onSubmit={updateBook} />
-      <ConfirmDialog header="Are you sure?" onClose={() => setState({ ...state })}>
-        <Text>{`Please confirm that you want to borrow this book. When you confirm, there will be a new message section opening a new dialogue with ${book.ownerUsername}. So you can communicate with them about the details of receiving the book.`}</Text>
+      <BookForm book={book} navigation={navigation} />
+      <Button variant="link" onPress={() => setState({ ...state, deleteDialogOpen: true })}>
+        <ButtonText>Delete this book</ButtonText>
+      </Button>
+
+      <ConfirmDialog
+        header="Are you sure?"
+        isOpen={deleteDialogOpen}
+        onClose={() => setState({ ...state, deleteDialogOpen: false })}
+        onConfirm={() => handleDelete()}
+      >
+        <Text>Please confirm that you want to delete this book from your shelf.</Text>
       </ConfirmDialog>
     </ScrollView>
   );

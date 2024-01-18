@@ -13,7 +13,6 @@ import {
   SelectPortal,
   SelectScrollView,
   SelectTrigger,
-  Text,
 } from '@gluestack-ui/themed';
 
 export default function Select({

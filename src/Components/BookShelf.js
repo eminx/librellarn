@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useContext, useState } from 'react';
 
 import {
   Box,
@@ -41,7 +41,13 @@ const sortValueOptions = [
   },
 ];
 
-export default function BookShelf({ books, navigateTo, isMyShelf = false, ...otherProps }) {
+export default function BookShelf({
+  books,
+  navigateTo,
+  isMyShelf = false,
+  refresher,
+  ...otherProps
+}) {
   const navigation = useNavigation();
   const [state, setState] = useState({
     filterInputValue: '',
@@ -115,9 +121,10 @@ export default function BookShelf({ books, navigateTo, isMyShelf = false, ...oth
           </Box>
         </VStack>
 
-        <VStack justifyContent="flex-end" mr="$4">
+        <VStack justifyContent="flex-end" px="$4" w="100%">
           <Text size="sm">Sort:</Text>
           <Select
+            mr="$4"
             options={sortValueOptions}
             placeholder={sortValue?.label}
             size="sm"
@@ -141,7 +148,9 @@ export default function BookShelf({ books, navigateTo, isMyShelf = false, ...oth
         </Box>
       )}
 
-      {filteredSortedBooks && <BookList books={filteredSortedBooks} navigateTo={navigateTo} />}
+      {filteredSortedBooks && (
+        <BookList books={filteredSortedBooks} refresher={refresher} navigateTo={navigateTo} />
+      )}
 
       {filteredSortedBooks?.length === 0 && (
         <Center>

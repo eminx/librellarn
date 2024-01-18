@@ -59,6 +59,7 @@ export default function BookCard({ book, navigation, children }) {
                   source={{
                     uri: bookImageSrc,
                   }}
+                  style={{ width: 100, height: 160 }}
                   w={100}
                 />
               ) : (

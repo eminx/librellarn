@@ -50,7 +50,7 @@ export default function Discover({ navigation }) {
   return (
     <>
       <UsersNearBy navigation={navigation} users={users} />
-      <BookList books={books} navigateTo="DiscoverBook" />
+      <BookList books={books} navigateTo="DiscoverBook" refresher={getData} />
     </>
   );
 }

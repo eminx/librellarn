@@ -6,12 +6,12 @@ import BookShelf from '../../Components/BookShelf';
 
 export default function Profile() {
   const { currentUser } = useContext(StateContext);
-  const { books } = useContext(BooksContext);
+  const { books, getMyBooks } = useContext(BooksContext);
 
   return (
     <>
       <About user={currentUser} />
-      <BookShelf books={books} isMyShelf mb={216} navigateTo="MyBook" />
+      <BookShelf books={books} isMyShelf mb={216} navigateTo="MyBook" refresher={getMyBooks} />
     </>
   );
 }

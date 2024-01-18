@@ -286,43 +286,42 @@ export default function ProfileEdit() {
     selectedLanguages?.map((l) => l.value).toString();
 
   const buttonProps = {
-    borderBottomWidth: '2px',
-    borderRadius: '0',
-    px: '$2',
-    variant: 'link',
+    size: 'sm',
+    mx: -4.5,
+    borderRadius: 0,
   };
 
   return (
-    <ScrollView>
+    <ScrollView w="100%">
       <Button m="$2" variant="link" onPress={() => Meteor.logout()}>
         <ButtonText>Log out</ButtonText>
       </Button>
       <Center m="$2">
-        <ButtonGroup>
+        <ButtonGroup space="sm">
           <Button
             {...buttonProps}
-            borderBottomColor={selectedTab === 'image' ? '$blue600' : '$white'}
+            variant={selectedTab === 'image' ? 'solid' : 'outline'}
             onPress={() => setState({ ...state, selectedTab: 'image' })}
           >
             <ButtonText>Image</ButtonText>
           </Button>
           <Button
             {...buttonProps}
-            borderBottomColor={selectedTab === 'info' ? '$blue600' : '$white'}
+            variant={selectedTab === 'info' ? 'solid' : 'outline'}
             onPress={() => setState({ ...state, selectedTab: 'info' })}
           >
             <ButtonText>Info</ButtonText>
           </Button>
           <Button
             {...buttonProps}
-            borderBottomColor={selectedTab === 'languages' ? '$blue600' : '$white'}
+            variant={selectedTab === 'languages' ? 'solid' : 'outline'}
             onPress={() => setState({ ...state, selectedTab: 'languages' })}
           >
             <ButtonText>Languages</ButtonText>
           </Button>
           <Button
             {...buttonProps}
-            borderBottomColor={selectedTab === 'location' ? '$blue600' : '$white'}
+            variant={selectedTab === 'location' ? 'solid' : 'outline'}
             onPress={() => setState({ ...state, selectedTab: 'location' })}
           >
             <ButtonText>Location</ButtonText>
@@ -446,7 +445,7 @@ export default function ProfileEdit() {
       )}
 
       {selectedTab === 'languages' && (
-        <>
+        <Box w="100%">
           <Center bg="$white" px="$4" pt="$4">
             <HStack flexWrap="wrap" justifyContent="center">
               {selectedLanguages?.map((lang) => (
@@ -467,13 +466,13 @@ export default function ProfileEdit() {
             </HStack>
           </Center>
 
-          <Center pt="$4">
+          <Box p="$4" w="100%">
             <Select
               options={allLanguages}
               placeholder="Pick language"
               onValueChange={(item) => handleSelectLanguage(item)}
             />
-          </Center>
+          </Box>
 
           {languagesChanged && (
             <Center m="$4">
@@ -487,7 +486,7 @@ export default function ProfileEdit() {
               </Button>
             </Center>
           )}
-        </>
+        </Box>
       )}
 
       {selectedTab === 'location' && (

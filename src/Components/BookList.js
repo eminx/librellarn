@@ -1,5 +1,5 @@
-import React from 'react';
-import { StyleSheet } from 'react-native';
+import React, { useState } from 'react';
+import { RefreshControl, StyleSheet } from 'react-native';
 import {
   Box,
   FlatList,
@@ -14,16 +14,26 @@ import { useNavigation } from '@react-navigation/native';
 
 import AvatarWithUsername from './AvatarWithUsername';
 
-export default function BookList({ books, navigateTo }) {
+export default function BookList({ books, navigateTo, refresher }) {
+  const [state, setState] = useState({ refreshing: false });
   const navigation = useNavigation();
 
   if (!books || books.length === 0) {
     return null;
   }
 
+  const onRefresh = async () => {
+    setState({ ...state, refreshing: true });
+    await refresher();
+    setState({ ...state, refreshing: false });
+  };
+
+  const { refreshing } = state;
+
   return (
     <FlatList
       data={books}
+      refreshControl={<RefreshControl refreshing={refreshing} onRefresh={onRefresh} />}
       renderItem={({ item }) => {
         const { dateAdded, dateUpdatedLast, ...book } = item;
         const bookImageSrc =
@@ -46,6 +56,7 @@ export default function BookList({ books, navigateTo }) {
                   {bookImageSrc ? (
                     <Image
                       alt={book.title}
+                      height={72}
                       resizeMode="contain"
                       style={styles.thumbImage}
                       source={{
@@ -54,6 +65,7 @@ export default function BookList({ books, navigateTo }) {
                           book.imageLinks?.thumbnail ||
                           book.imageLinks?.smallThumbnail,
                       }}
+                      width={48}
                     />
                   ) : (
                     <Box bg="$blueGray200" w={48} h={72} />

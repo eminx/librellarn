@@ -22,7 +22,6 @@ import { BooksContext } from '../../StateContext';
 
 export default function AddBookItem({ route }) {
   const navigation = useNavigation();
-  const { getMyBooks } = useContext(BooksContext);
 
   const [state, setState] = useState({
     isAddModalOpen: false,
@@ -30,6 +29,7 @@ export default function AddBookItem({ route }) {
   });
   const { book } = route.params;
   const toast = useToast();
+  const { getMyBooks } = useContext(BooksContext);
 
   const { isAddModalOpen, isBookAdded, isLoading } = state;
 

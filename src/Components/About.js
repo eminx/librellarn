@@ -45,7 +45,7 @@ function AccordionTitle({ user }) {
       </Box>
 
       <VStack space="sm" px="$4">
-        <Heading mb="-$2" size="md">
+        <Heading mb={-6} size="md">
           {user.username}
         </Heading>
         {user.firstName && user.lastName && <Text>{user.firstName + ' ' + user.lastName}</Text>}

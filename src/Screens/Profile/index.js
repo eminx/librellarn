@@ -26,20 +26,19 @@ export default function ProfileContainer() {
   const getMyBooks = async () => {
     try {
       const respond = await call('getMyBooks');
-      console.log(respond.map((i) => i.title));
       setState({ ...state, books: respond });
     } catch (error) {
       console.log(error);
     }
   };
 
-  // if (!books || books.length === 0) {
-  //   return (
-  //     <Box p="$4">
-  //       <Spinner />
-  //     </Box>
-  //   );
-  // }
+  if (!books || books.length === 0) {
+    return (
+      <Box p="$4">
+        <Spinner />
+      </Box>
+    );
+  }
 
   return (
     <BooksContext.Provider value={{ books, getMyBooks }}>
@@ -51,6 +50,7 @@ export default function ProfileContainer() {
             title: 'My Profile',
           })}
         />
+
         <Stack.Screen
           component={MyBook}
           name="MyBook"
@@ -72,6 +72,7 @@ export default function ProfileContainer() {
           //   tabBarIcon: ({ color, size }) => <Icon as={PlusSquare} color={color} size="xl" />,
           // })}
         />
+
         <Stack.Screen
           component={AddBookItem}
           name="AddBookItem"

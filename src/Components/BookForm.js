@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useContext, useState } from 'react';
 import { useForm, Controller } from 'react-hook-form';
 import {
   AddIcon,
@@ -29,6 +29,7 @@ import Toast from './Toast';
 import { call } from '../utils/functions';
 
 import { accessKeyId, secretAccessKey, region, signatureVersion } from '@env';
+import { BooksContext } from '../StateContext';
 const awsParams = {
   accessKeyId,
   secretAccessKey,
@@ -67,8 +68,9 @@ export default function BookForm({ book, navigation }) {
     selectedImage: null,
     selectImageButtonLoading: false,
   });
+  const { getMyBooks } = useContext(BooksContext);
 
-  const { authors, isLoading, selectedLanguage, selectedImage, selectImageButtonLoading } = state;
+  const { authors, isLoading, selectedLanguage, selectedImage } = state;
 
   const handleAuthorChange = (value, index) => {
     const newAuthors = authors.map((item, i) => (i === index ? value : item));
@@ -87,7 +89,6 @@ export default function BookForm({ book, navigation }) {
   };
 
   const handleSelectImage = (value) => {
-    console.log(value);
     if (value === 'library') {
       pickImageAsync();
     } else {
@@ -141,10 +142,12 @@ export default function BookForm({ book, navigation }) {
       quality: 0,
     });
 
+    const resultResized = result && (await resizeImage(result.assets[0]));
+
     if (!result.canceled) {
       setState({
         ...state,
-        selectedImage: result,
+        selectedImage: { ...resultResized, fileName: result?.assets[0]?.fileName },
         selectImageButtonLoading: false,
       });
     } else {
@@ -178,8 +181,8 @@ export default function BookForm({ book, navigation }) {
         { crop: cropDimensions },
         {
           resize: {
-            width: 300,
-            height: 200,
+            width: 200,
+            height: 300,
           },
         },
       ],
@@ -189,12 +192,13 @@ export default function BookForm({ book, navigation }) {
     );
   };
 
-  const uploadImage = async (uri) => {
+  const uploadImage = async () => {
+    const uri = selectedImage?.uri;
     const response = await fetch(uri);
     const blob = await response.blob();
     const params = {
       Bucket: 'librella',
-      Key: selectedImage?.assets[0]?.fileName,
+      Key: selectedImage.fileName,
       Body: blob,
     };
 
@@ -217,8 +221,8 @@ export default function BookForm({ book, navigation }) {
       isLoading: true,
     });
 
-    const resizedImage = selectedImage && (await resizeImage(selectedImage?.assets[0]));
-    const imageUrl = selectedImage ? await uploadImage(resizedImage.uri) : values.imageUrl;
+    // const resizedImage = selectedImage && (await resizeImage(selectedImage?.assets[0]));
+    const imageUrl = selectedImage ? await uploadImage() : values.imageUrl;
 
     const parsedValues = {
       ...values,
@@ -243,6 +247,7 @@ export default function BookForm({ book, navigation }) {
   const insertBookManually = async (values) => {
     try {
       await call('insertBookManually', values);
+      await getMyBooks();
       toast.show({
         placement: 'top',
         render: ({ id }) => <Toast nativeId={id} message="Book is added to your virtual shelf" />,
@@ -273,6 +278,7 @@ export default function BookForm({ book, navigation }) {
   const updateBook = async (values) => {
     try {
       await call('updateBook', book._id, values);
+      await getMyBooks();
       toast.show({
         placement: 'top',
         render: ({ id }) => <Toast nativeId={id} message="Book is successfully updated" />,
@@ -299,7 +305,7 @@ export default function BookForm({ book, navigation }) {
                 alt={book?.title || 'New book'}
                 mb="$1"
                 resizeMode="contain"
-                source={{ uri: selectedImage?.assets[0]?.uri || book?.imageUrl }}
+                source={{ uri: selectedImage?.uri || book?.imageUrl }}
                 style={{ width: 200, height: 300 }}
               />
             )}
@@ -313,17 +319,6 @@ export default function BookForm({ book, navigation }) {
             placeholder="Pick or Take Image"
             onValueChange={(value) => handleSelectImage(value)}
           />
-
-          {/* <Button
-            bg="$white"
-            isDisabled={selectImageButtonLoading}
-            rounded="$full"
-            variant="outline"
-            onPress={pickImageAsync}
-          >
-            {selectImageButtonLoading && <ButtonSpinner mr="$1" />}
-            <ButtonText>{selectedImage ? 'Replace Image' : 'Pick Image'}</ButtonText>
-          </Button> */}
         </Box>
 
         <Box>
@@ -422,7 +417,6 @@ export default function BookForm({ book, navigation }) {
           <Select
             options={allLanguages}
             placeholder={selectedLanguage?.label || 'Select'}
-            // value={selectedLanguage?.label || 'Select'}
             onValueChange={(item) => handleSelectLanguage(item)}
           />
         </Box>
