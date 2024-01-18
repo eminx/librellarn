@@ -83,6 +83,10 @@ export default function ProfileEdit() {
     selectImageButtonLoading,
   } = state;
 
+  if (!currentUser) {
+    return <Spinner m="$4" />;
+  }
+
   const pickImageAsync = async () => {
     setState({
       ...state,

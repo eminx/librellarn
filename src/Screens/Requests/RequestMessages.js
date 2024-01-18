@@ -6,7 +6,7 @@ import { GiftedChat } from 'react-native-gifted-chat';
 
 import { call } from '../../utils/functions';
 
-const MessagesCollection = new Mongo.Collection('messages');
+const RequestsCollection = new Mongo.Collection('requests');
 
 function RequestMessages({ currentUser, discussion, isOwner, request }) {
   useEffect(() => {
@@ -86,10 +86,10 @@ const styles = StyleSheet.create({
 
 const RequestMessagesContainer = withTracker(({ navigation, route }) => {
   const { isOwner, request } = route.params;
-  const chatSubscription = Meteor.subscribe('chat', request._id);
+  const requestSubscription = Meteor.subscribe('request', request._id);
   const currentUser = Meteor.user();
-  const chat = MessagesCollection.findOne({ requestId: request._id });
-  const discussion = chat?.messages?.map((message) => ({
+  const theRequest = RequestsCollection.findOne({ _id: request._id });
+  const discussion = theRequest?.messages?.map((message) => ({
     ...message,
     isFromMe: currentUser && message && message.senderId === currentUser._id,
     createdDate: message.createdDate.toString(),
