@@ -53,7 +53,14 @@
           "locationAlwaysAndWhenInUsePermission": "Allow Librella to use your location."
         }
       ],
-      ["@config-plugins/react-native-branch"]
+      [
+        "expo-build-properties",
+        {
+          "ios": {
+            "deploymentTarget": "13.4"
+          }
+        }
+      ]
     ],
     "extra": {
       "eas": {
