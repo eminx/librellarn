@@ -366,7 +366,7 @@ export default function ProfileEdit() {
         <ButtonText>Log out</ButtonText>
       </Button>
       <Center m="$2">
-        <ButtonGroup space="sm">
+        <ButtonGroup bg="$white" space="sm">
           <Button
             {...buttonProps}
             variant={selectedTab === 'image' ? 'solid' : 'outline'}
