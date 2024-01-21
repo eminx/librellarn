@@ -3,6 +3,7 @@ import React, { useState } from 'react';
 import {
   Box,
   Button,
+  ButtonSpinner,
   ButtonText,
   Heading,
   Input,
@@ -125,6 +126,7 @@ export default function Login() {
           onPress={handleSubmit(onSubmit)}
           type="submit"
         >
+          {isLoading && <ButtonSpinner mr="$1" />}
           <ButtonText>Submit</ButtonText>
         </Button>
       </VStack>

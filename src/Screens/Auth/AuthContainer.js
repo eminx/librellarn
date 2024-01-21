@@ -6,7 +6,6 @@ import {
   ButtonText,
   Center,
   Image,
-  KeyboardAvoidingView,
   ScrollView,
   Text,
   useToast,
@@ -25,17 +24,22 @@ export default function AuthContainer() {
     emailForReset: '',
     forgotPasswordModal: false,
     selectedTab: 'Register',
-    emailSent: false,
+    isConfirmResetPasswordButtonLoading: false,
   });
   const toast = useToast();
 
-  const { emailForReset, emailSent, forgotPasswordModal, selectedTab } = state;
+  const { emailForReset, isConfirmResetPasswordButtonLoading, forgotPasswordModal, selectedTab } =
+    state;
 
   const buttonProps = {
     borderRadius: '$full',
   };
 
   const handleForgotPassword = async () => {
+    setState({
+      ...state,
+      isConfirmResetPasswordButtonLoading: true,
+    });
     try {
       await call('resetUserPassword', emailForReset);
       toast.show({
@@ -46,7 +50,7 @@ export default function AuthContainer() {
       });
       setState({
         ...state,
-        emailSent: true,
+        isConfirmResetPasswordButtonLoading: false,
         forgotPasswordModal: false,
       });
     } catch (error) {
@@ -59,6 +63,10 @@ export default function AuthContainer() {
             message="You will now receive a link to reset your password"
           />
         ),
+      });
+      setState({
+        ...state,
+        isConfirmResetPasswordButtonLoading: false,
       });
     }
   };
@@ -100,6 +108,7 @@ export default function AuthContainer() {
         </Box>
         <ConfirmDialog
           isOpen={forgotPasswordModal}
+          isConfirmButtonLoading={isConfirmResetPasswordButtonLoading}
           header="Enter your email"
           onClose={() => setState({ ...state, forgotPasswordModal: false })}
           onConfirm={() => handleForgotPassword()}

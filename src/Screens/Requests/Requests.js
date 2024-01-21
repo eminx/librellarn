@@ -19,6 +19,7 @@ import {
 
 import { StateContext } from '../../StateContext';
 import Input from '../../Components/Input';
+import AvatarWithUsername from '../../Components/AvatarWithUsername';
 
 const RequestsCollection = new Mongo.Collection('requests');
 
@@ -171,7 +172,11 @@ export default function Requests({ navigation }) {
                 <HStack justifyContent="space-between">
                   <HStack alignItems="center" flex={1}>
                     <Box alignItems="center" w={54} pt="$2" pl="$2" position="relative">
-                      <Image
+                      <AvatarWithUsername
+                        image={isOwner ? request.requesterImage : request.ownerImage}
+                        username={isOwner ? request.requesterUsername : request.ownerUsername}
+                      />
+                      {/* <Image
                         alt={isOwner ? request.requesterUsername : request.ownerUsername}
                         borderRadius="$full"
                         resizeMode="cover"
@@ -182,7 +187,7 @@ export default function Requests({ navigation }) {
                       />
                       <Text isTruncated size="xs">
                         {isOwner ? request.requesterUsername : request.ownerUsername}
-                      </Text>
+                      </Text> */}
                       {isNCount && (
                         <Box
                           bg="$lime800"

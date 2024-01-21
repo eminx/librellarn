@@ -9,6 +9,7 @@ import {
   AlertDialogFooter,
   AlertDialogHeader,
   Button,
+  ButtonSpinner,
   ButtonText,
   Heading,
   HStack,
@@ -20,7 +21,7 @@ export default function ConfirmDialog({
   children,
   footer,
   header,
-  isConfirmButtonDisabled,
+  isConfirmButtonLoading,
   isOpen,
   size = 'md',
   onClose,
@@ -54,9 +55,11 @@ export default function ConfirmDialog({
             </Button>
             <Button
               colorScheme={confirmButtonType}
-              isDisabled={isConfirmButtonDisabled}
+              isDisabled={isConfirmButtonLoading}
               onPress={onConfirm}
+              borderRadius="$full"
             >
+              {isConfirmButtonLoading && <ButtonSpinner mr="$1" />}
               <ButtonText>{confirmButtonLabel}</ButtonText>
             </Button>
           </HStack>

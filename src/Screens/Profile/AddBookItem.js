@@ -94,7 +94,7 @@ export default function AddBookItem({ route }) {
       <ConfirmDialog
         header="Are you sure?"
         isOpen={isAddModalOpen}
-        isConfirmButtonDisabled={isLoading}
+        isConfirmButtonLoading={isLoading}
         onClose={() => setState({ ...state, isAddModalOpen: false })}
         onConfirm={() => insertBook()}
       >
