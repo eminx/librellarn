@@ -7,21 +7,50 @@ import {
   Center,
   Image,
   ScrollView,
+  Text,
+  useToast,
 } from '@gluestack-ui/themed';
 
 import Login from './Login';
 import Register from './Register';
 import { mainLogo } from '../../../assets';
+import Input from '../../Components/Input';
+import ConfirmDialog from '../../Components/ConfirmDialog';
+import Toast from '../../Components/Toast';
+import { call } from '../../utils/functions';
 
 export default function AuthContainer() {
   const [state, setState] = useState({
+    emailForReset: '',
+    forgotPasswordModal: false,
     selectedTab: 'Register',
+    emailSent: false,
   });
+  const toast = useToast();
 
-  const { selectedTab } = state;
+  const { emailForReset, emailSent, forgotPasswordModal, selectedTab } = state;
 
   const buttonProps = {
     borderRadius: '$full',
+  };
+
+  const handleForgotPassword = async () => {
+    try {
+      await call('resetUserPassword', emailForReset);
+      toast.show({
+        placement: 'top',
+        render: ({ id }) => (
+          <Toast nativeId={id} message="You will now receive a link to reset your password" />
+        ),
+      });
+      setState({
+        ...state,
+        emailSent: true,
+        forgotPasswordModal: false,
+      });
+    } catch (error) {
+      message.error(error.reason);
+    }
   };
 
   return (
@@ -53,6 +82,27 @@ export default function AuthContainer() {
           <Box>{selectedTab === 'Register' && <Register />}</Box>
           <Box>{selectedTab === 'Login' && <Login />}</Box>
         </Box>
+
+        <Box p="$4">
+          <Button variant="link" onPress={() => setState({ ...state, forgotPasswordModal: true })}>
+            <ButtonText color="$blue300">Forgot Password?</ButtonText>
+          </Button>
+        </Box>
+
+        <ConfirmDialog
+          isOpen={forgotPasswordModal}
+          header="Enter your email"
+          onClose={() => setState({ ...state, forgotPasswordModal: false })}
+          onConfirm={() => handleForgotPassword()}
+        >
+          <Text mb="$4">You will receive an email with a link to reset your password.</Text>
+          <Input
+            type="email"
+            value={emailForReset}
+            onChangeText={(value) => setState({ ...state, emailForReset: value?.toLowerCase() })}
+            onPressCloseIcon={() => setState({ ...state, emailForReset: '' })}
+          />
+        </ConfirmDialog>
       </Box>
     </ScrollView>
   );
