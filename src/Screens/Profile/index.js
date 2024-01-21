@@ -32,14 +32,6 @@ export default function ProfileContainer() {
     }
   };
 
-  if (!books || books.length === 0) {
-    return (
-      <Box p="$4">
-        <Spinner />
-      </Box>
-    );
-  }
-
   return (
     <BooksContext.Provider value={{ books, getMyBooks }}>
       <Stack.Navigator initialRouteName="My Profile">

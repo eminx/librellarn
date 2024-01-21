@@ -8,6 +8,7 @@ import {
   Center,
   HStack,
   SearchIcon,
+  Spinner,
   Text,
   VStack,
 } from '@gluestack-ui/themed';
@@ -100,6 +101,10 @@ export default function BookShelf({
       sortValue: selectedValue,
     });
   };
+
+  if (!books || books.length === 0) {
+    return <Spinner m="$4" />;
+  }
 
   const sortedBooks = getBooksSorted();
   const filteredSortedBooks = sortedBooks && getBooksFiltered(sortedBooks);

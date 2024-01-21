@@ -1,4 +1,4 @@
-import React, { useRef } from "react";
+import React, { useRef } from 'react';
 
 import {
   AlertDialog,
@@ -12,17 +12,17 @@ import {
   ButtonText,
   Heading,
   HStack,
-} from "@gluestack-ui/themed";
+} from '@gluestack-ui/themed';
 
 export default function ConfirmDialog({
-  confirmButtonLabel = "Confirm",
-  confirmButtonType = "blue",
+  confirmButtonLabel = 'Confirm',
+  confirmButtonType = 'blue',
   children,
   footer,
   header,
   isConfirmButtonDisabled,
   isOpen,
-  size = "md",
+  size = 'md',
   onClose,
   onConfirm,
   ...otherProps
@@ -31,6 +31,7 @@ export default function ConfirmDialog({
 
   return (
     <AlertDialog
+      avoidKeyboard
       isOpen={isOpen}
       leastDestructiveRef={cancelRef}
       size={size}
@@ -48,12 +49,7 @@ export default function ConfirmDialog({
         <AlertDialogBody>{children}</AlertDialogBody>
         <AlertDialogFooter>
           <HStack justifyContent="space-between" w="100%">
-            <Button
-              variant="link"
-              colorScheme="$coolGray"
-              onPress={onClose}
-              ref={cancelRef}
-            >
+            <Button variant="link" colorScheme="$coolGray" onPress={onClose} ref={cancelRef}>
               <ButtonText>Cancel</ButtonText>
             </Button>
             <Button

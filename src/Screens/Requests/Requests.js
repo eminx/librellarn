@@ -90,6 +90,10 @@ export default function Requests({ navigation }) {
     });
   };
 
+  if (!requests || requests.length === 0) {
+    return <Spinner m="$4" />;
+  }
+
   const filteredRequestsByType = getRequestsFilteredByType(requests);
   const filteredRequestsByInput = getRequestsFilteredByInput(filteredRequestsByType);
   const sortedRequests = getRequestsSorted(filteredRequestsByInput);

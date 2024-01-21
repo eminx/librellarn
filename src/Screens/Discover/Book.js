@@ -1,4 +1,4 @@
-import React, { useContext, useState } from 'react';
+import React, { useState } from 'react';
 import { ScrollView } from 'react-native';
 import { Box, Button, ButtonText, Text, useToast } from '@gluestack-ui/themed';
 

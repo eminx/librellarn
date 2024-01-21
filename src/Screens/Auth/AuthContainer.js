@@ -6,6 +6,7 @@ import {
   ButtonText,
   Center,
   Image,
+  KeyboardAvoidingView,
   ScrollView,
   Text,
   useToast,
@@ -49,7 +50,16 @@ export default function AuthContainer() {
         forgotPasswordModal: false,
       });
     } catch (error) {
-      message.error(error.reason);
+      toast.show({
+        placement: 'top',
+        render: ({ id }) => (
+          <Toast
+            action="error"
+            nativeId={id}
+            message="You will now receive a link to reset your password"
+          />
+        ),
+      });
     }
   };
 
@@ -88,7 +98,6 @@ export default function AuthContainer() {
             <ButtonText color="$blue300">Forgot Password?</ButtonText>
           </Button>
         </Box>
-
         <ConfirmDialog
           isOpen={forgotPasswordModal}
           header="Enter your email"

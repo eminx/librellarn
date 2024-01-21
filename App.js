@@ -27,8 +27,8 @@ import ProfileEdit from './src/Screens/ProfileEdit';
 // const localDevApi = `ws://${expoConfig?.hostUri?.split(':').shift()}:3000/websocket`;
 const localDevApi = 'ws://localhost:3000/websocket';
 const productionApi = 'wss://app.librella.co/websocket';
-const api = __DEV__ ? localDevApi : productionApi;
-// const api = productionApi;
+// const api = __DEV__ ? localDevApi : productionApi;
+const api = productionApi;
 
 const errToBody = (err) => {
   const errProps = Object.getOwnPropertyNames(err);
