@@ -1,7 +1,7 @@
 {
   "expo": {
     "name": "librella",
-    "slug": "librella-app",
+    "slug": "librella",
     "version": "0.1.14",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
@@ -11,7 +11,9 @@
       "resizeMode": "contain",
       "backgroundColor": "#ffffff"
     },
-    "assetBundlePatterns": ["**/*"],
+    "assetBundlePatterns": [
+      "**/*"
+    ],
     "ios": {
       "supportsTablet": true,
       "bundleIdentifier": "com.eminx.librella",
@@ -27,7 +29,8 @@
         "android.permission.RECORD_AUDIO",
         "android.permission.ACCESS_COARSE_LOCATION",
         "android.permission.ACCESS_FINE_LOCATION",
-        "android.permission.FOREGROUND_SERVICE"
+        "android.permission.FOREGROUND_SERVICE",
+        "android.permission.CAMERA"
       ],
       "package": "com.eminx.librella"
     },
@@ -64,9 +67,9 @@
     ],
     "extra": {
       "eas": {
-        "projectId": "cdb28fdf-0e4c-4adf-a42e-9aec279e2fbd"
+        "projectId": "e8a2f736-033a-4a1b-8555-e278048810f4"
       }
     },
-    "owner": "eminx"
+    "owner": "eminxx"
   }
 }
