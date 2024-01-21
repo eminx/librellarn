@@ -87,6 +87,48 @@ export default function ProfileEdit() {
     return <Spinner m="$4" />;
   }
 
+  const handleSelectImage = (value) => {
+    if (value === 'library') {
+      pickImageAsync();
+    } else {
+      openCamera();
+    }
+  };
+
+  const openCamera = async () => {
+    // Ask the user for the permission to access the camera
+    const permissionResult = await ImagePicker.requestCameraPermissionsAsync();
+
+    if (permissionResult.granted === false) {
+      alert("You've refused to allow this appp to access your camera!");
+      return;
+    }
+
+    const result = await ImagePicker.launchCameraAsync({
+      allowsEditing: true,
+      aspect: [1, 1],
+      quality: 1,
+    });
+
+    const resultResized = result && (await resizeImage(result.assets[0]));
+
+    if (!result.canceled) {
+      setState({
+        ...state,
+        selectedImage: {
+          ...resultResized,
+          fileName: result?.assets[0]?.fileSize?.toString() || 'file',
+        },
+        selectImageButtonLoading: false,
+      });
+    } else {
+      setState({
+        ...state,
+        selectImageButtonLoading: false,
+      });
+    }
+  };
+
   const pickImageAsync = async () => {
     setState({
       ...state,
@@ -105,13 +147,18 @@ export default function ProfileEdit() {
     const result = await ImagePicker.launchImageLibraryAsync({
       allowsEditing: true,
       aspect: [1, 1],
-      quality: 0,
+      quality: 1,
     });
+
+    const resultResized = result && (await resizeImage(result.assets[0]));
 
     if (!result.canceled) {
       setState({
         ...state,
-        selectedImage: result,
+        selectedImage: {
+          ...resultResized,
+          fileName: result?.assets[0]?.fileName || result?.assets[0]?.fileSize.toString(),
+        },
         selectImageButtonLoading: false,
       });
     } else {
@@ -124,13 +171,29 @@ export default function ProfileEdit() {
   };
 
   const resizeImage = async (image) => {
+    const cropDimensions =
+      image.width >= image.height
+        ? {
+            height: image.height,
+            width: image.height,
+            originX: (image.width - image.height) / 2,
+            originY: 0,
+          }
+        : {
+            height: image.width,
+            width: image.width,
+            originX: 0,
+            originY: (image.height - image.width) / 2,
+          };
+
     return await manipulateAsync(
       image.uri,
       [
+        { crop: cropDimensions },
         {
           resize: {
-            width: 300,
-            height: 300,
+            width: 600,
+            height: 600,
           },
         },
       ],
@@ -145,7 +208,7 @@ export default function ProfileEdit() {
     const blob = await response.blob();
     const params = {
       Bucket: 'librella',
-      Key: selectedImage?.assets[0]?.fileName,
+      Key: selectedImage.fileName,
       Body: blob,
     };
 
@@ -154,7 +217,7 @@ export default function ProfileEdit() {
       .promise()
       .then(
         (data) => {
-          console.log(data);
+          console.log(data.Location);
           return data.Location;
         },
         (error) => {
@@ -169,8 +232,8 @@ export default function ProfileEdit() {
       confirmImageButtonLoading: true,
     });
 
-    const resizedImage = selectedImage && (await resizeImage(selectedImage?.assets[0]));
-    const imageUrl = selectedImage ? await uploadImage(resizedImage.uri) : values.imageUrl;
+    const imageUrl = selectedImage ? await uploadImage(selectedImage.uri) : values.imageUrl;
+    console.log(imageUrl);
 
     try {
       await call('setProfileImage', imageUrl);
@@ -295,6 +358,8 @@ export default function ProfileEdit() {
     borderRadius: 0,
   };
 
+  const isImage = selectedImage || (currentUser?.images && currentUser?.images[0]);
+
   return (
     <ScrollView w="100%">
       <Button m="$2" variant="link" onPress={() => Meteor.logout()}>
@@ -336,12 +401,12 @@ export default function ProfileEdit() {
       {selectedTab === 'image' && (
         <Box>
           <Center>
-            {(selectedImage || currentUser?.images[0]) && (
+            {isImage && (
               <Image
                 alt={currentUser.username}
                 resizeMode="contain"
                 source={{
-                  uri: selectedImage ? selectedImage.assets[0]?.uri : currentUser?.images[0],
+                  uri: selectedImage ? selectedImage.uri : currentUser?.images[0],
                 }}
                 style={{ width: 300, height: 300 }}
               />
@@ -349,17 +414,18 @@ export default function ProfileEdit() {
           </Center>
 
           <Box p="$4">
-            <Button
-              bg="$white"
-              isDisabled={selectImageButtonLoading}
-              mb="$4"
-              variant="outline"
-              onPress={pickImageAsync}
-            >
-              {selectImageButtonLoading && <ButtonSpinner mr="$1" />}
-              <ButtonText>{selectedImage ? 'Replace Image' : 'Pick or Take Image'}</ButtonText>
-            </Button>
+            <Select
+              options={[
+                { label: 'Pick a photo from library', value: 'library' },
+                { label: 'Take a photo', value: 'camera' },
+              ]}
+              value={isImage ? 'Replace Image' : 'Pick or Take Photo'}
+              placeholder="Pick or Take Image"
+              onValueChange={(value) => handleSelectImage(value)}
+            />
+          </Box>
 
+          <Box p="$4">
             {selectedImage && (
               <Button
                 isDisabled={confirmImageButtonLoading}

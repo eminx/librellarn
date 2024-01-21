@@ -116,7 +116,10 @@ export default function BookForm({ book, navigation }) {
     if (!result.canceled) {
       setState({
         ...state,
-        selectedImage: { ...resultResized, fileName: resultResized.fileName },
+        selectedImage: {
+          ...resultResized,
+          fileName: result?.assets[0]?.fileSize?.toString() || 'file',
+        },
         selectImageButtonLoading: false,
       });
     } else {
@@ -145,7 +148,7 @@ export default function BookForm({ book, navigation }) {
     const result = await ImagePicker.launchImageLibraryAsync({
       allowsEditing: true,
       aspect: [2, 3],
-      quality: 0,
+      quality: 1,
     });
 
     const resultResized = result && (await resizeImage(result.assets[0]));
@@ -167,18 +170,18 @@ export default function BookForm({ book, navigation }) {
   const resizeImage = async (image) => {
     // aspact ratio: 2/3 (width/height)
     const cropDimensions =
-      image.width >= image.height
+      image.width >= (image.height / 3) * 2
         ? {
             height: image.height,
             width: (image.height * 2) / 3,
-            originX: image.height / 3,
+            originX: image.height / 6,
             originY: 0,
           }
         : {
             height: (image.width * 2) / 3,
             width: image.width,
             originX: 0,
-            originY: image.width / 3,
+            originY: image.width / 6,
           };
 
     return await manipulateAsync(
@@ -187,8 +190,8 @@ export default function BookForm({ book, navigation }) {
         { crop: cropDimensions },
         {
           resize: {
-            width: 200,
-            height: 300,
+            width: 400,
+            height: 600,
           },
         },
       ],
@@ -207,7 +210,6 @@ export default function BookForm({ book, navigation }) {
       Key: selectedImage.fileName,
       Body: blob,
     };
-
     return await s3
       .upload(params)
       .promise()
