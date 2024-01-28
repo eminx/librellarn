@@ -2,7 +2,7 @@
   "expo": {
     "name": "librella",
     "slug": "librella",
-    "version": "0.1.15",
+    "version": "0.1.16",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
     "userInterfaceStyle": "light",
@@ -15,7 +15,7 @@
     "ios": {
       "supportsTablet": true,
       "bundleIdentifier": "com.eminx.librella",
-      "buildNumber": "0.1.15",
+      "buildNumber": "0.1.16",
       "bitcode": false
     },
     "android": {
