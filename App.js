@@ -17,58 +17,22 @@ import { MessagesSquare, Library, SettingsIcon } from 'lucide-react-native';
 // import * as SecureStore from 'expo-secure-store';
 import { StatusBar } from 'expo-status-bar';
 
+// import './i18n';
 import DiscoverContainer from './src/Screens/Discover';
 import RequestsContainer from './src/Screens/Requests';
 import AuthContainer from './src/Screens/Auth/AuthContainer';
 import ProfileContainer from './src/Screens/Profile';
 import { StateContext } from './src/StateContext';
 import ProfileEdit from './src/Screens/ProfileEdit';
+import { i18n } from './i18n';
 
-// const localDevApi = `ws://${expoConfig?.hostUri?.split(':').shift()}:3000/websocket`;
 const localDevApi = 'ws://localhost:3000/websocket';
 const productionApi = 'wss://librella.app/websocket';
 // const api = __DEV__ ? localDevApi : productionApi;
 const api = productionApi;
 
-const errToBody = (err) => {
-  const errProps = Object.getOwnPropertyNames(err);
-  const formBody = [];
-  for (const prop of errProps) {
-    const encodedKey = encodeURIComponent(prop);
-    const encodedValue = encodeURIComponent(err[prop]);
-    formBody.push(encodedKey + '=' + encodedValue);
-  }
-  return formBody.join('&');
-};
-
-const sendErr = (err) => {
-  const body = errToBody(err);
-  fetch('https://app.librella.co/errorlog', {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/x-www-form-urlencoded;charset=UTF-8',
-    },
-    body,
-  })
-    .then(console.debug)
-    .catch(console.error);
-};
-
-const Data = Meteor.getData();
-Data.on('onLoginFailure', (e) => sendErr(e));
-
 try {
   Meteor.connect(api, { AsyncStorage });
-  // Meteor.connect(api, {
-  //   AsyncStorage: {
-  //     getItem: SecureStore.getItemAsync,
-  //     setItem: SecureStore.setItemAsync,
-  //     removeItem: SecureStore.deleteItemAsync,
-  //   },
-  //   autoConnect: true,
-  //   autoReconnect: true,
-  //   reconnectInterval: 1500,
-  // });
 } catch (err) {
   sendErr(err);
 }
@@ -111,7 +75,7 @@ function App({ currentUser }) {
                 options={(route) => ({
                   headerShown: false,
                   tabBarIcon: ({ color, size }) => <Icon as={SearchIcon} color={color} size="xl" />,
-                  tabBarLabel: 'Discover',
+                  tabBarLabel: i18n.t('screens.labels.discover'),
                 })}
               />
               <Tab.Screen
@@ -124,7 +88,7 @@ function App({ currentUser }) {
                       <Icon as={MessagesSquare} color={color} size="xl" />
                     </NotificationBadge>
                   ),
-                  tabBarLabel: 'Requests',
+                  tabBarLabel: i18n.t('screens.labels.requests'),
                 })}
               />
               <Tab.Screen
@@ -133,6 +97,7 @@ function App({ currentUser }) {
                 options={(route) => ({
                   headerShown: false,
                   tabBarIcon: ({ color, size }) => <Icon as={Library} color={color} size="xl" />,
+                  tabBarLabel: i18n.t('screens.labels.myProfile'),
                 })}
               />
               <Tab.Screen
@@ -142,6 +107,7 @@ function App({ currentUser }) {
                   tabBarIcon: ({ color, size }) => (
                     <Icon as={SettingsIcon} color={color} size="xl" />
                   ),
+                  tabBarLabel: i18n.t('screens.labels.settings'),
                 })}
               />
             </Tab.Navigator>

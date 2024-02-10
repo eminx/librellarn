@@ -1,0 +1,12 @@
+{
+  "en": {
+    "screens": {
+      "labels": {
+        "discover": "Discover",
+        "requests": "Requests",
+        "myProfile": "My Profile",
+        "settings": "Settings"
+      }
+    }
+  }
+}

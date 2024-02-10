@@ -16,7 +16,9 @@ export default function AvatarWithUsername({ image, username }) {
         {image && <AvatarImage alt={username} source={{ uri: image }} />}
       </Avatar>
       <Center>
-        <Text size="sm">{username}</Text>
+        <Text size="xs" isTruncated>
+          {username}
+        </Text>
       </Center>
     </VStack>
   );

@@ -1,6 +1,6 @@
 {
   "expo": {
-    "name": "librella",
+    "name": "Librella",
     "slug": "librella",
     "version": "0.1.16",
     "orientation": "portrait",
@@ -61,7 +61,8 @@
             "deploymentTarget": "13.4"
           }
         }
-      ]
+      ],
+      "expo-localization"
     ],
     "extra": {
       "eas": {

@@ -516,15 +516,15 @@ export default function ProfileEdit() {
 
       {selectedTab === 'languages' && (
         <Box w="100%">
-          <Center bg="$white" px="$4" pt="$4">
+          <Center bg="$white" p="$4">
             <HStack flexWrap="wrap" justifyContent="center">
               {selectedLanguages?.map((lang) => (
                 <Badge
                   key={lang.value}
                   action="success"
-                  mb="$4"
-                  mr="$4"
-                  size="lg"
+                  mb="$2"
+                  mr="$2"
+                  size="sm"
                   variant="outline"
                 >
                   <BadgeText>{lang.label}</BadgeText>
