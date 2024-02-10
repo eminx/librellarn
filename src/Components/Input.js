@@ -28,12 +28,7 @@ export default function Input({
           </InputIcon>
         </InputSlot>
       )}
-      <InputField
-        mb={size === 'md' ? '$1' : 'lg' ? '$2' : '$0'}
-        placeholder={placeholder}
-        value={value}
-        onChangeText={onChangeText}
-      />
+      <InputField placeholder={placeholder} value={value} onChangeText={onChangeText} />
       {showCLoseIcon && value?.length > 0 && (
         <InputSlot mb="$1" pr="$3" onPress={() => onPressCloseIcon()}>
           <InputIcon mt="$1">

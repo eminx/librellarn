@@ -55,10 +55,10 @@ export default function AddBookSearch({ navigation }) {
       <HStack p="$4">
         <Box flexGrow={1}>
           <Input
-            borderTopRightRadius={isSearchBarFull ? '0' : '100%'}
-            borderBottomRightRadius={isSearchBarFull ? '0' : '100%'}
-            height={42}
+            borderTopRightRadius={isSearchBarFull ? '0' : 100}
+            borderBottomRightRadius={isSearchBarFull ? '0' : 100}
             leftIcon={SearchIcon}
+            height={42}
             placeholder={i18n.t('profile.searchPlaceholder')}
             size="lg"
             value={searchBarInput}
