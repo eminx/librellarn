@@ -20,13 +20,14 @@ import {
 import { StateContext } from '../../StateContext';
 import Input from '../../Components/Input';
 import AvatarWithUsername from '../../Components/AvatarWithUsername';
+import { i18n } from '../../../i18n';
 
 const RequestsCollection = new Mongo.Collection('requests');
 
 const filterOptions = [
-  { label: 'All', value: 'all' },
-  { label: 'By me', value: 'by me' },
-  { label: 'To me', value: 'to me' },
+  { label: i18n.t('generic.all'), value: 'all' },
+  { label: i18n.t('generic.byMe'), value: 'by me' },
+  { label: i18n.t('generic.toMe'), value: 'to me' },
 ];
 
 export default function Requests({ navigation }) {

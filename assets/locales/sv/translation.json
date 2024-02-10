@@ -1,6 +1,7 @@
 {
   "sv": {
     "generic": {
+      "all": "Allt",
       "author": "Författare",
       "authors": "Författare",
       "authorsRequired": "Ange minst en författare",
@@ -8,6 +9,7 @@
       "bookTitle": "Boktitel",
       "bookAuthor": "Bokens författare",
       "bookLanguage": "Bokens språk",
+      "byMe": "Från mig",
       "category": "Kategori",
       "cancel": "Avbryt",
       "confirm": "Bekräfta",
@@ -32,6 +34,7 @@
       "success": "Success",
       "title": "Titel",
       "titleRequired": "Du måste ange titel",
+      "toMe": "Till mig",
       "unknownAuthors": "Okänd författare"
     },
     "auth": {

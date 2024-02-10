@@ -1,6 +1,7 @@
 {
   "en": {
     "generic": {
+      "all": "All",
       "author": "Author",
       "authors": "Authors",
       "authorsRequired": "At least one author is required",
@@ -8,6 +9,7 @@
       "bookTitle": "Book title",
       "bookAuthor": "Book author",
       "bookLanguage": "Book language",
+      "byMe": "By me",
       "category": "Category",
       "cancel": "Cancel",
       "confirm": "Confirm",
@@ -32,6 +34,7 @@
       "success": "Success",
       "title": "Title",
       "titleRequired": "Title is required",
+      "toMe": "To me",
       "unknownAuthors": "unknown authors"
     },
     "auth": {

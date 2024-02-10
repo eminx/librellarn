@@ -1,6 +1,7 @@
 {
   "tr": {
     "generic": {
+      "all": "Tümü",
       "author": "Yazar",
       "authors": "Yazar(lar)",
       "authorsRequired": "En az bir yazar gerekli",
@@ -8,6 +9,7 @@
       "bookTitle": "Kitap ismi",
       "bookAuthor": "Kitap yazarı",
       "bookLanguage": "Kitap dili",
+      "byMe": "Benden",
       "category": "Kategori",
       "cancel": "İptal",
       "confirm": "Onay",
@@ -32,6 +34,7 @@
       "success": "Başarı",
       "title": "Başlık",
       "titleRequired": "Başlık gerekli",
+      "toMe": "Bana",
       "unknownAuthors": "bilinmeyen yazarlar"
     },
     "auth": {
