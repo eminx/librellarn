@@ -162,6 +162,7 @@ function App({ currentUser }) {
                   tabBarIcon: ({ color, size }) => (
                     <Icon as={SettingsIcon} color={color} size="xl" />
                   ),
+                  headerTitle: i18n.t('settings.label'),
                   tabBarLabel: i18n.t('settings.label'),
                 })}
               />

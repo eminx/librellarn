@@ -553,18 +553,16 @@ export default function ProfileEdit() {
                 onValueChange={(item) => handleSelectLanguage(item)}
               />
             </Box>
-            {languagesChanged && (
-              <Center>
-                <Button
-                  isDisabled={confirmLanguagesButtonLoading}
-                  type="submit"
-                  onPress={() => handleUpdateLanguages()}
-                >
-                  <ButtonText>{i18n.t('generic.confirm')}</ButtonText>
-                  {confirmLanguagesButtonLoading && <ButtonSpinner mr="$1" />}
-                </Button>
-              </Center>
-            )}
+            <Center>
+              <Button
+                isDisabled={confirmLanguagesButtonLoading || !languagesChanged}
+                type="submit"
+                onPress={() => handleUpdateLanguages()}
+              >
+                <ButtonText>{i18n.t('generic.confirm')}</ButtonText>
+                {confirmLanguagesButtonLoading && <ButtonSpinner mr="$1" />}
+              </Button>
+            </Center>
           </Center>
         </Box>
       )}

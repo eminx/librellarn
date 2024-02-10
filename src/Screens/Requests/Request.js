@@ -232,7 +232,7 @@ function Request({ isOwner, navigation, request }) {
         <Box bg="$white">
           {isConfirmed && !isHanded && isOwner && (
             <Center p="$4">
-              <Button variant="solid" onPress={() => setIsHanded()}>
+              <Button bg="$green500" variant="solid" onPress={() => setIsHanded()}>
                 <ButtonText>{i18n.t('requests.handedOver')}</ButtonText>
               </Button>
             </Center>
@@ -240,7 +240,7 @@ function Request({ isOwner, navigation, request }) {
 
           {isHanded && !isReturned && isOwner && (
             <Center p="$4">
-              <Button variant="solid" onPress={() => setIsReturned()}>
+              <Button bg="$green500" variant="solid" onPress={() => setIsReturned()}>
                 <ButtonText>{i18n.t('requests.receivedBack')}</ButtonText>
               </Button>
             </Center>
@@ -251,7 +251,7 @@ function Request({ isOwner, navigation, request }) {
           <Box bg="$white" p="$2">
             <Center>
               <ButtonGroup space="$2">
-                <Button onPress={() => acceptRequest()}>
+                <Button bg="$green500" onPress={() => acceptRequest()}>
                   <ButtonText>{i18n.t('requests.accept')}</ButtonText>
                 </Button>
                 <Button variant="outline" onPress={() => denyRequest()}>

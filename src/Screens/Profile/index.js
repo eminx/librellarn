@@ -35,10 +35,10 @@ export default function ProfileContainer() {
 
   return (
     <BooksContext.Provider value={{ books, getMyBooks, booksLoading }}>
-      <Stack.Navigator initialRouteName="My Profile">
+      <Stack.Navigator initialRouteName="MyProfile">
         <Stack.Screen
           component={Profile}
-          name="Profile"
+          name="MyProfile"
           options={({ route }) => ({
             title: i18n.t('profile.label'),
           })}

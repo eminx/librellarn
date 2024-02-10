@@ -23,7 +23,11 @@ import AvatarWithUsername from '../../Components/AvatarWithUsername';
 
 const RequestsCollection = new Mongo.Collection('requests');
 
-const filterOptions = ['all', 'by me', 'to me'];
+const filterOptions = [
+  { label: 'All', value: 'all' },
+  { label: 'By me', value: 'by me' },
+  { label: 'To me', value: 'to me' },
+];
 
 export default function Requests({ navigation }) {
   const [state, setState] = useState({
@@ -117,17 +121,17 @@ export default function Requests({ navigation }) {
           <ButtonGroup>
             {filterOptions.map((option) => (
               <Button
-                key={option}
-                borderBottomColor={requestType === option ? '$blue600' : '$white'}
+                key={option.value}
+                borderBottomColor={requestType === option.value ? '$blue600' : '$white'}
                 borderBottomWidth="2px"
                 borderRadius="0"
                 px="$2"
                 size="sm"
                 variant="link"
-                onPress={() => setState({ ...state, requestType: option })}
+                onPress={() => setState({ ...state, requestType: option.value })}
               >
-                <ButtonText color={requestType === option ? '$blue600' : '$coolGray800'}>
-                  {option}
+                <ButtonText color={requestType === option.value ? '$coolGray800' : '$blue600'}>
+                  {option.label}
                 </ButtonText>
               </Button>
             ))}
