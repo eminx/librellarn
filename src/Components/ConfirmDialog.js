@@ -23,6 +23,7 @@ export default function ConfirmDialog({
   children,
   footer,
   header,
+  hideFooter = false,
   isConfirmButtonLoading,
   isOpen,
   size = 'md',
@@ -50,22 +51,24 @@ export default function ConfirmDialog({
           </AlertDialogHeader>
         )}
         <AlertDialogBody>{children}</AlertDialogBody>
-        <AlertDialogFooter>
-          <HStack justifyContent="space-between" w="100%">
-            <Button variant="link" colorScheme="$coolGray" onPress={onClose} ref={cancelRef}>
-              <ButtonText>{i18n.t('generic.cancel')}</ButtonText>
-            </Button>
-            <Button
-              colorScheme={confirmButtonType}
-              isDisabled={isConfirmButtonLoading}
-              onPress={onConfirm}
-              borderRadius="$full"
-            >
-              {isConfirmButtonLoading && <ButtonSpinner mr="$1" />}
-              <ButtonText>{confirmButtonLabel}</ButtonText>
-            </Button>
-          </HStack>
-        </AlertDialogFooter>
+        {!hideFooter && (
+          <AlertDialogFooter>
+            <HStack justifyContent="space-between" w="100%">
+              <Button variant="link" colorScheme="$coolGray" onPress={onClose} ref={cancelRef}>
+                <ButtonText>{i18n.t('generic.cancel')}</ButtonText>
+              </Button>
+              <Button
+                colorScheme={confirmButtonType}
+                isDisabled={isConfirmButtonLoading}
+                onPress={onConfirm}
+                borderRadius="$full"
+              >
+                {isConfirmButtonLoading && <ButtonSpinner mr="$1" />}
+                <ButtonText>{confirmButtonLabel}</ButtonText>
+              </Button>
+            </HStack>
+          </AlertDialogFooter>
+        )}
       </AlertDialogContent>
     </AlertDialog>
   );

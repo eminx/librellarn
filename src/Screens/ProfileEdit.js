@@ -354,7 +354,7 @@ export default function ProfileEdit() {
     selectedLanguages?.map((l) => l.value).toString();
 
   const buttonProps = {
-    size: 'sm',
+    size: 'xs',
     mx: -4.5,
     borderRadius: 0,
   };
@@ -518,16 +518,9 @@ export default function ProfileEdit() {
       {selectedTab === 'languages' && (
         <Box w="100%">
           <Center bg="$white" p="$4">
-            <HStack flexWrap="wrap" justifyContent="center">
+            <HStack flexWrap="wrap" justifyContent="center" space="sm">
               {selectedLanguages?.map((lang) => (
-                <Badge
-                  key={lang.value}
-                  action="success"
-                  mb="$2"
-                  mr="$2"
-                  size="sm"
-                  variant="outline"
-                >
+                <Badge key={lang.value} action="success" variant="outline">
                   <BadgeText>{lang.label}</BadgeText>
                   <Pressable onPress={() => handleRemoveLanguage(lang)}>
                     <BadgeIcon as={CloseIcon} ml="$2" />
@@ -561,12 +554,20 @@ export default function ProfileEdit() {
       )}
 
       {selectedTab === 'location' && (
-        <Center bg="$white" p="$4">
-          <Button isDisabled={confirmLocationButtonLoading} onPress={() => setLocation()}>
+        <Box bg="$white" p="$4">
+          <Text mb="$4">{i18n.t('settings.locationNotice')}</Text>
+          <Text mb="$4">{i18n.t('settings.locationNotice2')}</Text>
+          <Text mb="$4" textAlign="center">
+            {i18n.t('settings.locationPrivacy')}
+          </Text>
+          <Button isDisabled={confirmLocationButtonLoading} mb="$2" onPress={() => setLocation()}>
             {confirmLocationButtonLoading && <ButtonSpinner mr="$1" />}
             <ButtonText>{i18n.t('settings.saveLocation')}</ButtonText>
           </Button>
-        </Center>
+          {confirmLocationButtonLoading && (
+            <Text textAlign="center">{i18n.t('settings.locationLoading')}</Text>
+          )}
+        </Box>
       )}
 
       <Box h={200}></Box>

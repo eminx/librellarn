@@ -41,7 +41,7 @@ export default function Requests({ navigation }) {
 
   const currentUserId = currentUser._id;
 
-  if (!requests || !currentUser) {
+  if (!requests) {
     return <Spinner m="$4" />;
   }
 

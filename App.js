@@ -1,5 +1,5 @@
 import Meteor, { withTracker } from '@meteorrn/core';
-import React from 'react';
+import React, { useState } from 'react';
 import { AsyncStorage } from '@react-native-async-storage/async-storage';
 import { NavigationContainer } from '@react-navigation/native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
@@ -7,8 +7,13 @@ import {
   GluestackUIProvider,
   Badge,
   BadgeText,
+  Box,
+  Button,
+  ButtonSpinner,
+  ButtonText,
   Icon,
   SearchIcon,
+  Text,
   VStack,
 } from '@gluestack-ui/themed';
 import { config } from '@gluestack-ui/config';
@@ -16,6 +21,7 @@ import { config } from '@gluestack-ui/config';
 import { MessagesSquare, Library, SettingsIcon } from 'lucide-react-native';
 // import * as SecureStore from 'expo-secure-store';
 import { StatusBar } from 'expo-status-bar';
+import * as Location from 'expo-location';
 
 // import './i18n';
 import DiscoverContainer from './src/Screens/Discover';
@@ -24,12 +30,14 @@ import AuthContainer from './src/Screens/Auth/AuthContainer';
 import ProfileContainer from './src/Screens/Profile';
 import { StateContext } from './src/StateContext';
 import ProfileEdit from './src/Screens/ProfileEdit';
+import ConfirmDialog from './src/Components/ConfirmDialog';
 import { i18n } from './i18n';
+import { call } from './src/utils/functions';
 
 const localDevApi = 'ws://localhost:3000/websocket';
 const productionApi = 'wss://librella.app/websocket';
-// const api = __DEV__ ? localDevApi : productionApi;
-const api = productionApi;
+const api = __DEV__ ? localDevApi : productionApi;
+// const api = productionApi;
 
 try {
   Meteor.connect(api, { AsyncStorage });
@@ -40,6 +48,10 @@ try {
 const Tab = createBottomTabNavigator();
 
 function App({ currentUser }) {
+  const [state, setState] = useState({ confirmLocationButtonLoading: false });
+
+  const { confirmLocationButtonLoading } = state;
+
   if (!currentUser) {
     return (
       <GluestackUIProvider config={config}>
@@ -54,6 +66,33 @@ function App({ currentUser }) {
       return (notificationCount += item.count);
     }
   });
+
+  const setLocation = async () => {
+    setState({
+      ...state,
+      confirmLocationButtonLoading: true,
+    });
+    try {
+      let { status } = await Location.requestForegroundPermissionsAsync();
+      if (status !== 'granted') {
+        setErrorMsg('Permission to access location was denied');
+        return;
+      }
+      let location = await Location.getCurrentPositionAsync({});
+      await call('updateProfile', { location });
+      toast.show({
+        placement: 'top',
+        render: ({ id }) => <Toast nativeId={id} message="Profile is successfully updated" />,
+      });
+    } catch (error) {
+      console.log(error);
+    } finally {
+      setState({
+        ...state,
+        confirmLocationButtonLoading: false,
+      });
+    }
+  };
 
   return (
     <>
@@ -112,6 +151,30 @@ function App({ currentUser }) {
               />
             </Tab.Navigator>
           </NavigationContainer>
+          <ConfirmDialog
+            isOpen={currentUser && !currentUser.location}
+            header={i18n.t('settings.location')}
+            hideFooter
+          >
+            <Box bg="$white" p="$4">
+              <Text mb="$4">{i18n.t('settings.locationNotice')}</Text>
+              <Text mb="$4">{i18n.t('settings.locationNotice2')}</Text>
+              <Text mb="$4" textAlign="center">
+                {i18n.t('settings.locationPrivacy')}
+              </Text>
+              <Button
+                isDisabled={confirmLocationButtonLoading}
+                mb="$2"
+                onPress={() => setLocation()}
+              >
+                {confirmLocationButtonLoading && <ButtonSpinner mr="$1" />}
+                <ButtonText>{i18n.t('settings.saveLocation')}</ButtonText>
+              </Button>
+              {confirmLocationButtonLoading && (
+                <Text textAlign="center">{i18n.t('settings.locationLoading')}</Text>
+              )}
+            </Box>
+          </ConfirmDialog>
         </GluestackUIProvider>
       </StateContext.Provider>
     </>

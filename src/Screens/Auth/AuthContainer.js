@@ -102,12 +102,16 @@ export default function AuthContainer() {
         <ConfirmDialog
           isOpen={forgotPasswordModal}
           isConfirmButtonLoading={isConfirmResetPasswordButtonLoading}
-          header={i18n.t('discover.enterEmail')}
+          header={i18n.t('auth.resetPassword')}
           onClose={() => setState({ ...state, forgotPasswordModal: false })}
           onConfirm={() => handleForgotPassword()}
         >
-          <Text mb="$4">{i18n.t('discover.forgotPasswordMessage')}</Text>
+          <Text mb="$4">{i18n.t('auth.forgotPasswordMessage')}</Text>
+          <Text fontWeight="bold" mb="$2">
+            {i18n.t('auth.typeEmail')}
+          </Text>
           <Input
+            placeholder={i18n.t('auth.email')}
             type="email"
             value={emailForReset}
             onChangeText={(value) => setState({ ...state, emailForReset: value?.toLowerCase() })}
