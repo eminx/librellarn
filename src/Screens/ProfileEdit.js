@@ -34,7 +34,7 @@ import Toast from '../Components/Toast';
 import { call } from '../utils/functions';
 import Select from '../Components/Select';
 import { StateContext } from '../StateContext';
-import { i18n } from '../../i18n';
+import { i18n, locales } from '../../i18n';
 
 import { accessKeyId, secretAccessKey, region, signatureVersion } from '@env';
 const awsParams = {
@@ -46,7 +46,7 @@ const awsParams = {
 const s3 = new S3(awsParams);
 
 export default function ProfileEdit() {
-  const { currentUser } = useContext(StateContext);
+  const { currentUser, changeLanguage } = useContext(StateContext);
 
   const {
     control,
@@ -265,7 +265,7 @@ export default function ProfileEdit() {
       await call('updateProfile', values);
       toast.show({
         placement: 'top',
-        render: ({ id }) => <Toast nativeId={id} message="Profile is successfully updated" />,
+        render: ({ id }) => <Toast nativeId={id} message={i18n.t('settings.updateMessage')} />,
       });
     } catch (error) {
       console.log(error);
@@ -363,9 +363,10 @@ export default function ProfileEdit() {
 
   return (
     <ScrollView w="100%">
-      <Button m="$2" variant="link" onPress={() => Meteor.logout()}>
+      <Button variant="link" onPress={() => Meteor.logout()}>
         <ButtonText>{i18n.t('auth.logout')}</ButtonText>
       </Button>
+
       <Center m="$2">
         <ButtonGroup bg="$white" space="sm">
           <Button
@@ -517,7 +518,23 @@ export default function ProfileEdit() {
 
       {selectedTab === 'languages' && (
         <Box w="100%">
-          <Center bg="$white" p="$4">
+          <Box bg="$white" my="$4" p="$4">
+            <Text mb="$2" textAlign="center">
+              {i18n.t('settings.changeLanguage')}
+            </Text>
+            <Select
+              options={locales}
+              value={locales?.find((lang) => lang.value === i18n.locale)?.label}
+              placeholder={i18n.t('generic.language')}
+              onValueChange={(value) => changeLanguage(value)}
+            />
+          </Box>
+
+          <Center bg="$white" my="$4" p="$4">
+            <Text mb="$4" textAlign="center">
+              {i18n.t('settings.addLanguages')}
+            </Text>
+
             <HStack flexWrap="wrap" justifyContent="center" space="sm">
               {selectedLanguages?.map((lang) => (
                 <Badge key={lang.value} action="success" variant="outline">
@@ -528,28 +545,27 @@ export default function ProfileEdit() {
                 </Badge>
               ))}
             </HStack>
+
+            <Box p="$4" w="100%">
+              <Select
+                options={allLanguages}
+                placeholder={i18n.t('settings.pickLanguagePlaceholder')}
+                onValueChange={(item) => handleSelectLanguage(item)}
+              />
+            </Box>
+            {languagesChanged && (
+              <Center>
+                <Button
+                  isDisabled={confirmLanguagesButtonLoading}
+                  type="submit"
+                  onPress={() => handleUpdateLanguages()}
+                >
+                  <ButtonText>{i18n.t('generic.confirm')}</ButtonText>
+                  {confirmLanguagesButtonLoading && <ButtonSpinner mr="$1" />}
+                </Button>
+              </Center>
+            )}
           </Center>
-
-          <Box p="$4" w="100%">
-            <Select
-              options={allLanguages}
-              placeholder={i18n.t('settings.pickLanguagePlaceholder')}
-              onValueChange={(item) => handleSelectLanguage(item)}
-            />
-          </Box>
-
-          {languagesChanged && (
-            <Center m="$4">
-              <Button
-                isDisabled={confirmLanguagesButtonLoading}
-                type="submit"
-                onPress={() => handleUpdateLanguages()}
-              >
-                <ButtonText>{i18n.t('generic.confirm')}</ButtonText>
-                {confirmLanguagesButtonLoading && <ButtonSpinner mr="$1" />}
-              </Button>
-            </Center>
-          )}
         </Box>
       )}
 

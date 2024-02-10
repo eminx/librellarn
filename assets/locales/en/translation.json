@@ -1,8 +1,8 @@
 {
   "en": {
     "generic": {
-      "authors": "Authors",
       "author": "Author",
+      "authors": "Authors",
       "authorsRequired": "At least one author is required",
       "bookPlaceholder": "Book title, author etc",
       "bookTitle": "Book title",
@@ -22,6 +22,7 @@
       "lastAdded": "Last added",
       "moreInfo": "more info",
       "noBooks": "No books",
+      "pages": "Pages",
       "publisher": "Publisher",
       "publishDate": "Publication date",
       "requestCondition": "Request condition",
@@ -68,7 +69,7 @@
       "chatWith": "Chat with %{username}",
       "deny": "Deny",
       "handed": "Handed",
-      "handedMessage": "The book is handed back to the requester",
+      "handedMessage": "The book is handed over to the requester",
       "handedOver": "I've handed over the book",
       "label": "Requests",
       "messages": "Messages",
@@ -101,6 +102,8 @@
       "searchPlaceholder": "Book title, author etc"
     },
     "settings": {
+      "addLanguages": "Add languages you can read books in and confirm",
+      "changeLanguage": "Change app language",
       "firstName": "First name",
       "firstNameRequired": "First name is required",
       "image": "Image",
@@ -122,7 +125,8 @@
       "saveLocation": "Save Location",
       "selfDescription": "Self Description",
       "selfDescriptionPlaceholder": "Description about you...",
-      "takePhoto": "Take photo"
+      "takePhoto": "Take photo",
+      "updateMessage": "Your profile settings successfully updated"
     }
   }
 }

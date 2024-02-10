@@ -18,4 +18,13 @@ i18n.defaultLocale = 'en';
 
 // loadTranslations(i18n, 'en');
 
-export { i18n };
+const locales = [
+  {
+    value: 'en',
+    label: 'English',
+  },
+  { value: 'sv', label: 'Svenska' },
+  { value: 'tr', label: 'Türkçe' },
+];
+
+export { i18n, locales };

@@ -1,5 +1,5 @@
 import Meteor, { withTracker } from '@meteorrn/core';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { AsyncStorage } from '@react-native-async-storage/async-storage';
 import { NavigationContainer } from '@react-navigation/native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
@@ -22,6 +22,7 @@ import { MessagesSquare, Library, SettingsIcon } from 'lucide-react-native';
 // import * as SecureStore from 'expo-secure-store';
 import { StatusBar } from 'expo-status-bar';
 import * as Location from 'expo-location';
+import { getLocales } from 'expo-localization';
 
 // import './i18n';
 import DiscoverContainer from './src/Screens/Discover';
@@ -41,14 +42,29 @@ const api = __DEV__ ? localDevApi : productionApi;
 
 try {
   Meteor.connect(api, { AsyncStorage });
-} catch (err) {
-  sendErr(err);
+} catch (error) {
+  console.log(error);
 }
 
 const Tab = createBottomTabNavigator();
 
 function App({ currentUser }) {
-  const [state, setState] = useState({ confirmLocationButtonLoading: false });
+  const [state, setState] = useState({
+    confirmLocationButtonLoading: false,
+    currentLocale: i18n?.defaultLocale,
+  });
+
+  useEffect(() => {
+    const deviceLang = getLocales()[0].languageCode;
+    changeLanguage(deviceLang);
+  }, []);
+
+  const changeLanguage = (lang) => {
+    i18n.locale = lang;
+    setTimeout(() => {
+      setState({ ...state, currentLocale: lang });
+    }, 500);
+  };
 
   const { confirmLocationButtonLoading } = state;
 
@@ -82,7 +98,7 @@ function App({ currentUser }) {
       await call('updateProfile', { location });
       toast.show({
         placement: 'top',
-        render: ({ id }) => <Toast nativeId={id} message="Profile is successfully updated" />,
+        render: ({ id }) => <Toast nativeId={id} message={i18n.t('settings.locationUpdated')} />,
       });
     } catch (error) {
       console.log(error);
@@ -97,7 +113,7 @@ function App({ currentUser }) {
   return (
     <>
       <StatusBar style="auto" />
-      <StateContext.Provider value={{ currentUser }}>
+      <StateContext.Provider value={{ currentUser, changeLanguage }}>
         <GluestackUIProvider config={config}>
           <NavigationContainer>
             <Tab.Navigator
@@ -222,7 +238,7 @@ let AppContainer = withTracker(() => {
 
 ErrorUtils.setGlobalHandler((error, isFatal) => {
   error.isFatal = isFatal;
-  sendErr(error);
+  console.log(error);
 });
 
 export default AppContainer;

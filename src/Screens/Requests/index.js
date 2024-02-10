@@ -11,7 +11,11 @@ const Stack = createNativeStackNavigator();
 export default function RequestsContainer({}) {
   return (
     <Stack.Navigator initialRouteName="Requests">
-      <Stack.Screen name="Requests" component={Requests} />
+      <Stack.Screen
+        name="Requests"
+        component={Requests}
+        options={{ title: i18n.t('requests.label') }}
+      />
       <Stack.Screen
         name="Request"
         component={Request}

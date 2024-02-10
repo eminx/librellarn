@@ -152,14 +152,16 @@ function Table({ book }) {
 
   return (
     <VStack mb="$4">
-      <Cell label="title" value={book.title} />
-      <Cell label="authors" value={parseAuthors(book.authors)} />
-      {category && <Cell label="category" value={book.category || book.categories[0]} />}
-      {bookLang && <Cell label="language" value={bookLang?.label} />}
-      {ISBN && <Cell label="ISBN" value={ISBN} />}
-      <Cell label="pages" value={book.pageCount} />
-      <Cell label="publisher" value={book.publisher} />
-      <Cell label="publish date" value={book.publishedDate} />
+      <Cell label={i18n.t('generic.title')} value={book.title} />
+      <Cell label={i18n.t('generic.authors')} value={parseAuthors(book.authors)} />
+      {category && (
+        <Cell label={i18n.t('generic.category')} value={book.category || book.categories[0]} />
+      )}
+      {bookLang && <Cell label={i18n.t('generic.language')} value={bookLang?.label} />}
+      {ISBN && <Cell label={i18n.t('generic.ISBN')} value={ISBN} />}
+      <Cell label={i18n.t('generic.pages')} value={book.pageCount} />
+      <Cell label={i18n.t('generic.publisher')} value={book.publisher} />
+      <Cell label={i18n.t('generic.publishDate')} value={book.publishedDate} />
     </VStack>
   );
 }
