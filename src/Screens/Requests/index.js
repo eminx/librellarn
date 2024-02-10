@@ -4,6 +4,7 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import Requests from './Requests';
 import Request from './Request';
 import RequestMessages from './RequestMessages';
+import { i18n } from '../../../i18n';
 
 const Stack = createNativeStackNavigator();
 
@@ -15,7 +16,7 @@ export default function RequestsContainer({}) {
         name="Request"
         component={Request}
         options={({ route }) => ({
-          title: 'Status | ' + route.params.request?.bookTitle,
+          title: i18n.t('requests.status') + ' | ' + route.params.request?.bookTitle,
           tabBarButton: (props) => null,
           tabBarVisible: false,
         })}
@@ -24,7 +25,7 @@ export default function RequestsContainer({}) {
         name="RequestMessages"
         component={RequestMessages}
         options={({ route }) => ({
-          title: 'Messages | ' + route.params.request?.bookTitle,
+          title: i18n.t('requests.messages') + ' | ' + route.params.request?.bookTitle,
           tabBarButton: (props) => null,
           tabBarVisible: false,
         })}

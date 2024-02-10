@@ -15,6 +15,7 @@ import {
 import { useForm, Controller } from 'react-hook-form';
 
 import Toast from '../../Components/Toast';
+import { i18n } from '../../../i18n';
 
 export default function Login() {
   const [state, setState] = useState({
@@ -51,7 +52,7 @@ export default function Login() {
       toast.show({
         placement: 'top',
         render: ({ id }) => {
-          return <Toast nativeId={id} title="Success!" message="You are logged in" />;
+          return <Toast nativeId={id} title="Success!" message={i18n.t('auth.loggedIn')} />;
         },
       });
     });
@@ -61,7 +62,7 @@ export default function Login() {
 
   return (
     <Box p="$4">
-      <Heading textAlign="center">Login to your account</Heading>
+      <Heading textAlign="center">{i18n.t('auth.loginTitle')}</Heading>
       <VStack space="md" py="$2">
         <Box>
           <Controller
@@ -71,7 +72,7 @@ export default function Login() {
             }}
             render={({ field: { onChange, onBlur, value } }) => (
               <Box>
-                <Text size="sm">Username or email address</Text>
+                <Text size="sm">{i18n.t('auth.usernameOrEmail')}</Text>
                 <Input bg="$white" variant="rounded">
                   <InputField
                     mb="$1"
@@ -86,7 +87,7 @@ export default function Login() {
           />
           {errors.username && (
             <Text color="$red500" mt="$1" size="sm">
-              Username or email address is required
+              {i18n.t('auth.usernameRequiredMessage')}
             </Text>
           )}
         </Box>
@@ -99,7 +100,7 @@ export default function Login() {
             }}
             render={({ field: { onChange, onBlur, value } }) => (
               <Box>
-                <Text size="sm">Password</Text>
+                <Text size="sm">{i18n.t('auth.password')}</Text>
                 <Input bg="$white" variant="rounded">
                   <InputField
                     value={value}
@@ -114,7 +115,7 @@ export default function Login() {
           />
           {errors.password && (
             <Text color="$red500" mt="$1" size="sm">
-              Password is required
+              {i18n.t('auth.passwordRequiredMessage')}
             </Text>
           )}
         </Box>
@@ -127,7 +128,7 @@ export default function Login() {
           type="submit"
         >
           {isLoading && <ButtonSpinner mr="$1" />}
-          <ButtonText>Submit</ButtonText>
+          <ButtonText>{i18n.t('generic.submit')}</ButtonText>
         </Button>
       </VStack>
     </Box>

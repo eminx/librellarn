@@ -34,6 +34,7 @@ import Toast from '../Components/Toast';
 import { call } from '../utils/functions';
 import Select from '../Components/Select';
 import { StateContext } from '../StateContext';
+import { i18n } from '../../i18n';
 
 import { accessKeyId, secretAccessKey, region, signatureVersion } from '@env';
 const awsParams = {
@@ -363,7 +364,7 @@ export default function ProfileEdit() {
   return (
     <ScrollView w="100%">
       <Button m="$2" variant="link" onPress={() => Meteor.logout()}>
-        <ButtonText>Log out</ButtonText>
+        <ButtonText>{i18n.t('auth.logout')}</ButtonText>
       </Button>
       <Center m="$2">
         <ButtonGroup bg="$white" space="sm">
@@ -372,28 +373,28 @@ export default function ProfileEdit() {
             variant={selectedTab === 'image' ? 'solid' : 'outline'}
             onPress={() => setState({ ...state, selectedTab: 'image' })}
           >
-            <ButtonText>Image</ButtonText>
+            <ButtonText>{i18n.t('settings.image')}</ButtonText>
           </Button>
           <Button
             {...buttonProps}
             variant={selectedTab === 'info' ? 'solid' : 'outline'}
             onPress={() => setState({ ...state, selectedTab: 'info' })}
           >
-            <ButtonText>Info</ButtonText>
+            <ButtonText>{i18n.t('settings.info')}</ButtonText>
           </Button>
           <Button
             {...buttonProps}
             variant={selectedTab === 'languages' ? 'solid' : 'outline'}
             onPress={() => setState({ ...state, selectedTab: 'languages' })}
           >
-            <ButtonText>Languages</ButtonText>
+            <ButtonText>{i18n.t('settings.languages')}</ButtonText>
           </Button>
           <Button
             {...buttonProps}
             variant={selectedTab === 'location' ? 'solid' : 'outline'}
             onPress={() => setState({ ...state, selectedTab: 'location' })}
           >
-            <ButtonText>Location</ButtonText>
+            <ButtonText>{i18n.t('settings.location')}</ButtonText>
           </Button>
         </ButtonGroup>
       </Center>
@@ -416,11 +417,11 @@ export default function ProfileEdit() {
           <Box p="$4">
             <Select
               options={[
-                { label: 'Pick a photo from library', value: 'library' },
-                { label: 'Take a photo', value: 'camera' },
+                { label: i18n.t('settings.pickPhoto'), value: 'library' },
+                { label: i18n.t('settings.takePhoto'), value: 'camera' },
               ]}
-              value={isImage ? 'Replace Image' : 'Pick or Take Photo'}
-              placeholder="Pick or Take Image"
+              value={isImage ? i18n.t('settings.replaceImage') : i18n.t('settings.pickOrTakePhoto')}
+              placeholder={i18n.t('settings.pickOrTakeImage')}
               onValueChange={(value) => handleSelectImage(value)}
             />
           </Box>
@@ -433,7 +434,7 @@ export default function ProfileEdit() {
                 onPress={handleConfirmImage}
               >
                 {confirmImageButtonLoading && <ButtonSpinner mr="$1" />}
-                <ButtonText>Confirm</ButtonText>
+                <ButtonText>{i18n.t('generic.confirm')}</ButtonText>
               </Button>
             )}
           </Box>
@@ -448,7 +449,7 @@ export default function ProfileEdit() {
               name="firstName"
               render={({ field: { onChange, onBlur, value } }) => (
                 <Box>
-                  <Text mb="$1">First name</Text>
+                  <Text mb="$1">{i18n.t('settings.firstName')}</Text>
                   <Input bg="$white" variant="rounded">
                     <InputField mb="$1" value={value} onBlur={onBlur} onChangeText={onChange} />
                   </Input>
@@ -457,7 +458,7 @@ export default function ProfileEdit() {
             />
             {errors.title && (
               <Text mt="$1" size="sm">
-                First name is required
+                {i18n.t('settings.firstNameRequired')}
               </Text>
             )}
           </Box>
@@ -468,7 +469,7 @@ export default function ProfileEdit() {
               name="lastName"
               render={({ field: { onChange, onBlur, value } }) => (
                 <Box>
-                  <Text mb="$1">Last name</Text>
+                  <Text mb="$1">{i18n.t('settings.lastName')}</Text>
                   <Input bg="$white" variant="rounded">
                     <InputField mb="$1" value={value} onBlur={onBlur} onChangeText={onChange} />
                   </Input>
@@ -477,7 +478,7 @@ export default function ProfileEdit() {
             />
             {errors.title && (
               <Text mt="$1" size="sm">
-                Last name is required
+                {i18n.t('settings.lastNameRequired')}
               </Text>
             )}
           </Box>
@@ -488,11 +489,11 @@ export default function ProfileEdit() {
               name="bio"
               render={({ field: { onChange, onBlur, value } }) => (
                 <Box>
-                  <Text mb="$1">Self description</Text>
+                  <Text mb="$1">{i18n.t('settings.selfDescription')}</Text>
                   <Textarea bg="$white" variant="rounded">
                     <TextareaInput
                       mt="$1"
-                      placeholder="Description about you..."
+                      placeholder={i18n.t('settings.selfDescriptionPlaceholder')}
                       value={value}
                       onBlur={onBlur}
                       onChangeText={onChange}
@@ -509,7 +510,7 @@ export default function ProfileEdit() {
             type="submit"
           >
             {confirmInfoButtonLoading && <ButtonSpinner mr="$1" />}
-            <ButtonText>Submit</ButtonText>
+            <ButtonText>{i18n.t('generic.submit')}</ButtonText>
           </Button>
         </VStack>
       )}
@@ -539,7 +540,7 @@ export default function ProfileEdit() {
           <Box p="$4" w="100%">
             <Select
               options={allLanguages}
-              placeholder="Pick language"
+              placeholder={i18n.t('settings.pickLanguagePlaceholder')}
               onValueChange={(item) => handleSelectLanguage(item)}
             />
           </Box>
@@ -551,7 +552,7 @@ export default function ProfileEdit() {
                 type="submit"
                 onPress={() => handleUpdateLanguages()}
               >
-                <ButtonText>Confirm</ButtonText>
+                <ButtonText>{i18n.t('generic.confirm')}</ButtonText>
                 {confirmLanguagesButtonLoading && <ButtonSpinner mr="$1" />}
               </Button>
             </Center>
@@ -563,7 +564,7 @@ export default function ProfileEdit() {
         <Center bg="$white" p="$4">
           <Button isDisabled={confirmLocationButtonLoading} onPress={() => setLocation()}>
             {confirmLocationButtonLoading && <ButtonSpinner mr="$1" />}
-            <ButtonText>Save Location</ButtonText>
+            <ButtonText>{i18n.t('settings.saveLocation')}</ButtonText>
           </Button>
         </Center>
       )}

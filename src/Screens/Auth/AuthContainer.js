@@ -18,6 +18,7 @@ import Input from '../../Components/Input';
 import ConfirmDialog from '../../Components/ConfirmDialog';
 import Toast from '../../Components/Toast';
 import { call } from '../../utils/functions';
+import { i18n } from '../../../i18n';
 
 export default function AuthContainer() {
   const [state, setState] = useState({
@@ -44,9 +45,7 @@ export default function AuthContainer() {
       await call('resetUserPassword', emailForReset);
       toast.show({
         placement: 'top',
-        render: ({ id }) => (
-          <Toast nativeId={id} message="You will now receive a link to reset your password" />
-        ),
+        render: ({ id }) => <Toast nativeId={id} message={i18n.t('auth.resetPasswordMessage')} />,
       });
       setState({
         ...state,
@@ -56,13 +55,7 @@ export default function AuthContainer() {
     } catch (error) {
       toast.show({
         placement: 'top',
-        render: ({ id }) => (
-          <Toast
-            action="error"
-            nativeId={id}
-            message="You will now receive a link to reset your password"
-          />
-        ),
+        render: ({ id }) => <Toast action="error" nativeId={id} />,
       });
       setState({
         ...state,
@@ -84,14 +77,14 @@ export default function AuthContainer() {
               variant={selectedTab === 'Register' ? 'solid' : 'outline'}
               onPress={() => setState({ ...state, selectedTab: 'Register' })}
             >
-              <ButtonText color="$white">Register</ButtonText>
+              <ButtonText color="$white">{i18n.t('auth.register')}</ButtonText>
             </Button>
             <Button
               {...buttonProps}
               variant={selectedTab === 'Login' ? 'solid' : 'outline'}
               onPress={() => setState({ ...state, selectedTab: 'Login' })}
             >
-              <ButtonText color="$white">Login</ButtonText>
+              <ButtonText color="$white">{i18n.t('auth.login')}</ButtonText>
             </Button>
           </ButtonGroup>
         </Center>
@@ -103,17 +96,17 @@ export default function AuthContainer() {
 
         <Box p="$4">
           <Button variant="link" onPress={() => setState({ ...state, forgotPasswordModal: true })}>
-            <ButtonText color="$blue300">Forgot Password?</ButtonText>
+            <ButtonText color="$blue300">{i18n.t('auth.forgotPassword')}</ButtonText>
           </Button>
         </Box>
         <ConfirmDialog
           isOpen={forgotPasswordModal}
           isConfirmButtonLoading={isConfirmResetPasswordButtonLoading}
-          header="Enter your email"
+          header={i18n.t('discover.enterEmail')}
           onClose={() => setState({ ...state, forgotPasswordModal: false })}
           onConfirm={() => handleForgotPassword()}
         >
-          <Text mb="$4">You will receive an email with a link to reset your password.</Text>
+          <Text mb="$4">{i18n.t('discover.forgotPasswordMessage')}</Text>
           <Input
             type="email"
             value={emailForReset}

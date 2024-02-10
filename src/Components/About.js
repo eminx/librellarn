@@ -56,14 +56,14 @@ function AccordionTitle({ user }) {
 
 function AccordionContent({ user }) {
   return (
-    <Box>
+    <Box w="100%">
       {user.bio && (
         <Box pb="$2">
           <Text>{user.bio}</Text>
         </Box>
       )}
-      <Box>
-        <HStack flexWrap="wrap" space="2xs">
+      <Box w="100%">
+        <HStack flexWrap="wrap" space="2xs" w="100%" pb="$2">
           {user.languages &&
             user.languages.length > 0 &&
             user.languages.map((language, index) => (

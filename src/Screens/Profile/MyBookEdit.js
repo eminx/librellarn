@@ -7,6 +7,7 @@ import ConfirmDialog from '../../Components/ConfirmDialog';
 import Toast from '../../Components/Toast';
 import { call } from '../../utils/functions';
 import { BooksContext } from '../../StateContext';
+import { i18n } from '../../../i18n';
 
 export default function MyBookEdit({ route, navigation }) {
   const { book } = route.params;
@@ -26,9 +27,7 @@ export default function MyBookEdit({ route, navigation }) {
       await getMyBooks();
       toast.show({
         placement: 'top',
-        render: ({ id }) => (
-          <Toast nativeId={id} message="Book is deleted from your virtual shelf" />
-        ),
+        render: ({ id }) => <Toast nativeId={id} message={i18n.t('profile.bookDeleted')} />,
       });
       navigation.navigate('Profile');
     } catch (error) {
@@ -57,7 +56,7 @@ export default function MyBookEdit({ route, navigation }) {
         variant="link"
         onPress={() => setState({ ...state, deleteDialogOpen: true })}
       >
-        <ButtonText>Delete this book</ButtonText>
+        <ButtonText>{i18n.t('profile.deleteBook')}</ButtonText>
       </Button>
 
       <ConfirmDialog
@@ -66,7 +65,7 @@ export default function MyBookEdit({ route, navigation }) {
         onClose={() => setState({ ...state, deleteDialogOpen: false })}
         onConfirm={() => handleDelete()}
       >
-        <Text>Please confirm that you want to delete this book from your shelf.</Text>
+        <Text>{i18n.t('profile.confirmDelete')}</Text>
       </ConfirmDialog>
     </ScrollView>
   );

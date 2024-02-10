@@ -17,6 +17,7 @@ import {
 import { useForm, Controller } from 'react-hook-form';
 
 import { call } from '../../utils/functions';
+import { i18n } from '../../../i18n';
 
 export default function Register({ setUser }) {
   const [state, setState] = useState({
@@ -54,8 +55,8 @@ export default function Register({ setUser }) {
             return (
               <Toast nativeId={id} action="success" variant="solid">
                 <VStack space="xs">
-                  <ToastTitle>Success!</ToastTitle>
-                  <ToastDescription>Your account is created</ToastDescription>
+                  <ToastTitle>{i18n.t('generic.success')}</ToastTitle>
+                  <ToastDescription>{i18n.t('auth.accountCreated')}</ToastDescription>
                 </VStack>
               </Toast>
             );
@@ -70,7 +71,7 @@ export default function Register({ setUser }) {
           return (
             <Toast nativeId={id} action="error" variant="solid">
               <VStack space="xs">
-                <ToastTitle>Error</ToastTitle>
+                <ToastTitle>{i18n.t('generic.error')}</ToastTitle>
                 <ToastDescription>{error.reason}</ToastDescription>
               </VStack>
             </Toast>
@@ -86,7 +87,7 @@ export default function Register({ setUser }) {
 
   return (
     <Box p="$4">
-      <Heading textAlign="center">Create a new account</Heading>
+      <Heading textAlign="center">{i18n.t('auth.registerTitle')}</Heading>
       <VStack space="md" py="$2">
         <Box>
           <Controller
@@ -96,7 +97,7 @@ export default function Register({ setUser }) {
             }}
             render={({ field: { onChange, onBlur, value } }) => (
               <Box>
-                <Text size="sm">Username</Text>
+                <Text size="sm">{i18n.t('auth.username')}</Text>
                 <Input bg="$white" variant="rounded">
                   <InputField
                     mb="$1"
@@ -111,7 +112,7 @@ export default function Register({ setUser }) {
           />
           {errors.username && (
             <Text color="$red500" mt="$1" size="sm">
-              Username or email address is required
+              {i18n.t('auth.usernameRequiredMessage')}
             </Text>
           )}
         </Box>
@@ -124,7 +125,7 @@ export default function Register({ setUser }) {
             }}
             render={({ field: { onChange, onBlur, value } }) => (
               <Box>
-                <Text size="sm">Email address</Text>
+                <Text size="sm">{i18n.t('auth.email')}</Text>
                 <Input bg="$white" variant="rounded">
                   <InputField
                     mb="$1"
@@ -139,7 +140,7 @@ export default function Register({ setUser }) {
           />
           {errors.username && (
             <Text color="$red500" mt="$1" size="sm">
-              Username or email address is required
+              {i18n.t('auth.usernameRequiredMessage')}
             </Text>
           )}
         </Box>
@@ -152,7 +153,7 @@ export default function Register({ setUser }) {
             }}
             render={({ field: { onChange, onBlur, value } }) => (
               <Box>
-                <Text size="sm">Password</Text>
+                <Text size="sm">{i18n.t('auth.password')}</Text>
                 <Input bg="$white" variant="rounded">
                   <InputField
                     value={value}
@@ -167,7 +168,7 @@ export default function Register({ setUser }) {
           />
           {errors.password && (
             <Text color="$red500" mt="$1" size="sm">
-              Password is required
+              {i18n.t('auth.passwordRequiredMessage')}
             </Text>
           )}
         </Box>
@@ -179,7 +180,7 @@ export default function Register({ setUser }) {
           onPress={handleSubmit(onSubmit)}
           type="submit"
         >
-          <ButtonText>Submit</ButtonText>
+          <ButtonText>{i18n.t('generic.submit')}</ButtonText>
         </Button>
       </VStack>
     </Box>

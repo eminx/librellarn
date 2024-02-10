@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from 'react';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
-import { Box, Spinner } from '@gluestack-ui/themed';
 
 import Profile from './Profile';
 import MyBook from './MyBook';
@@ -10,14 +9,16 @@ import { call } from '../../utils/functions';
 import AddBookSearch from './AddBookSearch';
 import AddBookItem from './AddBookItem';
 import AddBookManually from './AddBookManually';
+import { i18n } from '../../../i18n';
 
 const Stack = createNativeStackNavigator();
 
 export default function ProfileContainer() {
   const [state, setState] = useState({
     books: [],
+    booksLoading: true,
   });
-  const { books } = state;
+  const { books, booksLoading } = state;
 
   useEffect(() => {
     getMyBooks();
@@ -26,20 +27,20 @@ export default function ProfileContainer() {
   const getMyBooks = async () => {
     try {
       const respond = await call('getMyBooks');
-      setState({ ...state, books: respond });
+      setState({ ...state, books: respond, booksLoading: false });
     } catch (error) {
       console.log(error);
     }
   };
 
   return (
-    <BooksContext.Provider value={{ books, getMyBooks }}>
+    <BooksContext.Provider value={{ books, getMyBooks, booksLoading }}>
       <Stack.Navigator initialRouteName="My Profile">
         <Stack.Screen
           component={Profile}
           name="Profile"
           options={({ route }) => ({
-            title: 'My Profile',
+            title: i18n.t('profile.label'),
           })}
         />
 
@@ -57,7 +58,7 @@ export default function ProfileContainer() {
           component={AddBookSearch}
           name="AddBookSearch"
           options={({ route }) => ({
-            title: 'Add book',
+            title: i18n.t('profile.addBook'),
           })}
           // options={(route) => ({
           //   headerShown: false,
@@ -69,14 +70,14 @@ export default function ProfileContainer() {
           component={AddBookItem}
           name="AddBookItem"
           options={({ route }) => ({
-            title: 'Do you own this book?',
+            title: i18n.t('profile.ownBook'),
           })}
         />
         <Stack.Screen
           component={AddBookManually}
           name="AddBookManually"
           options={({ route }) => ({
-            title: 'Add book manually',
+            title: i18n.t('profile.addManually'),
           })}
         />
       </Stack.Navigator>

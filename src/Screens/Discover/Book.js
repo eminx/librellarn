@@ -6,6 +6,7 @@ import BookCard from '../../Components/BookCard';
 import ConfirmDialog from '../../Components/ConfirmDialog';
 import Toast from '../../Components/Toast';
 import { call } from '../../utils/functions';
+import { i18n } from '../../../i18n';
 
 export default function Book({ route, navigation }) {
   const [state, setState] = useState({
@@ -21,7 +22,7 @@ export default function Book({ route, navigation }) {
       await call('makeRequest', book._id);
       toast.show({
         placement: 'top',
-        render: ({ id }) => <Toast nativeId={id} message="The book is requested from the owner" />,
+        render: ({ id }) => <Toast nativeId={id} message={i18n.t('discover.requestSent')} />,
       });
       setState({
         ...state,
@@ -47,18 +48,18 @@ export default function Book({ route, navigation }) {
             type="submit"
             onPress={() => setState({ ...state, isRequestModalOpen: true })}
           >
-            <ButtonText>{`Borrow from ${book.ownerUsername}`}</ButtonText>
+            <ButtonText>{i18n.t('discover.borrow')}</ButtonText>
           </Button>
         </Box>
       </BookCard>
 
       <ConfirmDialog
         isOpen={isRequestModalOpen}
-        header="Are you sure?"
+        header={i18n.t('generic.requestModalTitle')}
         onClose={() => setState({ ...state, isRequestModalOpen: false })}
         onConfirm={() => makeRequest()}
       >
-        <Text>{`Please confirm that you want to borrow this book. When you confirm, there will be a new message section opening a new dialogue with ${book.ownerUsername}. So you can communicate with them about the details of receiving the book.`}</Text>
+        <Text>{i18n.t('discover.confirmRequest')}</Text>
       </ConfirmDialog>
     </ScrollView>
   );

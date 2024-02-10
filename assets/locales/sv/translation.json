@@ -1,12 +1,16 @@
 {
   "sv": {
-    "screens": {
-      "labels": {
-        "discover": "Discover",
-        "requests": "Requests",
-        "myProfile": "My Profile",
-        "settings": "Settings"
-      }
+    "discover": {
+      "label": "Discover"
+    },
+    "requests": {
+      "label": "Requests"
+    },
+    "profile": {
+      "label": "My Profile"
+    },
+    "settings": {
+      "label": "Settings"
     }
   }
 }

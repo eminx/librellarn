@@ -2,6 +2,7 @@ import React from 'react';
 import { Box, Button, ButtonText, ScrollView } from '@gluestack-ui/themed';
 
 import BookCard from '../../Components/BookCard';
+import { i18n } from '../../../i18n';
 
 export default function MyBook({ route, navigation }) {
   const { book } = route.params;
@@ -16,11 +17,11 @@ export default function MyBook({ route, navigation }) {
             onPress={() =>
               navigation.navigate('MyBookEdit', {
                 book,
-                name: 'Edit book',
+                name: i18n.t('profile.editBook'),
               })
             }
           >
-            <ButtonText>Edit Details</ButtonText>
+            <ButtonText>{i18n.t('profile.editDetails')}</ButtonText>
           </Button>
         </Box>
       </BookCard>

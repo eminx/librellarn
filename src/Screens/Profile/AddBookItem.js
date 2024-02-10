@@ -19,6 +19,7 @@ import ConfirmDialog from '../../Components/ConfirmDialog';
 import { call } from '../../utils/functions';
 import Toast from '../../Components/Toast';
 import { BooksContext } from '../../StateContext';
+import { i18n } from '../../../i18n';
 
 export default function AddBookItem({ route }) {
   const navigation = useNavigation();
@@ -44,7 +45,7 @@ export default function AddBookItem({ route }) {
       await getMyBooks();
       toast.show({
         placement: 'top',
-        render: ({ id }) => <Toast nativeId={id} message="Book is added to your virtual shelf" />,
+        render: ({ id }) => <Toast nativeId={id} message={i18n.t('profile.bookAdded')} />,
       });
       setState({
         ...state,
@@ -74,7 +75,7 @@ export default function AddBookItem({ route }) {
           {isBookAdded ? (
             <Alert mx="$2.5" action="info" variant="solid">
               <AlertIcon as={InfoIcon} mr="$3" />
-              <AlertText>Book is added to your virtual shelf</AlertText>
+              <AlertText>{i18n.t('profile.bookAdded')}</AlertText>
             </Alert>
           ) : (
             <Button
@@ -85,7 +86,7 @@ export default function AddBookItem({ route }) {
               onPress={() => setState({ ...state, isAddModalOpen: true })}
             >
               {isLoading && <ButtonSpinner mr="$1" />}
-              <ButtonText>Add to my shelf</ButtonText>
+              <ButtonText>{i18n.t('profile.addToMyShelf')}</ButtonText>
             </Button>
           )}
         </Box>
@@ -98,9 +99,7 @@ export default function AddBookItem({ route }) {
         onClose={() => setState({ ...state, isAddModalOpen: false })}
         onConfirm={() => insertBook()}
       >
-        <Text>
-          Please confirm that you own this book and want to add to your virtual shelf here
-        </Text>
+        <Text>{i18n.t('profile.addBookConfirm')}</Text>
       </ConfirmDialog>
     </ScrollView>
   );

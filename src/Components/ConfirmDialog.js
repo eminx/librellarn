@@ -15,6 +15,8 @@ import {
   HStack,
 } from '@gluestack-ui/themed';
 
+import { i18n } from '../../i18n';
+
 export default function ConfirmDialog({
   confirmButtonLabel = 'Confirm',
   confirmButtonType = 'blue',
@@ -51,7 +53,7 @@ export default function ConfirmDialog({
         <AlertDialogFooter>
           <HStack justifyContent="space-between" w="100%">
             <Button variant="link" colorScheme="$coolGray" onPress={onClose} ref={cancelRef}>
-              <ButtonText>Cancel</ButtonText>
+              <ButtonText>{i18n.t('generic.cancel')}</ButtonText>
             </Button>
             <Button
               colorScheme={confirmButtonType}

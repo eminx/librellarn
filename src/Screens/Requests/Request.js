@@ -17,7 +17,6 @@ import {
   Link,
   LinkText,
   ScrollView,
-  Spinner,
   Text,
   VStack,
 } from '@gluestack-ui/themed';
@@ -26,25 +25,26 @@ import { Bell, CheckSquare, MessagesSquare, MinusSquare } from 'lucide-react-nat
 import { call } from '../../utils/functions';
 import Alert from '../../Components/Alert';
 import { StateContext } from '../../StateContext';
+import { i18n } from '../../../i18n';
 
 const RequestsCollection = new Mongo.Collection('requests');
 
 const steps = [
   {
-    title: 'Requested',
-    description: 'Request is made',
+    title: i18n.t('requests.requested'),
+    description: i18n.t('requests.requestedMessage'),
   },
   {
-    title: 'Accepted',
-    description: 'Request is accepted',
+    title: i18n.t('requests.accepted'),
+    description: i18n.t('requests.acceptedMessage'),
   },
   {
-    title: 'Handed',
-    description: 'The book is handed to requester',
+    title: i18n.t('requests.handed'),
+    description: i18n.t('requests.handedMessage'),
   },
   {
-    title: 'Returned',
-    description: 'The book is returned to the owner',
+    title: i18n.t('requests.returned'),
+    description: i18n.t('requests.returnedMessage'),
   },
 ];
 
@@ -57,7 +57,6 @@ function Request({ isOwner, navigation, request }) {
     }
     try {
       await call('acceptRequest', request._id);
-      // await getRequest();
     } catch (error) {
       console.log(error);
     }
@@ -69,13 +68,8 @@ function Request({ isOwner, navigation, request }) {
     }
     try {
       await call('denyRequest', request._id);
-      // await getRequest();
-      // successDialog(
-      //   "Request denied. We are sorry to have you deny this request"
-      // );
     } catch (error) {
       console.log(error);
-      // errorDialog(error.reason);
     }
   };
 
@@ -85,11 +79,8 @@ function Request({ isOwner, navigation, request }) {
     }
     try {
       await call('setIsHanded', request._id);
-      // await getRequest();
-      // successDialog("Great that you have handed over the book!");
     } catch (error) {
       console.log(error);
-      // errorDialog(error.reason);
     }
   };
 
@@ -99,11 +90,8 @@ function Request({ isOwner, navigation, request }) {
     }
     try {
       await call('setIsReturned', request._id);
-      // await getRequest();
-      // successDialog("Your book is back and available at your shelf <3");
     } catch (error) {
       console.log(error);
-      // errorDialog(error.reason);
     }
   };
 
@@ -138,7 +126,7 @@ function Request({ isOwner, navigation, request }) {
       <>
         {isUnreadMessage && (
           <Alert bg="$lime100" mb="$2">
-            You have <Text fontWeight="bold">{count}</Text> unread messages from {theOther}
+            {i18n.t('requests.unreadMessages', { count, username: theOther })}
           </Alert>
         )}
         <Button
@@ -158,7 +146,7 @@ function Request({ isOwner, navigation, request }) {
           ) : (
             <ButtonIcon as={MessagesSquare} mr="$2" />
           )}
-          <ButtonText>{`Chat with ${theOther}`}</ButtonText>
+          <ButtonText>{i18n.t('requests.chatWith', { username: theOther })}</ButtonText>
           <ButtonIcon as={ArrowRightIcon} ml="$2" />
         </Button>
       </>
@@ -231,8 +219,9 @@ function Request({ isOwner, navigation, request }) {
 
           <Center px="$4" py="$2">
             <Text textAlign="center">
-              <Text fontWeight="bold">{requesterUsername}</Text> requests to borrow{' '}
-              <Text fontWeight="bold">{bookTitle}</Text> from{' '}
+              <Text fontWeight="bold">{requesterUsername}</Text>{' '}
+              {i18n.t('requests.requestsToBorrow')}
+              <Text fontWeight="bold">{bookTitle}</Text>
               <Text fontWeight="bold">{ownerUsername}</Text>
             </Text>
           </Center>
@@ -244,7 +233,7 @@ function Request({ isOwner, navigation, request }) {
           {isConfirmed && !isHanded && isOwner && (
             <Center p="$4">
               <Button variant="solid" onPress={() => setIsHanded()}>
-                <ButtonText>I've handed over the book</ButtonText>
+                <ButtonText>{i18n.t('requests.handedOver')}</ButtonText>
               </Button>
             </Center>
           )}
@@ -252,7 +241,7 @@ function Request({ isOwner, navigation, request }) {
           {isHanded && !isReturned && isOwner && (
             <Center p="$4">
               <Button variant="solid" onPress={() => setIsReturned()}>
-                <ButtonText>I've received my book back</ButtonText>
+                <ButtonText>{i18n.t('requests.receivedBack')}</ButtonText>
               </Button>
             </Center>
           )}
@@ -263,10 +252,10 @@ function Request({ isOwner, navigation, request }) {
             <Center>
               <ButtonGroup space="$2">
                 <Button onPress={() => acceptRequest()}>
-                  <ButtonText>Accept</ButtonText>
+                  <ButtonText>{i18n.t('requests.accept')}</ButtonText>
                 </Button>
                 <Button variant="outline" onPress={() => denyRequest()}>
-                  <ButtonText>Deny</ButtonText>
+                  <ButtonText>{i18n.t('requests.deny')}</ButtonText>
                 </Button>
               </ButtonGroup>
             </Center>

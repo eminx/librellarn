@@ -22,6 +22,7 @@ import {
 import allLanguages from '../utils/langs/allLanguages';
 import AvatarWithUsername from './AvatarWithUsername';
 import { StateContext } from '../StateContext';
+import { i18n } from '../../i18n';
 
 export default function BookCard({ book, navigation, children }) {
   const { currentUser } = useContext(StateContext);
@@ -85,7 +86,7 @@ export default function BookCard({ book, navigation, children }) {
                     }}
                     onPress={() => setState({ isInfoModalOpen: true })}
                   >
-                    <LinkText size="sm">more info</LinkText>
+                    <LinkText size="sm">{i18n.t('generic.moreInfo')}</LinkText>
                   </Link>
                 </HStack>
               </Box>
@@ -108,7 +109,7 @@ export default function BookCard({ book, navigation, children }) {
             {children}
             <Box bg="$white" p="$4" w="100%">
               <Text mb="$2" size="sm">
-                Description
+                {i18n.t('generic.description')}
               </Text>
               <Text>{book.description}</Text>
             </Box>
@@ -125,7 +126,7 @@ export default function BookCard({ book, navigation, children }) {
         <ModalBackdrop />
         <ModalContent maxWidth={350}>
           <ModalHeader>
-            <Heading>Info</Heading>
+            <Heading>{i18n.t('generic.info')}</Heading>
           </ModalHeader>
           <ModalCloseButton />
           <ModalBody>
@@ -190,7 +191,7 @@ const darkTextStyle = {
 
 const parseAuthors = (authors) => {
   if (!authors) {
-    return <Text color="$coolGray800">unknown authors</Text>;
+    return <Text color="$coolGray800">{i18n.t('generic.unknownAuthors')}</Text>;
   }
   return authors.map((author, index) => (
     <Text key={author}>{author + (authors.length !== index + 1 ? ', ' : '')}</Text>

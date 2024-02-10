@@ -27,6 +27,7 @@ import Select from './Select';
 import allLanguages from '../utils/langs/allLanguages';
 import Toast from './Toast';
 import { call } from '../utils/functions';
+import { i18n } from '../../i18n';
 
 import { accessKeyId, secretAccessKey, region, signatureVersion } from '@env';
 import { BooksContext } from '../StateContext';
@@ -306,7 +307,7 @@ export default function BookForm({ book, navigation }) {
     <Box mb={200} w="100%">
       <VStack p="$4" space="lg" w="100%">
         <Box>
-          <Text mb="$1">Image</Text>
+          <Text mb="$1">{i18n.t('generic.image')}</Text>
           <Center>
             {(selectedImage || book?.imageUrl) && (
               <Image
@@ -320,11 +321,15 @@ export default function BookForm({ book, navigation }) {
           </Center>
           <Select
             options={[
-              { label: 'Pick a photo from library', value: 'library' },
-              { label: 'Take a photo', value: 'camera' },
+              { label: i18n.t('settings.pickPhoto'), value: 'library' },
+              { label: i18n.t('settings.takePhoto'), value: 'camera' },
             ]}
-            value={book?.imageUrl || selectedImage ? 'Replace Image' : 'Pick Image'}
-            placeholder="Pick or Take Image"
+            value={
+              book?.imageUrl || selectedImage
+                ? i18n.t('settings.replaceImage')
+                : i18n.t('settings.pickOrTakePhoto')
+            }
+            placeholder={i18n.t('settings.pickOrTakeImage')}
             onValueChange={(value) => handleSelectImage(value)}
           />
         </Box>
@@ -338,7 +343,7 @@ export default function BookForm({ book, navigation }) {
             }}
             render={({ field: { onChange, onBlur, value } }) => (
               <Box>
-                <Text mb="$1">Title</Text>
+                <Text mb="$1">{i18n.t('generic.title')}</Text>
                 <Input bg="$white" variant="rounded">
                   <InputField mb="$1" value={value} onBlur={onBlur} onChangeText={onChange} />
                 </Input>
@@ -347,17 +352,19 @@ export default function BookForm({ book, navigation }) {
           />
           {errors?.title && (
             <Text mt="$1" size="sm">
-              Title is required
+              {i18n.t('generic.titleRequired')}
             </Text>
           )}
         </Box>
 
         <Box>
-          <Text mb="$0">Authors</Text>
+          <Text mb="$0">{i18n.t('generic.authors')}</Text>
           {authors?.map((item, index) => (
             <Box key={authorsKeys[index]} mt="$2">
               <Box>
-                <Text size="sm">Author {index + 1}</Text>
+                <Text size="sm">
+                  {i18n.t('generic.author')} {index + 1}
+                </Text>
                 <HStack>
                   <Input bg="$white" flex={1} variant="rounded">
                     <InputField
@@ -406,7 +413,7 @@ export default function BookForm({ book, navigation }) {
             name="category"
             render={({ field: { onChange, onBlur, value } }) => (
               <Box>
-                <Text mb="$1">Category</Text>
+                <Text mb="$1">{i18n.t('generic.category')}</Text>
                 <Input bg="$white" variant="rounded">
                   <InputField mb="$1" value={value} onBlur={onBlur} onChangeText={onChange} />
                 </Input>
@@ -421,7 +428,7 @@ export default function BookForm({ book, navigation }) {
         </Box>
 
         <Box>
-          <Text mb="$1">Language</Text>
+          <Text mb="$1">{i18n.t('generic.language')}</Text>
           <Select
             options={allLanguages}
             placeholder={selectedLanguage?.label || 'Select'}
@@ -435,7 +442,7 @@ export default function BookForm({ book, navigation }) {
             name="ISBN"
             render={({ field: { onChange, onBlur, value } }) => (
               <Box>
-                <Text mb="$1">ISBN</Text>
+                <Text mb="$1">{i18n.t('generic.ISBN')}</Text>
                 <Input bg="$white" variant="rounded">
                   <InputField mb="$1" value={value} onBlur={onBlur} onChangeText={onChange} />
                 </Input>
@@ -450,7 +457,7 @@ export default function BookForm({ book, navigation }) {
             name="publisher"
             render={({ field: { onChange, onBlur, value } }) => (
               <Box>
-                <Text mb="$1">Publisher</Text>
+                <Text mb="$1">{i18n.t('generic.publisher')}</Text>
                 <Input bg="$white" variant="rounded">
                   <InputField mb="$1" value={value} onBlur={onBlur} onChangeText={onChange} />
                 </Input>
@@ -465,7 +472,7 @@ export default function BookForm({ book, navigation }) {
             name="publishedDate"
             render={({ field: { onChange, onBlur, value } }) => (
               <Box>
-                <Text mb="$1">Publication date</Text>
+                <Text mb="$1">{i18n.t('generic.publishDate')}</Text>
                 <Input bg="$white" variant="rounded">
                   <InputField mb="$1" value={value} onBlur={onBlur} onChangeText={onChange} />
                 </Input>
@@ -480,10 +487,10 @@ export default function BookForm({ book, navigation }) {
             name="description"
             render={({ field: { onChange, onBlur, value } }) => (
               <Box>
-                <Text mb="$1">Description</Text>
+                <Text mb="$1">{i18n.t('generic.description')}</Text>
                 <Textarea bg="$white" variant="rounded">
                   <TextareaInput
-                    placeholder="Detailed description..."
+                    placeholder={i18n.t('generic.descriptionPlaceholder')}
                     value={value}
                     onBlur={onBlur}
                     onChangeText={onChange}
@@ -496,7 +503,7 @@ export default function BookForm({ book, navigation }) {
 
         <Button isDisabled={isLoading} onPress={handleSubmit(onFormSubmit)} type="submit">
           {isLoading && <ButtonSpinner mr="$1" />}
-          <ButtonText>Submit</ButtonText>
+          <ButtonText>{i18n.t('generic.submit')}</ButtonText>
         </Button>
       </VStack>
     </Box>

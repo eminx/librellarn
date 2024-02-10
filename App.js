@@ -75,7 +75,7 @@ function App({ currentUser }) {
                 options={(route) => ({
                   headerShown: false,
                   tabBarIcon: ({ color, size }) => <Icon as={SearchIcon} color={color} size="xl" />,
-                  tabBarLabel: i18n.t('screens.labels.discover'),
+                  tabBarLabel: i18n.t('discover.label'),
                 })}
               />
               <Tab.Screen
@@ -88,7 +88,7 @@ function App({ currentUser }) {
                       <Icon as={MessagesSquare} color={color} size="xl" />
                     </NotificationBadge>
                   ),
-                  tabBarLabel: i18n.t('screens.labels.requests'),
+                  tabBarLabel: i18n.t('requests.label'),
                 })}
               />
               <Tab.Screen
@@ -97,7 +97,7 @@ function App({ currentUser }) {
                 options={(route) => ({
                   headerShown: false,
                   tabBarIcon: ({ color, size }) => <Icon as={Library} color={color} size="xl" />,
-                  tabBarLabel: i18n.t('screens.labels.myProfile'),
+                  tabBarLabel: i18n.t('profile.label'),
                 })}
               />
               <Tab.Screen
@@ -107,7 +107,7 @@ function App({ currentUser }) {
                   tabBarIcon: ({ color, size }) => (
                     <Icon as={SettingsIcon} color={color} size="xl" />
                   ),
-                  tabBarLabel: i18n.t('screens.labels.settings'),
+                  tabBarLabel: i18n.t('settings.label'),
                 })}
               />
             </Tab.Navigator>

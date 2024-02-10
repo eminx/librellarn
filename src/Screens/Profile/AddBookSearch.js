@@ -12,6 +12,7 @@ import {
 
 import BookList from '../../Components/BookList';
 import Input from '../../Components/Input';
+import { i18n } from '../../../i18n';
 
 const apiKey = '808034619888-91df5q015u8ahrjnov41d9isn3juknuv.apps.googleusercontent.com';
 
@@ -58,7 +59,7 @@ export default function AddBookSearch({ navigation }) {
             borderBottomRightRadius={isSearchBarFull ? '0' : '100%'}
             height={42}
             leftIcon={SearchIcon}
-            placeholder="Book title, author etc"
+            placeholder={i18n.t('profile.searchPlaceholder')}
             size="lg"
             value={searchBarInput}
             onChangeText={(value) => setState({ ...state, searchBarInput: value })}
@@ -78,7 +79,9 @@ export default function AddBookSearch({ navigation }) {
               onPress={() => searchBarSearch()}
             >
               {isLoading && <ButtonSpinner mr="$1" />}
-              <ButtonText>{isLoading ? 'Search' : 'Search'}</ButtonText>
+              <ButtonText>
+                {isLoading ? i18n.t('profile.searching') : i18n.t('profile.search')}
+              </ButtonText>
             </Button>
           </Center>
         )}
@@ -91,7 +94,7 @@ export default function AddBookSearch({ navigation }) {
       <Center mb={200} p="$4">
         <Box>
           <Center>
-            <Text>Can't find the book?</Text>
+            <Text>{i18n.t('profile.bookNotFound')}</Text>
           </Center>
           <Button
             borderRadius="$full"
@@ -99,7 +102,7 @@ export default function AddBookSearch({ navigation }) {
             variant="link"
             onPress={() => navigation.navigate('AddBookManually')}
           >
-            <ButtonText>Manually Add Book</ButtonText>
+            <ButtonText>{i18n.t('profile.manualAdd')}</ButtonText>
           </Button>
         </Box>
       </Center>
