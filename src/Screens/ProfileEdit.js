@@ -240,7 +240,7 @@ export default function ProfileEdit() {
       await call('setProfileImage', imageUrl);
       toast.show({
         placement: 'top',
-        render: ({ id }) => <Toast nativeId={id} message="Profile image is successfully updated" />,
+        render: ({ id }) => <Toast nativeId={id} message={i18n.t('settings.updateMessage')} />,
       });
     } catch (error) {
       console.log(error);
@@ -310,7 +310,7 @@ export default function ProfileEdit() {
       await call('updateProfile', values);
       toast.show({
         placement: 'top',
-        render: ({ id }) => <Toast nativeId={id} message="Profile is successfully updated" />,
+        render: ({ id }) => <Toast nativeId={id} message={i18n.t('settings.updateMessage')} />,
       });
     } catch (error) {
       console.log(error);
@@ -333,11 +333,11 @@ export default function ProfileEdit() {
         setErrorMsg('Permission to access location was denied');
         return;
       }
-      let location = await Location.getCurrentPositionAsync({});
+      let location = await Location.getCurrentPositionAsync();
       await call('updateProfile', { location });
       toast.show({
         placement: 'top',
-        render: ({ id }) => <Toast nativeId={id} message="Profile is successfully updated" />,
+        render: ({ id }) => <Toast nativeId={id} message={i18n.t('settings.updateMessage')} />,
       });
     } catch (error) {
       console.log(error);

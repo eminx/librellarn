@@ -24,7 +24,6 @@ import { StatusBar } from 'expo-status-bar';
 import * as Location from 'expo-location';
 import { getLocales } from 'expo-localization';
 
-// import './i18n';
 import DiscoverContainer from './src/Screens/Discover';
 import RequestsContainer from './src/Screens/Requests';
 import AuthContainer from './src/Screens/Auth/AuthContainer';
@@ -34,6 +33,7 @@ import ProfileEdit from './src/Screens/ProfileEdit';
 import ConfirmDialog from './src/Components/ConfirmDialog';
 import { i18n } from './i18n';
 import { call } from './src/utils/functions';
+import { registerForPushNotificationsAsync } from './src/NotificationsManager';
 
 const localDevApi = 'ws://localhost:3000/websocket';
 const productionApi = 'wss://librella.app/websocket';
@@ -55,6 +55,7 @@ function App({ currentUser }) {
   });
 
   useEffect(() => {
+    registerForPushNotificationsAsync();
     const deviceLang = getLocales()[0].languageCode;
     changeLanguage(deviceLang);
   }, []);

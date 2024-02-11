@@ -13,6 +13,7 @@
   },
   "dependencies": {
     "@babel/plugin-proposal-export-namespace-from": "^7.18.9",
+    "@expo/config-plugins": "~7.2.2",
     "@expo/webpack-config": "^19.0.0",
     "@gluestack-style/react": "^1.0.45",
     "@gluestack-ui/config": "^1.1.2",
@@ -35,6 +36,7 @@
     "expo-image-picker": "~14.3.2",
     "expo-localization": "~14.3.0",
     "expo-location": "~16.1.0",
+    "expo-notifications": "~0.20.1",
     "expo-secure-store": "~12.3.1",
     "expo-splash-screen": "~0.20.5",
     "expo-status-bar": "~1.6.0",
