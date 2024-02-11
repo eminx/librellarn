@@ -175,7 +175,7 @@ export default function Requests({ navigation }) {
                 p="$2"
               >
                 <HStack justifyContent="space-between">
-                  <HStack alignItems="center" flex={1}>
+                  <HStack flex={1}>
                     <Box alignItems="center" w={54} pt="$2" pl="$2" position="relative">
                       <AvatarWithUsername
                         image={isOwner ? request.requesterImage : request.ownerImage}
