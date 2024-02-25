@@ -79,7 +79,7 @@
       "receivedBack": "I've received my book back",
       "requested": "Requested",
       "requestedMessage": "Request is made",
-      "requestsToBorrow": "requests to borrow",
+      "requestsToBorrow": "%{requesterUsername} requests to borrow %{bookTitle} from %{ownerUsername}",
       "returned": "Returned",
       "returnedMessage": "The book is returned to the owner",
       "status": "Status",

@@ -219,10 +219,7 @@ function Request({ isOwner, navigation, request }) {
 
           <Center px="$4" py="$2">
             <Text textAlign="center">
-              <Text fontWeight="bold">{requesterUsername}</Text>{' '}
-              {i18n.t('requests.requestsToBorrow')}
-              <Text fontWeight="bold">{bookTitle}</Text>
-              <Text fontWeight="bold">{ownerUsername}</Text>
+              {i18n.t('requests.requestsToBorrow', { bookTitle, ownerUsername, requesterUsername })}
             </Text>
           </Center>
 

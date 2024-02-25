@@ -67,7 +67,7 @@ export default function ProfileEdit() {
     confirmLanguagesButtonLoading: false,
     confirmLocationButtonLoading: false,
     location: null,
-    selectedLanguages: currentUser?.languages,
+    selectedLanguages: currentUser?.languages || [],
     selectedImage: null,
     selectedTab: 'image',
     selectImageButtonLoading: false,
@@ -279,7 +279,7 @@ export default function ProfileEdit() {
 
   const handleSelectLanguage = (lang) => {
     const { selectedLanguages } = state;
-    if (selectedLanguages.find((l) => l.value === lang)) {
+    if (selectedLanguages?.find((l) => l.value === lang)) {
       return;
     }
     const selectedLang = allLanguages.find((l) => l.value === lang);
@@ -334,6 +334,7 @@ export default function ProfileEdit() {
         return;
       }
       let location = await Location.getCurrentPositionAsync();
+      console.log('location', location);
       await call('updateProfile', { location });
       toast.show({
         placement: 'top',
@@ -518,7 +519,7 @@ export default function ProfileEdit() {
 
       {selectedTab === 'languages' && (
         <Box w="100%">
-          <Box bg="$white" my="$4" p="$4">
+          <Box my="$4" p="$4">
             <Text mb="$2" textAlign="center">
               {i18n.t('settings.changeLanguage')}
             </Text>
@@ -530,7 +531,7 @@ export default function ProfileEdit() {
             />
           </Box>
 
-          <Center bg="$white" my="$4" p="$4">
+          <Center my="$4" p="$4">
             <Text mb="$4" textAlign="center">
               {i18n.t('settings.addLanguages')}
             </Text>
