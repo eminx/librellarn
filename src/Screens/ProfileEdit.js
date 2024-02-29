@@ -35,6 +35,7 @@ import { call } from '../utils/functions';
 import Select from '../Components/Select';
 import { StateContext } from '../StateContext';
 import { i18n, locales } from '../../i18n';
+import ConfirmDialog from '../Components/ConfirmDialog';
 
 import { accessKeyId, secretAccessKey, region, signatureVersion } from '@env';
 const awsParams = {
@@ -66,6 +67,7 @@ export default function ProfileEdit() {
     confirmInfoButtonLoading: false,
     confirmLanguagesButtonLoading: false,
     confirmLocationButtonLoading: false,
+    isDeleteAccountModalOpen: false,
     location: null,
     selectedLanguages: currentUser?.languages || [],
     selectedImage: null,
@@ -78,6 +80,7 @@ export default function ProfileEdit() {
     confirmInfoButtonLoading,
     confirmLanguagesButtonLoading,
     confirmLocationButtonLoading,
+    isDeleteAccountModalOpen,
     selectedLanguages,
     selectedImage,
     selectedTab,
@@ -350,6 +353,18 @@ export default function ProfileEdit() {
     }
   };
 
+  const deleteAccount = async () => {
+    try {
+      await call('deleteAccount');
+      toast.show({
+        placement: 'top',
+        render: ({ id }) => <Toast nativeId={id} message={i18n.t('settings.deleteMessage')} />,
+      });
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   const languagesChanged =
     currentUser?.languages?.map((l) => l.value).toString() !==
     selectedLanguages?.map((l) => l.value).toString();
@@ -584,6 +599,27 @@ export default function ProfileEdit() {
           )}
         </Box>
       )}
+
+      <Box py="$4" px="$12">
+        <Button
+          size="sm"
+          variant="link"
+          onPress={() => setState({ ...state, isDeleteAccountModalOpen: true })}
+        >
+          <ButtonText color="$red">{i18n.t('settings.deleteAccount')}</ButtonText>
+        </Button>
+
+        <ConfirmDialog
+          isOpen={isDeleteAccountModalOpen}
+          header={i18n.t('settings.deleteAccount')}
+          onClose={() => setState({ ...state, isDeleteAccountModalOpen: false })}
+          onConfirm={() => deleteAccount()}
+        >
+          <Box>
+            <Text mb="$4">{i18n.t('settings.deleteAccountAlert')}</Text>
+          </Box>
+        </ConfirmDialog>
+      </Box>
 
       <Box h={200}></Box>
     </ScrollView>

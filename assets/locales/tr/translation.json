@@ -107,6 +107,8 @@
     "settings": {
       "addLanguages": "Kitap okuyabileceğin dilleri ekle ve onayla",
       "changeLanguage": "Uygulama dilini değiştir",
+      "deleteAccount": "Hesabını sil",
+      "deleteAccountAlert": "Onaylar isen hesabın ile birlikte kitapların, mesajlaşmaların ve hakkındaki bilgiler dahil tüm bilgiler kalıcı olarak silinecektir. Bunu onaylıyor musun?",
       "firstName": "İsim",
       "firstNameRequired": "İsim gerekli",
       "image": "Imaj",

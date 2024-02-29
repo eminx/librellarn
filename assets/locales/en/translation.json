@@ -107,6 +107,8 @@
     "settings": {
       "addLanguages": "Add languages you can read books in and confirm",
       "changeLanguage": "Change app language",
+      "deleteAccount": "Delete your account",
+      "deleteAccountAlert": "If you approve, your account and all information, including your books, messaging and information about you, will be permanently deleted. Do you approve of this?",
       "firstName": "First name",
       "firstNameRequired": "First name is required",
       "image": "Image",

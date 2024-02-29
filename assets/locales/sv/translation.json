@@ -107,6 +107,8 @@
     "settings": {
       "addLanguages": "Lägg till språk du kan läsa böcker på och bekräfta",
       "changeLanguage": "Ändra appens språk",
+      "deleteAccount": "Radera ditt konto",
+      "deleteAccountAlert": "Om du godkänner kommer ditt konto och all information, inklusive dina böcker, meddelanden och information om dig, att raderas permanent. Godkänner du detta?",
       "firstName": "Förnamn",
       "firstNameRequired": "Förnamn krävs",
       "image": "Bild",
