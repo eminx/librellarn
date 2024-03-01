@@ -79,7 +79,7 @@
       "receivedBack": "Jag har fått tillbaka min bok",
       "requested": "Efterfrågad",
       "requestedMessage": "Förfrågan är gjord",
-      "requestsToBorrow": "%{requesterUsername} förfråger att få låna <b>%{bookTitle}</b> från %{ownerUsername}",
+      "requestsToBorrow": "%{requesterUsername} förfråger att få låna %{bookTitle} från %{ownerUsername}",
       "returned": "återlämnad",
       "returnedMessage": "Boken är återlämnad till ägaren",
       "status": "Status",

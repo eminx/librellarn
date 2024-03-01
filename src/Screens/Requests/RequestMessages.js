@@ -3,7 +3,6 @@ import React, { useEffect } from 'react';
 import { StyleSheet } from 'react-native';
 import { Box } from '@gluestack-ui/themed';
 import { GiftedChat } from 'react-native-gifted-chat';
-import { schedulePushNotification } from 'expo-notifications';
 
 import { call } from '../../utils/functions';
 
@@ -11,7 +10,6 @@ const RequestsCollection = new Mongo.Collection('requests');
 
 function RequestMessages({ currentUser, discussion, isOwner, request }) {
   useEffect(() => {
-    schedulePushNotification();
     Meteor.call('removeAllNotifications', request._id);
   }, [discussion?.length]);
 
@@ -31,7 +29,6 @@ function RequestMessages({ currentUser, discussion, isOwner, request }) {
   const sendMessage = async (message) => {
     try {
       await call('addMessage', request._id, message.text);
-      await schedulePushNotification();
     } catch (error) {
       console.log(error);
     }
