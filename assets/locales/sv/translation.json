@@ -1,6 +1,7 @@
 {
   "sv": {
     "generic": {
+      "agree": "Jag håller med",
       "all": "Allt",
       "author": "Författare",
       "authors": "Författare",
@@ -15,6 +16,7 @@
       "confirm": "Bekräfta",
       "description": "Beskrivning",
       "descriptionPlaceholder": "Detaljerad beskrivning",
+      "disagree": "Jag håller inte med",
       "error": "Fel",
       "filter": "Filtrera",
       "image": "Bild",
@@ -49,10 +51,14 @@
       "loginTitle": "Logga in till ditt konto",
       "password": "Lösenord",
       "passwordRequiredMessage": "Lösenord krävs",
+      "privacyPolicy": "Sekretesspolicy",
       "register": "Registrera",
       "registerTitle": "Skapa ett nytt konto",
       "resetPassword": "Återställ lösenord",
       "resetPasswordMessage": "Du kommer nu få en länk för att återställa ditt lösenord.",
+      "termsAndConditions": "Jag har läst och accepterar användarvillkoren, slutanvändarlicensavtalet och sekretesspolicyn",
+      "termsAndConditionsTitle": "EULA och sekretesspolicy",
+      "termsTitle": "Slutanvändarlicensavtal (EULA)",
       "typeEmail": "Vänligen ange din e-postadress",
       "username": "Användarnamn",
       "usernameOrEmail": "Användarnamn eller e-postadress",

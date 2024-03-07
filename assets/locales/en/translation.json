@@ -1,6 +1,7 @@
 {
   "en": {
     "generic": {
+      "agree": "I agree",
       "all": "All",
       "author": "Author",
       "authors": "Authors",
@@ -15,6 +16,7 @@
       "confirm": "Confirm",
       "description": "Description",
       "descriptionPlaceholder": "Detailed description",
+      "disagree": "I disagree",
       "error": "Error",
       "filter": "Filter",
       "image": "Image",
@@ -49,10 +51,14 @@
       "loginTitle": "Login to your account",
       "password": "Password",
       "passwordRequiredMessage": "Password is required",
+      "privacyPolicy": "Privacy Policy",
       "register": "Register",
       "registerTitle": "Create a new account",
       "resetPassword": "Reset Password",
       "resetPasswordMessage": "You will now receive a link to reset your password",
+      "termsAndConditions": "I have read and accept the Terms of Service, End User Licence Agreement, and Privacy Policy",
+      "termsAndConditionsTitle": "EULA & Privacy Policy",
+      "termsTitle": "End User Licence Agreement (EULA)",
       "typeEmail": "Please type your email address",
       "username": "Username",
       "usernameOrEmail": "Username or email address",

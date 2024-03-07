@@ -1,6 +1,7 @@
 {
   "tr": {
     "generic": {
+      "agree": "Kabul ediyorum",
       "all": "Tümü",
       "author": "Yazar",
       "authors": "Yazar(lar)",
@@ -15,6 +16,7 @@
       "confirm": "Onayla",
       "description": "Açıklama",
       "descriptionPlaceholder": "Detaylı açıklama",
+      "disagree": "Kabul etmiyorum",
       "error": "Sorun",
       "filter": "Filtrele",
       "image": "Imaj",
@@ -49,10 +51,14 @@
       "loginTitle": "Hesabına giriş yap",
       "password": "Şifre",
       "passwordRequiredMessage": "Şifre gerekli",
+      "privacyPolicy": "Gizlilik Politikası",
       "register": "Kayıt ol",
       "registerTitle": "Yeni hesap oluştur",
       "resetPassword": "Şifreyi sıfırla",
       "resetPasswordMessage": "Şifreni sıfırlamak için bir bağlantı alacaksın",
+      "termsAndConditions": "Hizmet Koşullarını, Son Kullanıcı Lisans Sözleşmesini ve Gizlilik Politikasını okudum ve kabul ediyorum",
+      "termsAndConditionsTitle": "EULA ve Gizlilik Politikası",
+      "termsTitle": "Son Kullanıcı Lisans Sözleşmesi (EULA)",
       "typeEmail": "Lütfen e-posta adresini gir",
       "username": "Kullanıcı adı",
       "usernameOrEmail": "Kullanıcı adı ya da e-posta adresi",
