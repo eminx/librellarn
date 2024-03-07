@@ -1,5 +1,5 @@
 import Meteor, { Mongo, withTracker } from '@meteorrn/core';
-import React, { useContext } from 'react';
+import React, { useContext, useState } from 'react';
 import {
   ArrowRightIcon,
   Avatar,
@@ -26,6 +26,7 @@ import { call } from '../../utils/functions';
 import Alert from '../../Components/Alert';
 import { StateContext } from '../../StateContext';
 import { i18n } from '../../../i18n';
+import ConfirmDialog from '../../Components/ConfirmDialog';
 
 const RequestsCollection = new Mongo.Collection('requests');
 
@@ -50,6 +51,9 @@ const steps = [
 
 function Request({ isOwner, navigation, request }) {
   const { currentUser } = useContext(StateContext);
+  const [state, setState] = useState({
+    isBlockModalOn: false,
+  });
 
   const acceptRequest = async () => {
     if (currentUser._id !== request.ownerId) {
@@ -90,6 +94,14 @@ function Request({ isOwner, navigation, request }) {
     }
     try {
       await call('setIsReturned', request._id);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const blockUser = async () => {
+    try {
+      await call('blockUser', request.requesterId);
     } catch (error) {
       console.log(error);
     }
@@ -167,6 +179,10 @@ function Request({ isOwner, navigation, request }) {
     requesterUsername,
     requesterImage,
   } = request;
+
+  const { isBlockModalOn } = state;
+
+  const theOther = isOwner ? requesterUsername : ownerUsername;
 
   return (
     <Box>
@@ -288,6 +304,23 @@ function Request({ isOwner, navigation, request }) {
           </Center>
         )}
       </ScrollView>
+
+      <Center>
+        <Button variant="link" onPress={() => setState({ ...state, isBlockModalOn: true })}>
+          <ButtonText color="$red" size="sm">
+            {i18n.t('requests.blockUser', { username: theOther })}
+          </ButtonText>
+        </Button>
+      </Center>
+
+      <ConfirmDialog
+        isOpen={isBlockModalOn}
+        header={i18n.t('requests.blockHeader')}
+        onClose={() => setState({ ...state, isBlockModalOn: false })}
+        onConfirm={() => blockUser()}
+      >
+        <Text>{i18n.t('requests.blockDescription')}</Text>
+      </ConfirmDialog>
     </Box>
   );
 }
