@@ -5,6 +5,7 @@ import Discover from './Discover';
 import Book from './Book';
 import User from './User';
 import { i18n } from '../../../i18n';
+import HeaderRightMenu from '../../Components/HeaderRightMenu';
 
 const Stack = createNativeStackNavigator();
 
@@ -19,7 +20,10 @@ export default function DiscoverContainer({}) {
       <Stack.Screen
         name="DiscoverBook"
         component={Book}
-        options={({ route }) => ({ title: route.params.name })}
+        options={({ route }) => ({
+          title: route.params.name,
+          headerRight: () => <HeaderRightMenu />,
+        })}
       />
       <Stack.Screen
         name="DiscoverUser"

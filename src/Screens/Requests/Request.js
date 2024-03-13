@@ -19,6 +19,7 @@ import {
   ScrollView,
   Text,
   VStack,
+  useToast,
 } from '@gluestack-ui/themed';
 import { Bell, CheckSquare, MessagesSquare, MinusSquare } from 'lucide-react-native';
 
@@ -27,6 +28,7 @@ import Alert from '../../Components/Alert';
 import { StateContext } from '../../StateContext';
 import { i18n } from '../../../i18n';
 import ConfirmDialog from '../../Components/ConfirmDialog';
+import Toast from '../../Components/Toast';
 
 const RequestsCollection = new Mongo.Collection('requests');
 
@@ -54,6 +56,8 @@ function Request({ isOwner, navigation, request }) {
   const [state, setState] = useState({
     isBlockModalOn: false,
   });
+
+  const toast = useToast();
 
   const acceptRequest = async () => {
     if (currentUser._id !== request.ownerId) {
@@ -100,8 +104,18 @@ function Request({ isOwner, navigation, request }) {
   };
 
   const blockUser = async () => {
+    const theOtherId = isOwner ? request.requesterId : request.ownerId;
+    const theOtherUsername = isOwner ? request.requesterUsername : request.ownerUsername;
     try {
-      await call('blockUser', request.requesterId);
+      await call('blockUser', theOtherId);
+      setState({
+        ...state,
+        isBlockModalOn: false,
+      });
+      toast.show({
+        placement: 'top',
+        render: ({ id }) => <Toast nativeId={id} message={`${theOtherUsername} is blocked`} />,
+      });
     } catch (error) {
       console.log(error);
     }

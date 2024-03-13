@@ -5,6 +5,7 @@ import Requests from './Requests';
 import Request from './Request';
 import RequestMessages from './RequestMessages';
 import { i18n } from '../../../i18n';
+import HeaderRightMenu from '../../Components/HeaderRightMenu';
 
 const Stack = createNativeStackNavigator();
 
@@ -20,6 +21,7 @@ export default function RequestsContainer({}) {
         name="Request"
         component={Request}
         options={({ route }) => ({
+          headerRight: () => <HeaderRightMenu />,
           title: i18n.t('requests.status') + ' | ' + route.params.request?.bookTitle,
           tabBarButton: (props) => null,
           tabBarVisible: false,

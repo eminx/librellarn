@@ -232,7 +232,7 @@ export default function Register({ setUser }) {
             <Text size="sm">{termsEn}</Text>
 
             <Heading mb="$2" mt="$4" size="sm">
-              {i18n.t('auth.privacyPolicy')})}
+              {i18n.t('auth.privacyPolicy')}
             </Heading>
 
             <Text size="sm">{policyEn}</Text>
