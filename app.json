@@ -18,7 +18,8 @@
       "buildNumber": "0.1.16",
       "bitcode": false,
       "infoPlist": {
-        "NSCameraUsageDescription": "This app uses the camera to take a photo of users for their profiles, and optionally to take a photo of a book that users choose to manually add to their virtual book shelves."
+        "NSCameraUsageDescription": "This app uses the camera to take a photo of users for their profiles, and optionally to take a photo of a book that users choose to manually add to their virtual book shelves.",
+        "NSLocationUsageDescription": "This app requires user's location in order to estimate the distance between other users, and provide geographically relevant content that are in users near proximity"
       }
     },
     "android": {
