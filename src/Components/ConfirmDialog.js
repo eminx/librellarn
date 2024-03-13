@@ -18,7 +18,7 @@ import {
 import { i18n } from '../../i18n';
 
 export default function ConfirmDialog({
-  confirmButtonLabel = 'Confirm',
+  confirmButtonLabel,
   confirmButtonType = 'blue',
   children,
   footer,
@@ -64,7 +64,7 @@ export default function ConfirmDialog({
                 borderRadius="$full"
               >
                 {isConfirmButtonLoading && <ButtonSpinner mr="$1" />}
-                <ButtonText>{confirmButtonLabel}</ButtonText>
+                <ButtonText>{confirmButtonLabel || i18n.t('generic.confirm')}</ButtonText>
               </Button>
             </HStack>
           </AlertDialogFooter>

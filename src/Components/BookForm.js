@@ -259,7 +259,7 @@ export default function BookForm({ book, navigation }) {
       await getMyBooks();
       toast.show({
         placement: 'top',
-        render: ({ id }) => <Toast nativeId={id} message="Book is added to your virtual shelf" />,
+        render: ({ id }) => <Toast nativeId={id} message={i18n.t('profile.bookAdded')} />,
       });
       reset();
       setState({
@@ -290,7 +290,7 @@ export default function BookForm({ book, navigation }) {
       await getMyBooks();
       toast.show({
         placement: 'top',
-        render: ({ id }) => <Toast nativeId={id} message="Book is successfully updated" />,
+        render: ({ id }) => <Toast nativeId={id} message={i18n.t('profile.bookUpdated')} />,
       });
       navigation.goBack();
     } catch (error) {

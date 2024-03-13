@@ -21,7 +21,9 @@ export default function RequestsContainer({}) {
         name="Request"
         component={Request}
         options={({ route }) => ({
-          headerRight: () => <HeaderRightMenu />,
+          headerRight: () => (
+            <HeaderRightMenu contentId={route?.params?.request?._id} context="request" />
+          ),
           title: i18n.t('requests.status') + ' | ' + route.params.request?.bookTitle,
           tabBarButton: (props) => null,
           tabBarVisible: false,

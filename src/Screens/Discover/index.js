@@ -21,14 +21,19 @@ export default function DiscoverContainer({}) {
         name="DiscoverBook"
         component={Book}
         options={({ route }) => ({
+          headerRight: () => (
+            <HeaderRightMenu context="book" contentId={route?.params?.book?._id} />
+          ),
           title: route.params.name,
-          headerRight: () => <HeaderRightMenu />,
         })}
       />
       <Stack.Screen
         name="DiscoverUser"
         component={User}
-        options={({ route }) => ({ title: route.params.username })}
+        options={({ route }) => ({
+          headerRight: () => <HeaderRightMenu context="user" contentId={route?.params?.username} />,
+          title: route.params.username,
+        })}
       />
     </Stack.Navigator>
   );
