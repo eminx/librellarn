@@ -43,19 +43,19 @@
       [
         "expo-camera",
         {
-          "cameraPermission": "Allow $(PRODUCT_NAME) to access your camera."
+          "cameraPermission": "Allow $(PRODUCT_NAME) to take a photo for user profile, and/or optionally to take a photo of a book that users choose to manually add to their virtual book shelves."
         }
       ],
       [
         "expo-image-picker",
         {
-          "photosPermission": "The app accesses your photos to let you share them with your friends."
+          "photosPermission": "$(PRODUCT_NAME) accesses your photos to assign a profile photo, and/or optionally to select a photo of a book that users choose to manually add to their virtual book shelves."
         }
       ],
       [
         "expo-location",
         {
-          "locationAlwaysAndWhenInUsePermission": "Allow Librella to use your location."
+          "locationAlwaysAndWhenInUsePermission": "Allow $(PRODUCT_NAME) to get your approximate location to estimate the distance between other users, and provide geographically relevant content that are in users near proximity. "
         }
       ],
       [
