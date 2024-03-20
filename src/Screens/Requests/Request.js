@@ -202,7 +202,7 @@ function Request({ isOwner, navigation, request }) {
     <Box>
       <ScrollView>
         <Box py="$4">
-          <HStack pb="$2">
+          <HStack>
             <Box flex={1}>
               <Center>
                 <Avatar bgColor="$amber400" borderRadius="$full">
@@ -317,15 +317,15 @@ function Request({ isOwner, navigation, request }) {
             </VStack>
           </Center>
         )}
-      </ScrollView>
 
-      <Center>
-        <Button variant="link" onPress={() => setState({ ...state, isBlockModalOn: true })}>
-          <ButtonText color="$red" size="sm">
-            {i18n.t('requests.blockUser', { username: theOther })}
-          </ButtonText>
-        </Button>
-      </Center>
+        <Center>
+          <Button variant="link" onPress={() => setState({ ...state, isBlockModalOn: true })}>
+            <ButtonText color="$red" size="sm">
+              {i18n.t('requests.blockUser', { username: theOther })}
+            </ButtonText>
+          </Button>
+        </Center>
+      </ScrollView>
 
       <ConfirmDialog
         isOpen={isBlockModalOn}
