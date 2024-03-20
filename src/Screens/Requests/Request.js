@@ -256,14 +256,6 @@ function Request({ isOwner, navigation, request }) {
           <Center>{renderButtonWithNotification()}</Center>
         </Box>
 
-        <Center>
-          <Button variant="link" onPress={() => setState({ ...state, isBlockModalOn: true })}>
-            <ButtonText color="$red" size="sm">
-              {i18n.t('generic.blockUser', { username: theOther })}
-            </ButtonText>
-          </Button>
-        </Center>
-
         <Box bg="$white">
           {isConfirmed && !isHanded && isOwner && (
             <Center p="$4">
@@ -325,6 +317,14 @@ function Request({ isOwner, navigation, request }) {
             </VStack>
           </Center>
         )}
+
+        <Center pb="$8">
+          <Button variant="link" onPress={() => setState({ ...state, isBlockModalOn: true })}>
+            <ButtonText color="$red" size="sm">
+              {i18n.t('generic.blockUser', { username: theOther })}
+            </ButtonText>
+          </Button>
+        </Center>
       </ScrollView>
 
       <ConfirmDialog
