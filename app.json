@@ -16,24 +16,18 @@
       "supportsTablet": true,
       "bundleIdentifier": "com.eminx.librella",
       "buildNumber": "0.1.17",
-      "bitcode": false
-      // "infoPlist": {
-      //   "NSCameraUsageDescription": "This app uses the camera to take a photo of users for their profiles, and optionally to take a photo of a book that users choose to manually add to their virtual book shelves. For example user will need to use the camera to take a picture of themselves for their profile picture, or for their book that they will add manually.",
-      //   "NSLocationUsageDescription": "This app requires user's location in order to estimate the distance between other users, and provide geographically relevant content that are in users near proximity. For example Maria living in Paris will only need to see other profiles and books that are also in Paris or near Paris."
-      // }
+      "bitcode": false,
+      "infoPlist": {
+        "NSCameraUsageDescription": "This app uses the camera to take a photo of users for their profiles, and optionally to take a photo of a book that users choose to manually add to their virtual book shelves. For example user will need to use the camera to take a picture of themselves for their profile picture, or for their book that they will add manually.",
+        "NSLocationUsageDescription": "This app requires user's location in order to estimate the distance between other users, and provide geographically relevant content that are in users near proximity. For example Maria living in Paris will only need to see other profiles and books that are also in Paris or near Paris."
+      }
     },
     "android": {
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#ffffff"
       },
-      "permissions": [
-        "android.permission.RECORD_AUDIO",
-        "android.permission.ACCESS_COARSE_LOCATION",
-        "android.permission.ACCESS_FINE_LOCATION",
-        "android.permission.FOREGROUND_SERVICE",
-        "android.permission.CAMERA"
-      ],
+      "permissions": ["android.permission.ACCESS_COARSE_LOCATION", "android.permission.CAMERA"],
       "package": "com.eminx.librella"
     },
     "web": {
@@ -55,7 +49,9 @@
       [
         "expo-location",
         {
-          "locationAlwaysAndWhenInUsePermission": "Allow $(PRODUCT_NAME) to get your approximate location to estimate the distance between other users, and provide geographically relevant content that are in users near proximity. "
+          "locationAlwaysAndWhenInUsePermission": "Allow $(PRODUCT_NAME) to get your approximate location to estimate the distance between other users, and provide geographically relevant content that are in users near proximity. ",
+          "locationAlwaysPermission": "Allow $(PRODUCT_NAME) to get your approximate location to estimate the distance between other users, and provide geographically relevant content that are in users near proximity. ",
+          "locationWhenInUsePermission": "Allow $(PRODUCT_NAME) to get your approximate location to estimate the distance between other users, and provide geographically relevant content that are in users near proximity. "
         }
       ],
       [
