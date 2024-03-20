@@ -321,7 +321,7 @@ function Request({ isOwner, navigation, request }) {
         <Center>
           <Button variant="link" onPress={() => setState({ ...state, isBlockModalOn: true })}>
             <ButtonText color="$red" size="sm">
-              {i18n.t('requests.blockUser', { username: theOther })}
+              {i18n.t('generic.blockUser', { username: theOther })}
             </ButtonText>
           </Button>
         </Center>
@@ -329,11 +329,11 @@ function Request({ isOwner, navigation, request }) {
 
       <ConfirmDialog
         isOpen={isBlockModalOn}
-        header={i18n.t('requests.blockHeader')}
+        header={i18n.t('generic.blockHeader')}
         onClose={() => setState({ ...state, isBlockModalOn: false })}
         onConfirm={() => blockUser()}
       >
-        <Text>{i18n.t('requests.blockDescription')}</Text>
+        <Text>{i18n.t('generic.blockDescription')}</Text>
       </ConfirmDialog>
     </Box>
   );
