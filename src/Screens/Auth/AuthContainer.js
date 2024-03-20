@@ -89,7 +89,7 @@ export default function AuthContainer() {
           </ButtonGroup>
         </Center>
 
-        <Box bg="#B3E8FF" rounded="$md" px="$4">
+        <Box bg="#B3E8FF" rounded="$md" px="$8" py="$6">
           <Box>{selectedTab === 'Register' && <Register />}</Box>
           <Box>{selectedTab === 'Login' && <Login />}</Box>
         </Box>

@@ -61,7 +61,7 @@ export default function Login() {
   const { isLoading } = state;
 
   return (
-    <Box p="$4">
+    <>
       <Heading textAlign="center">{i18n.t('auth.loginTitle')}</Heading>
       <VStack space="md" py="$2">
         <Box>
@@ -131,6 +131,6 @@ export default function Login() {
           <ButtonText>{i18n.t('generic.submit')}</ButtonText>
         </Button>
       </VStack>
-    </Box>
+    </>
   );
 }
