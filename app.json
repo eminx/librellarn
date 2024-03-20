@@ -2,7 +2,7 @@
   "expo": {
     "name": "Librella",
     "slug": "librella",
-    "version": "0.1.16",
+    "version": "0.1.17",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
     "userInterfaceStyle": "light",
@@ -15,12 +15,12 @@
     "ios": {
       "supportsTablet": true,
       "bundleIdentifier": "com.eminx.librella",
-      "buildNumber": "0.1.16",
-      "bitcode": false,
-      "infoPlist": {
-        "NSCameraUsageDescription": "This app uses the camera to take a photo of users for their profiles, and optionally to take a photo of a book that users choose to manually add to their virtual book shelves. For example user will need to use the camera to take a picture of themselves for their profile picture, or for their book that they will add manually.",
-        "NSLocationUsageDescription": "This app requires user's location in order to estimate the distance between other users, and provide geographically relevant content that are in users near proximity. For example Maria living in Paris will only need to see other profiles and books that are also in Paris or near Paris."
-      }
+      "buildNumber": "0.1.17",
+      "bitcode": false
+      // "infoPlist": {
+      //   "NSCameraUsageDescription": "This app uses the camera to take a photo of users for their profiles, and optionally to take a photo of a book that users choose to manually add to their virtual book shelves. For example user will need to use the camera to take a picture of themselves for their profile picture, or for their book that they will add manually.",
+      //   "NSLocationUsageDescription": "This app requires user's location in order to estimate the distance between other users, and provide geographically relevant content that are in users near proximity. For example Maria living in Paris will only need to see other profiles and books that are also in Paris or near Paris."
+      // }
     },
     "android": {
       "adaptiveIcon": {
