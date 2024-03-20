@@ -23,6 +23,7 @@ import { MessagesSquare, Library, SettingsIcon } from 'lucide-react-native';
 import { StatusBar } from 'expo-status-bar';
 import * as Location from 'expo-location';
 import { getLocales } from 'expo-localization';
+import { createNativeStackNavigator } from '@react-navigation/native-stack';
 
 import DiscoverContainer from './src/Screens/Discover';
 import RequestsContainer from './src/Screens/Requests';
@@ -34,11 +35,12 @@ import ConfirmDialog from './src/Components/ConfirmDialog';
 import { i18n } from './i18n';
 import { call } from './src/utils/functions';
 import { registerForPushNotificationsAsync } from './src/NotificationsManager';
+import DiscoverNoUser from './src/Screens/Discover/DiscoverNoUser';
 
 const localDevApi = 'ws://localhost:3000/websocket';
 const productionApi = 'wss://librella.app/websocket';
-// const api = __DEV__ ? localDevApi : productionApi;
-const api = productionApi;
+const api = __DEV__ ? localDevApi : productionApi;
+// const api = productionApi;
 
 try {
   Meteor.connect(api, { AsyncStorage });
@@ -47,6 +49,7 @@ try {
 }
 
 const Tab = createBottomTabNavigator();
+const Stack = createNativeStackNavigator();
 
 function App({ currentUser }) {
   const [state, setState] = useState({
@@ -69,10 +72,21 @@ function App({ currentUser }) {
 
   const { confirmLocationButtonLoading } = state;
 
+  const authTitle = i18n.t('auth.register') + ' | ' + i18n.t('auth.login');
+
   if (!currentUser) {
     return (
       <GluestackUIProvider config={config}>
-        <AuthContainer />
+        <NavigationContainer>
+          <Stack.Navigator initialRouteName="NoUser">
+            <Stack.Screen
+              name="DiscoverNoUser"
+              component={DiscoverNoUser}
+              options={{ title: i18n.t('discover.label') }}
+            />
+            <Stack.Screen name="Auth" component={AuthContainer} options={{ title: authTitle }} />
+          </Stack.Navigator>
+        </NavigationContainer>
       </GluestackUIProvider>
     );
   }

@@ -188,6 +188,7 @@ export default function Register({ setUser }) {
         </Box>
 
         <Checkbox
+          aria-label={i18n.t('auth.termsAndConditions')}
           isChecked={isTermsChecked}
           mb="$2"
           pr="$4"

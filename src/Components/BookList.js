@@ -44,7 +44,7 @@ export default function BookList({ books, navigateTo, refresher }) {
             bg="$white"
             sx={{ ':active': { bg: '$lime50' } }}
             onPress={() =>
-              navigation.navigate(navigateTo, {
+              navigation?.navigate(navigateTo, {
                 book,
                 name: book.title,
               })
