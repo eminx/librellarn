@@ -39,8 +39,8 @@ import DiscoverNoUser from './src/Screens/Discover/DiscoverNoUser';
 
 const localDevApi = 'ws://localhost:3000/websocket';
 const productionApi = 'wss://librella.app/websocket';
-const api = __DEV__ ? localDevApi : productionApi;
-// const api = productionApi;
+// const api = __DEV__ ? localDevApi : productionApi;
+const api = productionApi;
 
 try {
   Meteor.connect(api, { AsyncStorage });
