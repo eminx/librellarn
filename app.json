@@ -2,7 +2,7 @@
   "expo": {
     "name": "Librella",
     "slug": "librella",
-    "version": "0.1.19",
+    "version": "0.1.20",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
     "userInterfaceStyle": "light",
@@ -15,11 +15,11 @@
     "ios": {
       "supportsTablet": true,
       "bundleIdentifier": "com.eminx.librella",
-      "buildNumber": "0.1.19",
+      "buildNumber": "0.1.20",
       "bitcode": false,
       "infoPlist": {
-        "NSCameraUsageDescription": "This app uses the camera to take a photo of users for their profiles.",
-        "NSLocationUsageDescription": "This app requires user's location in order to estimate the distance between other users, and provide geographically relevant content that are in users near proximity. For example Maria living in Paris will only need to see other profiles and books that are also in Paris or near Paris."
+        "NSCameraUsageDescription": "$(PRODUCT_NAME) uses the camera to take a photo of users for their profiles.",
+        "NSLocationUsageDescription": "$(PRODUCT_NAME) requires user's location in order to estimate the distance between other users, and provide geographically relevant content that are in users near proximity. For example Maria living in Paris will only need to see other profiles and books that are also in Paris or near Paris."
       }
     },
     "android": {
@@ -49,9 +49,9 @@
       [
         "expo-location",
         {
-          "locationAlwaysAndWhenInUsePermission": "Allow $(PRODUCT_NAME) to get your approximate location to estimate the distance between other users, and provide geographically relevant content that are in users near proximity. ",
-          "locationAlwaysPermission": "Allow $(PRODUCT_NAME) to get your approximate location to estimate the distance between other users, and provide geographically relevant content that are in users near proximity. ",
-          "locationWhenInUsePermission": "Allow $(PRODUCT_NAME) to get your approximate location to estimate the distance between other users, and provide geographically relevant content that are in users near proximity. "
+          "locationAlwaysAndWhenInUsePermission": "$(PRODUCT_NAME) requires your approximate location to estimate the distance between you and other users, and provide geographically relevant content nearby you.",
+          "locationAlwaysPermission": "$(PRODUCT_NAME) requires your approximate location to estimate the distance between you and other users, and provide geographically relevant content nearby you.",
+          "locationWhenInUsePermission": "$(PRODUCT_NAME) requires your approximate location to estimate the distance between you and other users, and provide geographically relevant content nearby you."
         }
       ],
       [
