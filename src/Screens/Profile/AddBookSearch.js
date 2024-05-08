@@ -55,8 +55,8 @@ export default function AddBookSearch({ navigation }) {
       <HStack p="$4">
         <Box flexGrow={1}>
           <Input
-            borderTopRightRadius={isSearchBarFull ? '0' : 100}
-            borderBottomRightRadius={isSearchBarFull ? '0' : 100}
+            borderTopRightRadius={isSearchBarFull ? 0 : 100}
+            borderBottomRightRadius={isSearchBarFull ? 0 : 100}
             leftIcon={SearchIcon}
             height={42}
             placeholder={i18n.t('profile.searchPlaceholder')}
@@ -71,8 +71,8 @@ export default function AddBookSearch({ navigation }) {
           <Center flexGrow={0}>
             <Button
               borderRadius={0}
-              borderBottomRightRadius="50%"
-              borderTopRightRadius="50%"
+              borderBottomRightRadius={20}
+              borderTopRightRadius={20}
               height={42}
               isDisabled={isLoading}
               type="submit"
