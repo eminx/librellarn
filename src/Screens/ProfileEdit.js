@@ -221,7 +221,6 @@ export default function ProfileEdit() {
       .promise()
       .then(
         (data) => {
-          console.log(data.Location);
           return data.Location;
         },
         (error) => {
@@ -237,7 +236,6 @@ export default function ProfileEdit() {
     });
 
     const imageUrl = selectedImage ? await uploadImage(selectedImage.uri) : values.imageUrl;
-    console.log(imageUrl);
 
     try {
       await call('setProfileImage', imageUrl);

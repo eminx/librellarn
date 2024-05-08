@@ -31,7 +31,7 @@ import { call } from '../../utils/functions';
 import { i18n } from '../../../i18n';
 import { policyEn, termsEn } from '../../utils/policies';
 
-export default function Register({ setUser }) {
+export default function Register() {
   const [state, setState] = useState({
     isLoading: false,
     isTermsOpen: false,
@@ -62,7 +62,7 @@ export default function Register({ setUser }) {
 
     try {
       await call('registerUser', values);
-      Meteor.loginWithPassword(username, password, (error, respond) => {
+      Meteor.loginWithPassword(username, password, (err, respond) => {
         toast.show({
           placement: 'top',
           render: ({ id }) => {
