@@ -41,14 +41,14 @@ export default function Requests({ navigation }) {
     return RequestsCollection.find().fetch();
   });
 
-  const { currentUser } = useContext(StateContext);
-  const { filterInputValue, requestType } = state;
-
-  const currentUserId = currentUser._id;
-
   if (!requests) {
     return <Spinner m="$4" />;
   }
+
+  const { currentUser } = useContext(StateContext);
+  const { filterInputValue, requestType } = state;
+
+  const currentUserId = currentUser?._id;
 
   const getNotificationsCount = (request) => {
     const foundContext =
@@ -96,10 +96,6 @@ export default function Requests({ navigation }) {
     });
   };
 
-  if (!requests || requests.length === 0) {
-    return <Spinner m="$4" />;
-  }
-
   const filteredRequestsByType = getRequestsFilteredByType(requests);
   const filteredRequestsByInput = getRequestsFilteredByInput(filteredRequestsByType);
   const sortedRequests = getRequestsSorted(filteredRequestsByInput);
@@ -124,8 +120,8 @@ export default function Requests({ navigation }) {
               <Button
                 key={option.value}
                 borderBottomColor={requestType === option.value ? '$blue600' : '$white'}
-                borderBottomWidth="2px"
-                borderRadius="0"
+                borderBottomWidth={2}
+                borderRadius={0}
                 px="$2"
                 size="sm"
                 variant="link"
@@ -197,7 +193,7 @@ export default function Requests({ navigation }) {
                         <Box
                           bg="$lime800"
                           borderRadius="50%"
-                          borderWidth="1px"
+                          borderWidth={1}
                           borderColor="$white"
                           position="absolute"
                           pt={1}
@@ -234,13 +230,15 @@ export default function Requests({ navigation }) {
                     </Box>
                   </HStack>
                   <Box>
-                    <Image
-                      alignSelf="flex-end"
-                      alt={request.bookTitle}
-                      resizeMode="cover"
-                      source={{ uri: request.bookImage }}
-                      style={styles.thumbImage}
-                    />
+                    {request.bookImage && (
+                      <Image
+                        alignSelf="flex-end"
+                        alt={request.bookTitle}
+                        resizeMode="cover"
+                        source={{ uri: request.bookImage }}
+                        style={styles.thumbImage}
+                      />
+                    )}
                   </Box>
                 </HStack>
               </Box>

@@ -35,12 +35,13 @@ export default function About({ user }) {
 }
 
 function AccordionTitle({ user }) {
+  const userImage = user.images && user.images[0];
   return (
     <HStack alignItems="center">
       <Box>
         <Avatar>
           <AvatarFallbackText>{user.username}</AvatarFallbackText>
-          <AvatarImage alt={user.username} source={{ uri: user.images && user.images[0] }} />
+          {userImage && <AvatarImage alt={user.username} source={{ uri: userImage }} />}
         </Avatar>
       </Box>
 

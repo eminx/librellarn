@@ -58,7 +58,7 @@ function App({ currentUser }) {
   });
 
   useEffect(() => {
-    registerForPushNotificationsAsync();
+    // registerForPushNotificationsAsync();
     const deviceLang = getLocales()[0].languageCode;
     changeLanguage(deviceLang);
   }, []);

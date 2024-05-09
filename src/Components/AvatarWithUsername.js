@@ -15,8 +15,8 @@ export default function AvatarWithUsername({ image, username }) {
         <AvatarFallbackText>{username?.toUpperCase()}</AvatarFallbackText>
         {image && <AvatarImage alt={username} source={{ uri: image }} />}
       </Avatar>
-      <Center>
-        <Text size="xs" isTruncated>
+      <Center w={60}>
+        <Text isTruncated size="xs">
           {username}
         </Text>
       </Center>
