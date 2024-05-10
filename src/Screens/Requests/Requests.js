@@ -35,6 +35,8 @@ export default function Requests({ navigation }) {
     filterInputValue: '',
     requestType: 'all',
   });
+  const { currentUser } = useContext(StateContext);
+  const { filterInputValue, requestType } = state;
 
   const requests = useTracker(() => {
     Meteor.subscribe('myRequests');
@@ -44,9 +46,6 @@ export default function Requests({ navigation }) {
   if (!requests) {
     return <Spinner m="$4" />;
   }
-
-  const { currentUser } = useContext(StateContext);
-  const { filterInputValue, requestType } = state;
 
   const currentUserId = currentUser?._id;
 

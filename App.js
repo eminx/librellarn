@@ -34,7 +34,7 @@ import ProfileEdit from './src/Screens/ProfileEdit';
 import ConfirmDialog from './src/Components/ConfirmDialog';
 import { i18n } from './i18n';
 import { call } from './src/utils/functions';
-import { registerForPushNotificationsAsync } from './src/NotificationsManager';
+// import { registerForPushNotificationsAsync } from './src/NotificationsManager';
 import DiscoverNoUser from './src/Screens/Discover/DiscoverNoUser';
 
 const localDevApi = 'ws://localhost:3000/websocket';
@@ -59,7 +59,7 @@ function App({ currentUser }) {
 
   useEffect(() => {
     // registerForPushNotificationsAsync();
-    const deviceLang = getLocales()[0].languageCode;
+    const deviceLang = getLocales()[0]?.languageCode;
     changeLanguage(deviceLang);
   }, []);
 
@@ -71,14 +71,13 @@ function App({ currentUser }) {
   };
 
   const { confirmLocationButtonLoading } = state;
-
   const authTitle = i18n.t('auth.register') + ' | ' + i18n.t('auth.login');
 
   if (!currentUser) {
     return (
       <GluestackUIProvider config={config}>
         <NavigationContainer>
-          <Stack.Navigator initialRouteName="NoUser">
+          <Stack.Navigator initialRouteName="DiscoverNoUser">
             <Stack.Screen
               name="DiscoverNoUser"
               component={DiscoverNoUser}

@@ -207,7 +207,9 @@ function Request({ isOwner, navigation, request }) {
               <Center>
                 <Avatar bgColor="$amber400" borderRadius="$full">
                   <AvatarFallbackText>{requesterUsername}</AvatarFallbackText>
-                  <AvatarImage alt={requesterUsername} source={{ uri: requesterImage }} />
+                  {requesterImage && (
+                    <AvatarImage alt={requesterUsername} source={{ uri: requesterImage }} />
+                  )}
                 </Avatar>
               </Center>
               <Center>
@@ -219,16 +221,20 @@ function Request({ isOwner, navigation, request }) {
 
             <Center>
               <Box flex={2}>
-                <Image
-                  alt={bookTitle}
-                  h={80}
-                  resizeMode="contain"
-                  size="lg"
-                  source={{
-                    uri: bookImage,
-                  }}
-                  w={50}
-                />
+                {bookImage ? (
+                  <Image
+                    alt={bookTitle}
+                    h={80}
+                    resizeMode="contain"
+                    size="lg"
+                    source={{
+                      uri: bookImage,
+                    }}
+                    w={50}
+                  />
+                ) : (
+                  <Box bg="$amber900" w={100} h={160} />
+                )}
               </Box>
             </Center>
 
@@ -236,7 +242,7 @@ function Request({ isOwner, navigation, request }) {
               <Center>
                 <Avatar bgColor="$amber400" borderRadius="$full">
                   <AvatarFallbackText>{ownerUsername}</AvatarFallbackText>
-                  <AvatarImage alt={ownerUsername} source={{ uri: ownerImage }} />
+                  {ownerImage && <AvatarImage alt={ownerUsername} source={{ uri: ownerImage }} />}
                 </Avatar>
               </Center>
               <Center>
