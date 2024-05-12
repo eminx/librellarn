@@ -46,6 +46,11 @@ const awsParams = {
 };
 const s3 = new S3(awsParams);
 
+const getFileName = (asset) => {
+  const n = asset?.uri?.lastIndexOf('/');
+  return asset?.fileName || asset?.uri.substring(n + 1) || asset?.fileSize?.toString();
+};
+
 export default function ProfileEdit() {
   const { currentUser, changeLanguage } = useContext(StateContext);
 
@@ -115,13 +120,13 @@ export default function ProfileEdit() {
     });
 
     const resultResized = result && (await resizeImage(result.assets[0]));
-
     if (!result.canceled) {
+      const fileName = getFileName(result.assets[0]);
       setState({
         ...state,
         selectedImage: {
           ...resultResized,
-          fileName: result?.assets[0]?.fileSize?.toString() || 'file',
+          fileName,
         },
         selectImageButtonLoading: false,
       });
@@ -155,13 +160,13 @@ export default function ProfileEdit() {
     });
 
     const resultResized = result && (await resizeImage(result.assets[0]));
-
     if (!result.canceled) {
+      const fileName = getFileName(result.assets[0]);
       setState({
         ...state,
         selectedImage: {
           ...resultResized,
-          fileName: result?.assets[0]?.fileName || result?.assets[0]?.fileSize.toString(),
+          fileName,
         },
         selectImageButtonLoading: false,
       });
