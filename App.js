@@ -1,4 +1,4 @@
-import Meteor, { withTracker } from '@meteorrn/core';
+import Meteor, { useTracker } from '@meteorrn/core';
 import React, { useEffect, useState } from 'react';
 import { AsyncStorage } from '@react-native-async-storage/async-storage';
 import { NavigationContainer } from '@react-navigation/native';
@@ -12,13 +12,12 @@ import {
   ButtonSpinner,
   ButtonText,
   Icon,
-  SearchIcon,
   Text,
   VStack,
 } from '@gluestack-ui/themed';
 import { config } from '@gluestack-ui/config';
 // import Constants from 'expo-constants';
-import { MessagesSquare, Library, SettingsIcon } from 'lucide-react-native';
+import { MessagesSquare, Library, Search, Settings } from 'lucide-react-native';
 // import * as SecureStore from 'expo-secure-store';
 import { StatusBar } from 'expo-status-bar';
 import * as Location from 'expo-location';
@@ -51,10 +50,20 @@ try {
 const Tab = createBottomTabNavigator();
 const Stack = createNativeStackNavigator();
 
-function App({ currentUser }) {
+export default function App() {
   const [state, setState] = useState({
     confirmLocationButtonLoading: false,
     currentLocale: i18n?.defaultLocale,
+    currentUser: null,
+  });
+
+  useTracker(() => {
+    Meteor.subscribe('me');
+    const currentUser = Meteor.user();
+    setState({
+      ...state,
+      currentUser,
+    });
   });
 
   useEffect(() => {
@@ -70,7 +79,7 @@ function App({ currentUser }) {
     }, 500);
   };
 
-  const { confirmLocationButtonLoading } = state;
+  const { confirmLocationButtonLoading, currentUser } = state;
   const authTitle = i18n.t('auth.register') + ' | ' + i18n.t('auth.login');
 
   if (!currentUser) {
@@ -89,13 +98,6 @@ function App({ currentUser }) {
       </GluestackUIProvider>
     );
   }
-
-  let notificationCount = 0;
-  currentUser?.notifications?.forEach((item) => {
-    if (Number.isInteger(item.count)) {
-      return (notificationCount += item.count);
-    }
-  });
 
   const setLocation = async () => {
     setState({
@@ -124,6 +126,13 @@ function App({ currentUser }) {
     }
   };
 
+  let notificationCount = 0;
+  currentUser?.notifications?.forEach((item) => {
+    if (Number.isInteger(item.count)) {
+      notificationCount += item.count;
+    }
+  });
+
   return (
     <>
       <StatusBar style="auto" />
@@ -143,7 +152,7 @@ function App({ currentUser }) {
                 name="DiscoverContainer"
                 options={(route) => ({
                   headerShown: false,
-                  tabBarIcon: ({ color, size }) => <Icon as={SearchIcon} color={color} size="xl" />,
+                  tabBarIcon: ({ color, size }) => <Icon as={Search} color={color} size="xl" />,
                   tabBarLabel: i18n.t('discover.label'),
                 })}
               />
@@ -173,15 +182,14 @@ function App({ currentUser }) {
                 component={ProfileEdit}
                 name="Settings"
                 options={(route) => ({
-                  tabBarIcon: ({ color, size }) => (
-                    <Icon as={SettingsIcon} color={color} size="xl" />
-                  ),
+                  tabBarIcon: ({ color, size }) => <Icon as={Settings} color={color} size="xl" />,
                   headerTitle: i18n.t('settings.label'),
                   tabBarLabel: i18n.t('settings.label'),
                 })}
               />
             </Tab.Navigator>
           </NavigationContainer>
+
           <ConfirmDialog
             isOpen={currentUser && !currentUser.location}
             header={i18n.t('settings.location')}
@@ -238,22 +246,13 @@ function NotificationBadge({ count, children }) {
   );
 }
 
-let AppContainer = withTracker(() => {
-  Meteor.subscribe('me');
-  const user = Meteor.user();
-  const currentUser = user && {
-    ...user,
-    createdAt: user?.createdAt?.toString(),
-  };
+// let AppContainer = withTracker(() => {
+//   Meteor.subscribe('me');
+//   const currentUser = Meteor.user();
 
-  return {
-    currentUser,
-  };
-})(App);
+//   return {
+//     currentUser,
+//   };
+// })(App);
 
-ErrorUtils.setGlobalHandler((error, isFatal) => {
-  error.isFatal = isFatal;
-  console.log(error);
-});
-
-export default AppContainer;
+// export default AppContainer;

@@ -2,8 +2,8 @@ import React, { useContext, useEffect, useState } from 'react';
 import { Box, Center, FlatList, Pressable, Spinner, Text, VStack } from '@gluestack-ui/themed';
 
 import BookList from '../../Components/BookList';
-import { call } from '../../utils/functions';
 import AvatarWithUsername from '../../Components/AvatarWithUsername';
+import { call } from '../../utils/functions';
 import { StateContext } from '../../StateContext';
 
 export default function Discover({ navigation }) {
@@ -17,7 +17,7 @@ export default function Discover({ navigation }) {
 
   useEffect(() => {
     getData();
-  }, [currentUser]);
+  }, [currentUser?.username]);
 
   const { books, users, isLoading } = state;
 
@@ -25,15 +25,14 @@ export default function Discover({ navigation }) {
     try {
       const respondBooks = await call('getBooksNearBy');
       const respondUsers = await call('getUsersNearBy');
-
-      respondBooks &&
-        respondUsers &&
+      if (respondBooks && respondUsers) {
         setState({
           ...state,
           books: respondBooks,
           users: respondUsers,
           isLoading: false,
         });
+      }
     } catch (error) {
       console.log(error);
     }

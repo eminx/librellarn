@@ -340,7 +340,6 @@ export default function ProfileEdit() {
         return;
       }
       let location = await Location.getCurrentPositionAsync();
-      console.log('location', location);
       await call('updateProfile', { location });
       toast.show({
         placement: 'top',
