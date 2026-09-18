@@ -2,7 +2,7 @@
   "expo": {
     "name": "Librella",
     "slug": "librella",
-    "version": "5.0",
+    "version": "5.2",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
     "userInterfaceStyle": "light",
@@ -15,7 +15,7 @@
     "ios": {
       "supportsTablet": true,
       "bundleIdentifier": "com.eminx.librella",
-      "buildNumber": "5.1",
+      "buildNumber": "5.2",
       "bitcode": false,
       "infoPlist": {
         "NSCameraUsageDescription": "$(PRODUCT_NAME) uses the camera to take a photo of users for their profiles.",

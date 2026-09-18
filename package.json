@@ -8,7 +8,7 @@
     "ios": "expo run:ios",
     "web": "expo start --web",
     "prebuild": "npx expo prebuild --platform ios --clean",
-    "build:ios": "eas build --platform ios",
+    "build:ios": "eas build --platform ios --local",
     "build:android": "eas build --platform android --local",
     "submit:ios": "eas submit -p ios",
     "submit:android": "eas submit -p android"
