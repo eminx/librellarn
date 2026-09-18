@@ -1,4 +1,4 @@
-export default allLanguages = [
+const allLanguages = [
   {
     label: "Afrikanns",
     value: "af",
@@ -292,3 +292,5 @@ export default allLanguages = [
     value: "xh",
   },
 ];
+
+export default allLanguages;

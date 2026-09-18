@@ -33,8 +33,11 @@ export default function BookCard({ book, navigation, children }) {
   const { isInfoModalOpen } = state;
 
   const isMyBook = currentUser.username === book.ownerUsername;
-  const bookImageSrc =
-    book.imageUrl || book.imageLinks?.thumbnail || book.imageLinks?.smallThumbnail;
+  const bookImageSrc = (
+    book.imageUrl ||
+    book.imageLinks?.thumbnail ||
+    book.imageLinks?.smallThumbnail
+  )?.replace('http://', 'https://');
 
   return (
     <>

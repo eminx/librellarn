@@ -10,13 +10,13 @@ import {
   Text,
 } from '@gluestack-ui/themed';
 
+import { googleBooksApiKey } from '@env';
+
 import BookList from '../../Components/BookList';
 import Input from '../../Components/Input';
 import { i18n } from '../../../i18n';
 
-const apiKey = '808034619888-91df5q015u8ahrjnov41d9isn3juknuv.apps.googleusercontent.com';
-
-const googleApi = `https://www.googleapis.com/books/v1/volumes?q=`;
+const googleApi = `https://www.googleapis.com/books/v1/volumes?key=${googleBooksApiKey}&q=`;
 
 export default function AddBookSearch({ navigation }) {
   const [state, setState] = useState({
@@ -31,6 +31,7 @@ export default function AddBookSearch({ navigation }) {
     setState({ ...state, isLoading: true });
     fetch(googleApi + searchBarInput)
       .then((results) => {
+        console.log('results', results);
         return results.json();
       })
       .then((parsedResults) => {

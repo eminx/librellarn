@@ -36,8 +36,9 @@ export default function BookList({ books, navigateTo, refresher }) {
       refreshControl={<RefreshControl refreshing={refreshing} onRefresh={onRefresh} />}
       renderItem={({ item }) => {
         const { dateAdded, dateUpdatedLast, ...book } = item;
-        const bookImageSrc =
-          book.imageUrl || book.imageLinks?.thumbnail || book.imageLinks?.smallThumbnail;
+        const bookImageSrc = (
+          book.imageUrl || book.imageLinks?.thumbnail || book.imageLinks?.smallThumbnail
+        )?.replace('http://', 'https://');
         return (
           <Pressable
             key={book._id || book.canonicalVolumeLink}
@@ -61,12 +62,7 @@ export default function BookList({ books, navigateTo, refresher }) {
                       height={72}
                       resizeMode="contain"
                       style={styles.thumbImage}
-                      source={{
-                        uri:
-                          book.imageUrl ||
-                          book.imageLinks?.thumbnail ||
-                          book.imageLinks?.smallThumbnail,
-                      }}
+                      source={{ uri: bookImageSrc }}
                       width={48}
                     />
                   ) : (
